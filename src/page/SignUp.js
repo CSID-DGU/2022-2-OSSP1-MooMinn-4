@@ -30,7 +30,7 @@ REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.
     }
 
     render() {
-        const { id, pw, year, register, course, english } = this.state;
+        const { year, register, course, english } = this.state;
         const { appChange, appClick } = this;
 
         return (
