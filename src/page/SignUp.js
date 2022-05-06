@@ -7,8 +7,10 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
+import CheckIcon from '@mui/icons-material/Check';
 
 class SignUp extends Component {
+    // 각 상태 값
     state = {
         id: '',
         pw: '',
@@ -18,12 +20,14 @@ class SignUp extends Component {
         english: '',
     }
 
+    // 상태가 바뀌었을 때 value를 바꿈
     appChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
     }
 
+    // 클릭된 상태를 log에 출력
     appClick = () => {
         console.log(`ID: ${this.state.id}\nPW: ${this.state.pw}\nYEAR: ${this.state.year}
 REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.state.english}`);
@@ -36,26 +40,33 @@ REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.
         return (
             <div>
                 <h1> SIGNUP PAGE </h1>
-                <Box component="form" sx={{maxWidth: 300, minWidth: 100}}>
-                    <TextField 
-                        name="id" 
-                        label="이메일" 
-                        variant="outlined" 
-                        size="small" 
-                        margin="normal" 
-                        onChange={appChange} />
-                    <TextField 
-                        name="pw" 
-                        label="비밀번호" 
-                        type="Password" 
-                        size="small" 
-                        margin="normal" 
-                        onChange={appChange} />
+                <Box component="form">
+                    <Stack direction="row" spacing={2} sx={{maxWidth: 350, minWidth: 150}}>
+                        <TextField // 이메일 입력
+                            name="id" 
+                            label="이메일" 
+                            variant="outlined" 
+                            size="small" 
+                            margin="normal" 
+                            onChange={appChange} />
+                        <Button startIcon={<CheckIcon />} size="small">
+                            중복확인
+                        </Button>
+                    </Stack>
+                    <Box sx={{maxWidth: 300, minWidth: 100}}>
+                        <TextField // 비밀번호 입력
+                            name="pw" 
+                            label="비밀번호" 
+                            type="Password" 
+                            size="small" 
+                            margin="normal" 
+                            onChange={appChange} />
+                    </Box>
                 </Box>
                 <Stack direction="row" spacing={2} sx={{maxWidth: 400, minWidth: 200}} mt={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="year">입학년도</InputLabel>
-                        <Select 
+                        <Select // 입학년도 선택
                             labelId="year"
                             value={year}
                             name="year"
@@ -71,7 +82,7 @@ REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.
                     </FormControl>
                     <FormControl fullWidth size="small">
                         <InputLabel id="register">이수학기수</InputLabel>
-                        <Select 
+                        <Select // 이수학기수 선택
                             labelId="register"
                             value={register}
                             name="register"
@@ -92,7 +103,7 @@ REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.
                 <Stack direction="row" spacing={2} sx={{maxWidth: 400, minWidth: 200}} mt={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="course">심화/일반</InputLabel>
-                        <Select 
+                        <Select // 심화/일반 과정 선택
                             labelId="course"
                             value={course}
                             name="course"
@@ -105,7 +116,7 @@ REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.
                     </FormControl>
                     <FormControl fullWidth size="small">
                         <InputLabel id="english">영어레벨</InputLabel>
-                        <Select 
+                        <Select // 영어 레벨 선택
                             labelId="english"
                             value={english}
                             name="english"
