@@ -7,16 +7,15 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
-import CheckIcon from '@mui/icons-material/Check';
 
 class MyPage extends Component {
     state = {
-        id: '',
+        id: 'dnjsrbwls08@gmail.com',
         pw: '',
-        year: '',
-        register: '',
-        course: '',
-        english: '',
+        year: '2019',
+        register: '5',
+        course: '0',
+        english: '2',
     }
 
     appChange = (e) => {
@@ -31,7 +30,10 @@ REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.
     }
 
     render() {
-        const { year, register, course, english } = this.state;
+        const { id, year, register, course, english } = this.state;
+        // const register = 5;
+        // const course = 0;
+        // const english = 2;
         const { appChange, appClick } = this;
 
         return (
@@ -41,7 +43,7 @@ REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.
                     <Stack direction="row" spacing={2} sx={{maxWidth: 350, minWidth: 150}}>
                         <TextField 
                             disabled
-                            defaultValue="dnjsrbwls08@gmail.com"
+                            defaultValue={id}
                             name="id" 
                             label="이메일" 
                             variant="outlined" 
@@ -63,6 +65,7 @@ REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.
                     <FormControl fullWidth size="small">
                         <InputLabel id="year">입학년도</InputLabel>
                         <Select 
+                            defaultValue={2019}
                             labelId="year"
                             value={year}
                             name="year"
