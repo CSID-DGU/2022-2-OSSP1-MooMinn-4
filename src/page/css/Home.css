@@ -14,7 +14,7 @@ body {
 .title_area {
     /* background-color: aqua; */
     width: 100%;
-    margin-top: 80px;
+    margin-top: 130px;
     text-align: center;
 }
 
@@ -52,6 +52,12 @@ body {
 }
 
 @media screen and (max-width: 380px)  {
+    .title_area {
+        /* background-color: aqua; */
+        width: 100%;
+        margin-top: 80px;
+        text-align: center;
+    }    
     .logo_img {
         width: 170px;
     }    

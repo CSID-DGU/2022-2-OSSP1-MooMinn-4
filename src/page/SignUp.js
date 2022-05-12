@@ -9,6 +9,7 @@ import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import CheckIcon from '@mui/icons-material/Check';
 import "./css/SignUp.css";
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 class SignUp extends Component {
     // 각 상태 값
@@ -58,7 +59,20 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
 
         return (
             <div>
-                <h1> SIGNUP PAGE </h1>
+                <Stack direction="row" justifyContent="space-between" className="nav">
+                    <Box style={{width: 30}}></Box>
+                    <a href="./">
+                        <Stack className="to_home" direction="row">
+                            <img className="to_home_img" alt="YouCanGraduate" src="img/logo.png"></img>
+                            <span className="to_home_title">졸업할 수 있을까?</span>
+                        </Stack>
+                    </a>
+                    <Box className="to_mypage">
+                        <a href="./mypage">
+                            <AccountCircleRoundedIcon />
+                        </a>
+                    </Box>
+                </Stack>
                 <Box className="text_area" component="form">
                     <Stack direction="row" spacing={2}>
                         <TextField // 이메일 입력
