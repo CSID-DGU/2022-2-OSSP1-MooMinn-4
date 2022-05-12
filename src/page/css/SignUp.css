@@ -1,0 +1,39 @@
+.text_area {
+    /* background-color: aquamarine; */
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.select_area {
+    /* background-color: coral; */
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.text {
+    background-color: white;
+    width: 300px;
+}
+
+.select {
+    background-color: white;
+}
+
+@media screen and (max-width: 380px) {
+    .text_area {
+        /* background-color: rgb(233, 255, 247); */
+        margin: 0;
+    }
+    .select_area {
+        /* background-color: rgb(255, 240, 224); */
+        margin: 0;
+    }
+    .text {
+        background-color: white;
+        width: 250px;
+    }
+    
+    .select {
+        background-color: white;
+    }    
+}

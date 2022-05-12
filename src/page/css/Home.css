@@ -1,0 +1,96 @@
+@font-face {
+    font-family: 'SsangMun';
+    src: url("../../fonts/Typo_SsangmundongGulimB.ttf");
+}
+@font-face {
+    font-family: 'NanumSquare';
+    src: url("../../fonts/NanumSquareB.ttf");
+}
+
+body {
+    background-color: #F2F2F2;
+}
+
+.title_area {
+    /* background-color: aqua; */
+    width: 100%;
+    margin-top: 80px;
+    text-align: center;
+}
+
+.logo {
+    /* background-color: rgb(255, 111, 209); */
+    width: 100%;
+}
+
+.logo_img {
+    width: 200px;
+}
+
+.title {
+    /* background-color: chartreuse; */
+    top: 140px;
+    width: 100%;
+    font-family: SsangMun, sans-serif;
+    font-size: 4.8em;
+    box-shadow: inset 0 -40px 0 silver;
+}
+
+
+.link {
+    /* background-color: hotpink; */
+    text-decoration: none;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.link a {
+    text-decoration: none;
+    color: silver;
+    font-family: SsangMun, sans-serif;
+    font-size: 1em;
+}
+
+@media screen and (max-width: 380px)  {
+    .logo_img {
+        width: 170px;
+    }    
+    .title {
+        /* background-color: chartreuse; */
+        top: 140px;
+        width: 100%;
+        font-family: SsangMun, sans-serif;
+        font-size: 4.2em;
+        box-shadow: inset 0 -32px 0 silver;
+    }
+    .link a {
+        text-decoration: none;
+        color: silver;
+        font-family: SsangMun, sans-serif;
+        font-size: 0.8em;
+    }    
+}
+
+.btn_area {
+    /* background-color: aquamarine; */
+    text-align: center;
+    margin-top: 50px;
+}
+
+.btn {
+    border: none;
+    background-color: #007FFF;
+    color: white;
+    border-radius: 30px;
+    font-family: SsangMun, sans-serif;
+    font-size: 1.2em;
+    width: 150px;
+    height: 45px;
+    box-shadow: 0 1px 5px rgb(97, 96, 96);
+    transition-duration: 0.4s;
+}
+  
+.btn:hover {
+    background-color: #004488;
+    cursor: pointer;
+}
