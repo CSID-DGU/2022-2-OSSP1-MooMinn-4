@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import FindPW from './FindPW.js';
+import FindPW from './FindPW';
 
 const onClickLogin = () => {
     console.log('로그인 버튼 클릭')

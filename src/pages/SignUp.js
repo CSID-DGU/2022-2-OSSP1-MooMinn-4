@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import "./css/SignUp.css";
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
@@ -6,11 +8,10 @@ import InputLabel from '@mui/material/InputLabel'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import Button from '@mui/material/Button'
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import CheckIcon from '@mui/icons-material/Check';
-import "./css/SignUp.css";
-import { Link } from 'react-router-dom';
+import OpenAlert from '../Components/OpenAlert';
 
 class SignUp extends Component {
     // 각 상태 값
@@ -242,9 +243,8 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                     </Stack>
                 </Box>
                 <div className="btn_area">
-                    <Link to='/'>
-                        <button className="btn" variant="contained" onClick={appClick}>회원가입</button>
-                    </Link>
+                    {/* <button className="btn" variant="contained" onClick={appClick}>회원가입</button> */}
+                    <OpenAlert />
                 </div>
             </div>
         );
