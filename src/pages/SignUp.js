@@ -11,7 +11,7 @@ import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import CheckIcon from '@mui/icons-material/Check';
-import OpenAlert from '../Components/OpenAlert';
+import OpenAlert from '../components/OpenAlert';
 
 class SignUp extends Component {
     // 각 상태 값
