@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import "./css/Home.css";
 
 const Home = () => {
@@ -14,7 +15,9 @@ const Home = () => {
                 </div>
             </div>
             <div className="btn_area">
-                <button className="btn" variant="contained">로그인</button>
+                <Link to='/signin'>
+                    <button className="btn" variant="contained">로그인</button>
+                </Link>
             </div>
         </div>
     );

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
-import Home from './page/Home';
-import SignIn from './page/SignIn';
-import FindPW from './page/FindPW';
-import SignUp from './page/SignUp';
-import MyPage from './page/MyPage';
-import Input from './page/Input';
-import Result from './page/Result';
-import Stats from './page/Stats';
+import Home from './pages/Home';
+import SignIn from './pages/SignIn';
+import FindPW from './pages/FindPW';
+import SignUp from './pages/SignUp';
+import MyPage from './pages/MyPage';
+import Input from './pages/Input';
+import Result from './pages/Result';
+import Stats from './pages/Stats';
 import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material';
 
