@@ -242,7 +242,9 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                     </Stack>
                 </Box>
                 <div className="btn_area">
-                    <button className="btn" variant="contained" onClick={appClick}>회원가입</button>
+                    <Link to='/'>
+                        <button className="btn" variant="contained" onClick={appClick}>회원가입</button>
+                    </Link>
                 </div>
             </div>
         );

@@ -54,15 +54,15 @@
     opacity: 0.7;
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 600px) {
     .text_area {
         /* background-color: rgb(233, 255, 247); */
-        margin: 0;
-        margin-top: 50px;
+        margin: 10px;
+        margin-top: 100px;
     }
     .select_area {
         /* background-color: rgb(255, 240, 224); */
-        margin: 0;
+        margin: 10px;
     }
     .text {
         background-color: white;
@@ -75,7 +75,7 @@
         width: 50px;
     }
     .to_home {
-        margin-left: -20px;
+        margin-left: -15px;
     }
     .to_home_title {
         font-family: SsangMun, sans-serif;
@@ -84,6 +84,6 @@
     }
     .to_mypage {
         text-align: center;
-        margin-right: 0;
+        margin-right: 10px;
     }    
 }
