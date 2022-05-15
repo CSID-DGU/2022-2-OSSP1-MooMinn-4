@@ -22,7 +22,7 @@ const onClickFindPassword = () => {
 
 const SignIn = () => {
     return (
-        <div>
+        <div className="fade-in">
             <Stack direction="row" justifyContent="space-between" className="nav">
                 <Box style={{width: 30}}></Box>
                 <Link to='/'>

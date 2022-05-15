@@ -54,7 +54,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                             "LEVEL3 82", "LEVEL2 61", "LEVEL3 85", "LEVEL2 64", "LEVEL3 92", "LEVEL2 69", "LEVEL3 99", "LEVEL2 76"];
 
         return (
-            <div>
+            <div className="fade-in">
                 <Stack direction="row" justifyContent="space-between" className="nav">
                     <Box style={{width: 30}}></Box>
                     <Link to="/">
