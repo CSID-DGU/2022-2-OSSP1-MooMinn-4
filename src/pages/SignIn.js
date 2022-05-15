@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -37,6 +36,9 @@ const SignIn = () => {
                     </Link>
                 </Box>
             </Stack>
+            <Box className="sub_title">
+                로그인
+            </Box>
             <Box className="text_area_in" component="form">
                 <TextField
                     className="text_in"

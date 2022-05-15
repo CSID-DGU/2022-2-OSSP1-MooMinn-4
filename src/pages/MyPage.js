@@ -69,6 +69,9 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                         </Link>
                     </Box>
                 </Stack>
+                <Box className="sub_title">
+                마이페이지
+                </Box>
                 <Box className="text_area" component="form">
                     <Stack direction="row" spacing={2}>
                         <TextField 

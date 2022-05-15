@@ -75,6 +75,9 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                         </Link>
                     </Box>
                 </Stack>
+                <Box className="sub_title">
+                회원가입
+                </Box>
                 <Box className="text_area" component="form">
                     <Stack direction="row" spacing={2}>
                         <TextField // 이메일 입력
@@ -94,6 +97,16 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                             className="text"
                             name="pw" 
                             label="비밀번호" 
+                            type="Password" 
+                            size="small" 
+                            margin="normal" 
+                            onChange={appChange} />
+                    </Box>
+                    <Box>
+                        <TextField // 비밀번호 확인
+                            className="text"
+                            name="pw" 
+                            label="비밀번호 확인" 
                             type="Password" 
                             size="small" 
                             margin="normal" 
