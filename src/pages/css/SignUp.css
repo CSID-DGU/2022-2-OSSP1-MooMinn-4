@@ -5,6 +5,13 @@
     margin-top: 100px;
 }
 
+.text_area_in {
+    /* background-color: aquamarine; */
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 140px;
+}
+
 .select_area {
     /* background-color: coral; */
     margin-left: 25%;
@@ -14,6 +21,11 @@
 .text {
     background-color: white;
     width: 300px;
+}
+
+.text_in {
+    background-color: white;
+    width: 100%;
 }
 
 .select {
@@ -54,11 +66,33 @@
     opacity: 0.7;
 }
 
+.sub_btn_area {
+    /* background-color: aquamarine; */
+    text-align: center;
+    margin-top: 15px;
+}
+
+.sub_btn {
+    border: none;
+    background-color: transparent;
+    color: black
+}
+
+.sub_btn:hover {
+    background-color: rgb(220, 220, 220);
+    cursor: pointer;
+}
+
 @media screen and (max-width: 600px) {
     .text_area {
         /* background-color: rgb(233, 255, 247); */
         margin: 10px;
         margin-top: 100px;
+    }
+    .text_area_in {
+        /* background-color: rgb(233, 255, 247); */
+        margin: 10px;
+        margin-top: 140px;
     }
     .select_area {
         /* background-color: rgb(255, 240, 224); */
@@ -68,6 +102,10 @@
         background-color: white;
         width: 250px;
     }
+    .text_in {
+        background-color: white;
+        width: 100%;
+    }    
     .select {
         background-color: white;
     }    

@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
-import FindPW from './pages/FindPW';
 import SignUp from './pages/SignUp';
 import MyPage from './pages/MyPage';
 import Input from './pages/Input';
@@ -23,7 +22,6 @@ const App = () => {
       <div>
         <Link to ="/"><button>HOME</button></Link>
         <Link to ="/signin"><button>SIGNIN</button></Link>
-        <Link to ="/findpw"><button>FINDPW</button></Link>
         <Link to ="/signup"><button>SIGNUP</button></Link>
         <Link to ="/mypage"><button>MYPAGE</button></Link>
         <Link to ="/input"><button>INPUT</button></Link>
@@ -32,7 +30,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} exact={true} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/findpw" element={<FindPW />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/input" element={<Input />} />

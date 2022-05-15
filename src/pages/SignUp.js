@@ -242,10 +242,10 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                         </FormControl>
                     </Stack>
                 </Box>
-                <div className="btn_area">
+                <Box className="btn_area">
                     {/* <button className="btn" variant="contained" onClick={appClick}>회원가입</button> */}
                     <OpenAlert />
-                </div>
+                </Box>
             </div>
         );
     }

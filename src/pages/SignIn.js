@@ -6,6 +6,7 @@ import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import FindPW from './FindPW';
+import "./css/SignUp.css";
 
 const onClickLogin = () => {
     console.log('로그인 버튼 클릭')
@@ -36,23 +37,32 @@ const SignIn = () => {
                     </Link>
                 </Box>
             </Stack>
-            <TextField
-                name='id'
-                label='이메일'
-                type='text'
-                variant='standard'
-            /><br />
-            <TextField
-                name='pw'
-                label='비밀번호'
-                type='password'
-                variant='standard'
-            /><br />
-            <button className="btn" onClick={onClickLogin}>로그인</button><br />
-            <Link to='/signup'>
-                <Button variant='outlined' onClick={onClickSignup}>회원가입</Button>
-            </Link>
-            <FindPW>비밀번호 찾기</FindPW>
+            <Box className="text_area_in" component="form">
+                <TextField
+                    className="text_in"
+                    name='id'
+                    label='이메일'
+                    variant="outlined" 
+                    margin="normal" />
+                <TextField
+                    className="text_in"
+                    name='pw'
+                    label='비밀번호'
+                    type='password'
+                    variant="outlined" 
+                    margin="normal" />
+            </Box>
+            <Box className="btn_area">
+                <Link to='/'>
+                    <button className="btn" onClick={onClickLogin}>로그인</button>
+                </Link>
+            </Box>
+            <Box className="sub_btn_area">
+                <Link to='/signup'>
+                    <button className="sub_btn" onClick={onClickSignup}>회원가입</button>
+                </Link>
+                <FindPW>비밀번호찾기</FindPW>
+            </Box>
       </div>
     );
 };
