@@ -30,14 +30,14 @@ const Accordion = styled((props) => (
     },
     '& .MuiAccordionSummary-content': {
       marginLeft: theme.spacing(-2),
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacing(0.5),
       marginBottom: theme.spacing(1),
     },
   }));
   
   const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
     padding: theme.spacing(1),
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2),
     backgroundColor: '#F6f6f6',
   }));
 
@@ -88,8 +88,8 @@ const Result = () => {
                     <span className="detail_content"><u>850점</u>으로 700점 이상입니다.</span>
                 </Box>
                 <Box className="detail_box">
-                    <Accordion  expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                        <AccordionSummary aria-controls="panel1d-content" className="acc">
+                    <Accordion className="acc" expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                        <AccordionSummary aria-controls="panel1d-content">
                             <div>
                                 <img className="check_img0" alt="nope" src="img/nope.png"></img>
                                 <span className="detail_title2">취득학점</span>

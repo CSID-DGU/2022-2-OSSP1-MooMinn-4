@@ -36,7 +36,7 @@ const SignIn = () => {
                     </Link>
                 </Box>
             </Stack>
-            <Box className="sub_title">
+            <Box className="signin">
                 로그인
             </Box>
             <Box className="text_area_in" component="form">

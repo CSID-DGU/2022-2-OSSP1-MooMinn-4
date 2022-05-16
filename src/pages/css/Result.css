@@ -7,6 +7,30 @@
     src: url("../../fonts/NanumSquareB.ttf");
 }
 
+@keyframes heartbeat {
+    from {
+      transform: scale(1);
+      transform-origin: center center;
+      animation-timing-function: ease-out;
+    }
+    10% {
+      transform: scale(0.91);
+      animation-timing-function: ease-in;
+    }
+    17% {
+      transform: scale(0.98);
+      animation-timing-function: ease-out;
+    }
+    33% {
+      transform: scale(0.87);
+      animation-timing-function: ease-in;
+    }
+    45% {
+      transform: scale(1);
+      animation-timing-function: ease-out;
+    }
+}
+
 u {
     text-underline-position: under;
 }
@@ -16,6 +40,7 @@ u {
         /* background-color: crimson; */
         margin-top: 50px;
         margin-bottom: 10px;
+        animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
     }
     .r0 {
         /* background-color: chartreuse; */
@@ -36,6 +61,12 @@ u {
         font-family: SsangMun, sans-serif;
         font-size: 4em;
         color: seagreen;
+    }
+    .r1:hover {
+        animation: heartbeat 1.5s ease-in-out both;
+    }
+    .r2:hover {
+        animation: heartbeat 1.5s ease-in-out both;
     }
     .result_detail {
         background-color: white;
@@ -87,6 +118,9 @@ u {
         margin-top: 10px;
         margin-left: 20px;
     }
+    .acc {
+        margin-bottom: -7px;
+    }
     .check_img0 {
         /* background-color: cadetblue; */
         width: 40px;
@@ -99,6 +133,7 @@ u {
         font-family: SsangMun, sans-serif;
         font-size: 1.8em;
         margin-left: 10px;
+        top: 5px;
         line-height: 40px;
     }
     .detail_content2 {
@@ -107,7 +142,7 @@ u {
         font-family: Nanumsquare, sans-serif;
         font-size: 1em;
         color: dimgray;
-        margin-top: 10px;
+        top: 15px;
         margin-left: 220px;
     }
     .category {
@@ -196,6 +231,7 @@ u {
         /* background-color: crimson; */
         margin-top: 30px;
         margin-bottom: 10px;
+        animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
     }
     .r0 {
         /* background-color: chartreuse; */
@@ -216,6 +252,12 @@ u {
         font-size: 2.5em;
         line-height: 45px;
         color: seagreen;
+    }
+    .r1:hover {
+        animation: heartbeat 1.5s ease-in-out both;
+    }
+    .r2:hover {
+        animation: heartbeat 1.5s ease-in-out both;
     }
     .result_detail {
         background-color: white;
@@ -263,8 +305,6 @@ u {
         margin-left: 45px;
     }
     .acc {
-        /* background-color: lightgreen; */
-        margin-top: -5px;
         margin-bottom: 10px;
     }
     .check_img0 {
@@ -287,7 +327,7 @@ u {
         font-family: Nanumsquare, sans-serif;
         font-size: 0.8em;
         color: dimgray;
-        top: 45px;
+        top: 40px;
         margin-left: 45px;
     }
     .category {

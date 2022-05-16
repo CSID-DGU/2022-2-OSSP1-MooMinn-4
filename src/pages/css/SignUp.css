@@ -8,11 +8,32 @@
 }
 
 .sub_title {
-    /* background-color: green; */
     font-family: SsangMun, sans-serif;
     font-size: 2em;
     text-align: center;
     margin-top: 50px;
+}
+
+
+.signin {
+    font-family: SsangMun, sans-serif;
+    font-size: 2em;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.signup {
+    font-family: SsangMun, sans-serif;
+    font-size: 2em;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.mypage {
+    font-family: SsangMun, sans-serif;
+    font-size: 2em;
+    text-align: center;
+    margin-top: 70px;
 }
 
 .text_area {
@@ -105,6 +126,18 @@
 }
 
 @media screen and (max-width: 700px) {
+    .signin {
+        font-family: SsangMun, sans-serif;
+        font-size: 2em;
+        text-align: center;
+        margin-top: 100px;
+    }
+    .mypage {
+        font-family: SsangMun, sans-serif;
+        font-size: 2em;
+        text-align: center;
+        margin-top: 100px;
+    }
     .text_area {
         /* background-color: rgb(233, 255, 247); */
         margin: 10px;

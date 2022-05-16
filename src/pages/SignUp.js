@@ -75,7 +75,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                         </Link>
                     </Box>
                 </Stack>
-                <Box className="sub_title">
+                <Box className="signup">
                 회원가입
                 </Box>
                 <Box className="text_area" component="form">
