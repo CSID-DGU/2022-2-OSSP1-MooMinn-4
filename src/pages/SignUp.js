@@ -136,6 +136,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                             <InputLabel id="register">이수학기수</InputLabel>
                             <Select // 이수학기수 선택
                                 className="select"
+                                required
                                 labelId="register"
                                 value={register}
                                 name="register"

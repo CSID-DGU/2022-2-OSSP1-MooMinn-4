@@ -7,19 +7,27 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import FindPW from './FindPW';
 import "./css/SignUp.css";
 
-const onClickLogin = () => {
-    console.log('로그인 버튼 클릭')
-}
-
-const onClickSignup = () => {
-    console.log('회원가입 버튼 클릭')
-}
-
-const onClickFindPassword = () => {
-    console.log('비밀번호 찾기 버튼 클릭')
-}
-
 const SignIn = () => {
+    const [email, setEmail] = React.useState('')
+    const [emptyEmail, setEmptyEmail] = React.useState(false)
+    const [password, setPassword] = React.useState('')
+    const [emptyPW, setEmptyPW] = React.useState(false)
+
+    const onClickLogin = () => {
+        if (email === '') {setEmptyEmail(true)}
+        else {setEmptyEmail(false)}
+        if (password === '') {setEmptyPW(true)}
+        else {setEmptyPW(false)}
+    }
+
+    const onChangeEmail = (e) => {
+        setEmail(e.target.value)
+    }
+
+    const onChangePW = (e) => {
+        setPassword(e.target.value)
+    }
+
     return (
         <div className="fade-in">
             <Stack direction="row" justifyContent="space-between" className="nav">
@@ -42,26 +50,32 @@ const SignIn = () => {
             <Box className="text_area_in" component="form">
                 <TextField
                     className="text_in"
+                    error={emptyEmail}
                     name='id'
                     label='이메일'
                     variant="outlined" 
-                    margin="normal" />
+                    margin="normal"
+                    onChange={onChangeEmail} />
+                <span className="helper">{emptyEmail && '이메일을 입력하세요.'}</span>
                 <TextField
                     className="text_in"
+                    error={emptyPW}
                     name='pw'
                     label='비밀번호'
                     type='password'
                     variant="outlined" 
-                    margin="normal" />
+                    margin="normal" 
+                    onChange={onChangePW} />
+                <span className="helper">{emptyPW && '비밀번호를 입력하세요.'}</span>
             </Box>
             <Box className="btn_area">
-                <Link to='/'>
-                    <button className="btn" onClick={onClickLogin}>로그인</button>
-                </Link>
+                {/* <Link to='/'> */}
+                <button className="btn" onClick={onClickLogin}>로그인</button>
+                {/* </Link> */}
             </Box>
             <Box className="sub_btn_area">
                 <Link to='/signup'>
-                    <button className="sub_btn" onClick={onClickSignup}>회원가입</button>
+                    <button className="sub_btn">회원가입</button>
                 </Link>
                 <FindPW>비밀번호찾기</FindPW>
             </Box>
