@@ -7,6 +7,10 @@
     src: url("../../fonts/NanumSquareB.ttf");
 }
 
+input[type=password] {
+    font-family: sans-serif;
+}
+
 .sub_title {
     font-family: SsangMun, sans-serif;
     font-size: 2em;
@@ -68,6 +72,12 @@
 
 .select {
     background-color: white;
+}
+
+.helper {
+    color: crimson;
+    font-size: 12px;
+    margin-left: 13px;
 }
 
 .nav {
