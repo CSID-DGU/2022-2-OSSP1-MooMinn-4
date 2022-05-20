@@ -62,7 +62,6 @@ input[type=password] {
 
 .text {
     background-color: white;
-    /* width: 70%; */
 }
 
 .text_in {
@@ -78,6 +77,10 @@ input[type=password] {
     color: crimson;
     font-size: 12px;
     margin-left: 13px;
+}
+
+.helperStack {
+    width: 70%;
 }
 
 .nav {
@@ -164,7 +167,6 @@ input[type=password] {
     }
     .text {
         background-color: white;
-        width: 70%;
     }
     .text_in {
         background-color: white;

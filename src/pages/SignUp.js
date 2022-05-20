@@ -93,7 +93,7 @@ const SignUp = () => {
             </Box>
             <Box className="text_area" component="form">
                     <Stack direction="row" spacing={2}>
-                        <Stack style={{width: '70%'}}>
+                        <Stack className="helperStack">
                             <TextField // 이메일 입력
                                 className="text"
                                 error={emptyEmail}
@@ -109,7 +109,7 @@ const SignUp = () => {
                             중복확인
                         </Button>
                     </Stack>
-                    <Stack style={{width: '70%'}}>
+                    <Stack className="helperStack">
                         <TextField // 비밀번호 입력
                             className="text"
                             error={emptyPW}
@@ -122,7 +122,7 @@ const SignUp = () => {
                             onChange={onChangePassword} />
                         <span className="helper">{emptyPW && '비밀번호를 입력하세요.'}</span>
                     </Stack>
-                    <Stack style={{width: '70%'}}>
+                    <Stack className="helperStack">
                         <TextField // 비밀번호 확인
                             className="text"
                             error={incorrectPW}
