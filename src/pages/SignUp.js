@@ -11,7 +11,7 @@ import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import CheckIcon from '@mui/icons-material/Check';
-import OpenAlert from '../components/OpenAlert';
+import OpenAlert from '../Components/OpenAlert';
 
 class SignUp extends Component {
     // 각 상태 값
@@ -34,11 +34,31 @@ class SignUp extends Component {
     }
 
     // 클릭된 상태를 log에 출력
-    appClick = () => {
-        console.log(`ID: ${this.state.id}\nPW: ${this.state.pw}\nYEAR: ${this.state.year}
-REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.state.english}
-CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
+    appClick = (e) => {
+        e.preventDefault()
+        const data = {
+            id: this.state.id,
+            pw: this.state.pw,
+            year: this.state.year,
+            register: this.state.register,
+            course: this.state.course,
+            english: this.state.english,
+            category: this.state.category,
+            score: this.state.score
+        }
+        fetch('/userinfo', {
+            method: 'post',
+            headers: {
+                "Content-type": "application/json",
+            },
+            body: JSON.stringify(data),
+        }).then(res => {
+            if (res.ok) {
+                alert("회원가입 성공")
+            }
+        })
     }
+
 
     render() {
         const { year, register, course, english, category, score } = this.state;
@@ -57,12 +77,12 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
         const SCORE_ESOL = ["PET", "FCE"];
         const SCORE_IELTS = [4.5, 5, 5.5, 6];
         const SCORE_GTELP = ["LEVEL3 63", "LEVEL3 71", "LEVEL2 50", "LEVEL3 73", "LEVEL2 53", "LEVEL3 78", "LEVEL2 57",
-                            "LEVEL3 82", "LEVEL2 61", "LEVEL3 85", "LEVEL2 64", "LEVEL3 92", "LEVEL2 69", "LEVEL3 99", "LEVEL2 76"];
+            "LEVEL3 82", "LEVEL2 61", "LEVEL3 85", "LEVEL2 64", "LEVEL3 92", "LEVEL2 69", "LEVEL3 99", "LEVEL2 76"];
 
         return (
             <div className="fade-in">
                 <Stack direction="row" justifyContent="space-between" className="nav">
-                    <Box style={{width: 30}}></Box>
+                    <Box style={{ width: 30 }}></Box>
                     <Link to='/'>
                         <Stack className="to_home" direction="row">
                             <img className="to_home_img" alt="YouCanGraduate" src="img/logo.png"></img>
@@ -76,16 +96,16 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                     </Box>
                 </Stack>
                 <Box className="signup">
-                회원가입
+                    회원가입
                 </Box>
                 <Box className="text_area" component="form">
                     <Stack direction="row" spacing={2}>
                         <TextField // 이메일 입력
                             className="text"
-                            name="id" 
-                            label="이메일" 
-                            variant="outlined" 
-                            size="small" 
+                            name="id"
+                            label="이메일"
+                            variant="outlined"
+                            size="small"
                             margin="normal"
                             onChange={appChange} />
                         <Button startIcon={<CheckIcon />} size="small">
@@ -95,21 +115,21 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                     <Box>
                         <TextField // 비밀번호 입력
                             className="text"
-                            name="pw" 
-                            label="비밀번호" 
-                            type="Password" 
-                            size="small" 
-                            margin="normal" 
+                            name="pw"
+                            label="비밀번호"
+                            type="Password"
+                            size="small"
+                            margin="normal"
                             onChange={appChange} />
                     </Box>
                     <Box>
                         <TextField // 비밀번호 확인
                             className="text"
-                            name="pw" 
-                            label="비밀번호 확인" 
-                            type="Password" 
-                            size="small" 
-                            margin="normal" 
+                            name="pw"
+                            label="비밀번호 확인"
+                            type="Password"
+                            size="small"
+                            margin="normal"
                             onChange={appChange} />
                     </Box>
                 </Box>
@@ -122,7 +142,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                                 labelId="year"
                                 value={year}
                                 name="year"
-                                label="입학년도" 
+                                label="입학년도"
                                 onChange={appChange}
                             >
                                 {
@@ -139,7 +159,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                                 labelId="register"
                                 value={register}
                                 name="register"
-                                label="이수학기수" 
+                                label="이수학기수"
                                 onChange={appChange}
                             >
                                 {
@@ -158,7 +178,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                                 labelId="course"
                                 value={course}
                                 name="course"
-                                label="심화/일반" 
+                                label="심화/일반"
                                 onChange={appChange}
                             >
                                 {
@@ -175,7 +195,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                                 labelId="english"
                                 value={english}
                                 name="english"
-                                label="영어레벨" 
+                                label="영어레벨"
                                 onChange={appChange}
                             >
                                 {
@@ -187,14 +207,14 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                         </FormControl>
                     </Stack>
                     <Stack direction="row" spacing={2} mt={2}>
-                        <FormControl fullWidth size="small" sx={{maxWidth: 130, minWidth: 80}}>
+                        <FormControl fullWidth size="small" sx={{ maxWidth: 130, minWidth: 80 }}>
                             <InputLabel id="category">외국어시험</InputLabel>
                             <Select // 외국어 시험 종류 선택
                                 className="select"
                                 labelId="category"
                                 value={category}
                                 name="category"
-                                label="외국어시험" 
+                                label="외국어시험"
                                 onChange={appChange}
                             >
                                 {
@@ -211,52 +231,54 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                                 labelId="score"
                                 value={score}
                                 name="score"
-                                label="외국어성적" 
+                                label="외국어성적"
                                 onChange={appChange}
                             >
                                 {
                                     category === "토익" ?
-                                    SCORE_TOEIC.map((score, idx) => {
-                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                    }) :
-                                    category === "토플CBT" ?
-                                    SCORE_CBT.map((score, idx) => {
-                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                    }) : 
-                                    category === "토플IBT" ?
-                                    SCORE_IBT.map((score, idx) => {
-                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                    }) : 
-                                    category === "텝스" ?
-                                    SCORE_TEPS.map((score, idx) => {
-                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                    }) : 
-                                    category === "TOEIC Speaking" ?
-                                    SCORE_TOEICS.map((score, idx) => {
-                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                    }) : 
-                                    category === "OPIc" ?
-                                    SCORE_OPIC.map((score, idx) => {
-                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                    }) : 
-                                    category === "Cambridge ESOL Examinations" ?
-                                    SCORE_ESOL.map((score, idx) => {
-                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                    }) : 
-                                    category === "IELTS Academic" ?
-                                    SCORE_IELTS.map((score, idx) => {
-                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                    }) : 
-                                    SCORE_GTELP.map((score, idx) => {
-                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                    })
+                                        SCORE_TOEIC.map((score, idx) => {
+                                            return <MenuItem key={idx} value={score}>{score}</MenuItem>
+                                        }) :
+                                        category === "토플CBT" ?
+                                            SCORE_CBT.map((score, idx) => {
+                                                return <MenuItem key={idx} value={score}>{score}</MenuItem>
+                                            }) :
+                                            category === "토플IBT" ?
+                                                SCORE_IBT.map((score, idx) => {
+                                                    return <MenuItem key={idx} value={score}>{score}</MenuItem>
+                                                }) :
+                                                category === "텝스" ?
+                                                    SCORE_TEPS.map((score, idx) => {
+                                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
+                                                    }) :
+                                                    category === "TOEIC Speaking" ?
+                                                        SCORE_TOEICS.map((score, idx) => {
+                                                            return <MenuItem key={idx} value={score}>{score}</MenuItem>
+                                                        }) :
+                                                        category === "OPIc" ?
+                                                            SCORE_OPIC.map((score, idx) => {
+                                                                return <MenuItem key={idx} value={score}>{score}</MenuItem>
+                                                            }) :
+                                                            category === "Cambridge ESOL Examinations" ?
+                                                                SCORE_ESOL.map((score, idx) => {
+                                                                    return <MenuItem key={idx} value={score}>{score}</MenuItem>
+                                                                }) :
+                                                                category === "IELTS Academic" ?
+                                                                    SCORE_IELTS.map((score, idx) => {
+                                                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
+                                                                    }) :
+                                                                    SCORE_GTELP.map((score, idx) => {
+                                                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
+                                                                    })
                                 }
                             </Select>
                         </FormControl>
                     </Stack>
                 </Box>
                 <Box className="btn_area">
-                    {/* <button className="btn" variant="contained" onClick={appClick}>회원가입</button> */}
+
+                    <button className="btn" variant="contained" onClick={this.appClick}>회원가입</button>
+
                     <OpenAlert />
                 </Box>
             </div>
