@@ -62,7 +62,7 @@ input[type=password] {
 
 .text {
     background-color: white;
-    width: 70%;
+    /* width: 70%; */
 }
 
 .text_in {

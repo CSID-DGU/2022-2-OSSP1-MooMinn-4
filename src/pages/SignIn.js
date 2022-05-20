@@ -13,7 +13,7 @@ const SignIn = () => {
     const [password, setPassword] = React.useState('')
     const [emptyPW, setEmptyPW] = React.useState(false)
 
-    const onClickLogin = () => {
+    const onClickSignIn = () => {
         if (email === '') {setEmptyEmail(true)}
         else {setEmptyEmail(false)}
         if (password === '') {setEmptyPW(true)}
@@ -70,7 +70,7 @@ const SignIn = () => {
             </Box>
             <Box className="btn_area">
                 {/* <Link to='/'> */}
-                <button className="btn" onClick={onClickLogin}>로그인</button>
+                <button className="btn" onClick={onClickSignIn}>로그인</button>
                 {/* </Link> */}
             </Box>
             <Box className="sub_btn_area">

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import "./css/SignUp.css";
 import Select from '@mui/material/Select'
@@ -11,57 +11,70 @@ import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import CheckIcon from '@mui/icons-material/Check';
-import OpenAlert from '../components/OpenAlert';
 
-class SignUp extends Component {
-    // 각 상태 값
-    state = {
-        id: '',
-        pw: '',
-        year: '',
-        register: '',
-        course: '',
-        english: '',
-        category: '',
-        score: '',
-    }
+const SignUp = () => {
+    const [email, setEmail] = React.useState('')
+    const [emptyEmail, setEmptyEmail] = React.useState(false)
+    const [password, setPassword] = React.useState('')
+    const [emptyPW, setEmptyPW] = React.useState(false)
+    const [year, setYear] = React.useState('')
+    const [emptyYear, setEmptyYear] = React.useState(false)
+    const [semester, setSemester] = React.useState('')
+    const [emptySemester, setEmptySemester] = React.useState(false)
+    const [course, setCourse] = React.useState('')
+    const [emptyCourse, setEmptyCourse] = React.useState(false)
+    const [english, setEnglish] = React.useState('')
+    const [emptyEnglish, setEmptyEnglish] = React.useState(false)
+    const [category, setCategory] = React.useState('')
+    const [score, setScore] = React.useState('')
+    const [passwordCheck, setPasswordCheck] = React.useState('')
+    const [incorrectPW, setCorrectPW] = React.useState(false)
 
-    // 상태가 바뀌었을 때 value를 바꿈
-    appChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    }
+    const onChangeEmail = (e) => { setEmail(e.target.value) }
+    const onChangePassword = (e) => { setPassword(e.target.value) }
+    const onChangeYear = (e) => { setYear(e.target.value) }
+    const onChangeSemester = (e) => { setSemester(e.target.value) }
+    const onChangeCourse = (e) => { setCourse(e.target.value) }
+    const onChangeEnglish = (e) => { setEnglish(e.target.value) }
+    const onChangeCategory = (e) => { setCategory(e.target.value) }
+    const onChangeScore = (e) => { setScore(e.target.value) }
+    const onChangePasswordCheck = (e) => { setPasswordCheck(e.target.value) }
 
-    // 클릭된 상태를 log에 출력
-    appClick = () => {
-        console.log(`ID: ${this.state.id}\nPW: ${this.state.pw}\nYEAR: ${this.state.year}
-REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.state.english}
-CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
-    }
+    const onClickSignUp = () => {
+        if (email === '') {setEmptyEmail(true)}
+        else {setEmptyEmail(false)}
+        if (password === '') {setEmptyPW(true)}
+        else {setEmptyPW(false)}
+        if (year === '') {setEmptyYear(true)}
+        else {setEmptyYear(false)}
+        if (semester === '') {setEmptySemester(true)}
+        else {setEmptySemester(false)}
+        if (course === '') {setEmptyCourse(true)}
+        else {setEmptyCourse(false)}
+        if (english === '') {setEmptyEnglish(true)}
+        else {setEmptyEnglish(false)}
+        if (password === passwordCheck) {setCorrectPW(false)}
+        else {setCorrectPW(true)}
+    }    
 
-    render() {
-        const { year, register, course, english, category, score } = this.state;
-        const { appChange, appClick } = this;
-        const YEAR = [2018, 2019, 2020, 2021, 2022];
-        const REGISTER = [8, 7, 6, 5, 4, 3, 2, 1];
-        const COURSE = ["심화", "일반"];
-        const ENGLISH = [0, 1, 2, 3, 4];
-        const CATEGORY = ["토익", "토플CBT", "토플IBT", "텝스", "TOEIC Speaking", "OPIc", "Cambridge ESOL Examinations", "IELTS Academic", "G-TELP"];
-        const SCORE_TOEIC = [550, 600, 620, 650, 680, 700, 750, 800];
-        const SCORE_CBT = [136, 177, 182, 192, 200, 207, 212, 227];
-        const SCORE_IBT = [57, 62, 64, 68, 72, 76, 82, 87];
-        const SCORE_TEPS = [436, 478, 494, 521, 551, 600, 633, 728];
-        const SCORE_TOEICS = [120, 130, 140, 150];
-        const SCORE_OPIC = ["IL", "IM 1", "IM 2", "IM 3"];
-        const SCORE_ESOL = ["PET", "FCE"];
-        const SCORE_IELTS = [4.5, 5, 5.5, 6];
-        const SCORE_GTELP = ["LEVEL3 63", "LEVEL3 71", "LEVEL2 50", "LEVEL3 73", "LEVEL2 53", "LEVEL3 78", "LEVEL2 57",
+    const YEAR = [2018, 2019, 2020, 2021, 2022];
+    const SEMESTER = [8, 7, 6, 5, 4, 3, 2, 1];
+    const COURSE = ["심화", "일반"];
+    const ENGLISH = [0, 1, 2, 3, 4];
+    const CATEGORY = ["토익", "토플CBT", "토플IBT", "텝스", "TOEIC Speaking", "OPIc", "Cambridge ESOL Examinations", "IELTS Academic", "G-TELP"];
+    const SCORE_TOEIC = [550, 600, 620, 650, 680, 700, 750, 800];
+    const SCORE_CBT = [136, 177, 182, 192, 200, 207, 212, 227];
+    const SCORE_IBT = [57, 62, 64, 68, 72, 76, 82, 87];
+    const SCORE_TEPS = [436, 478, 494, 521, 551, 600, 633, 728];
+    const SCORE_TOEICS = [120, 130, 140, 150];
+    const SCORE_OPIC = ["IL", "IM 1", "IM 2", "IM 3"];
+    const SCORE_ESOL = ["PET", "FCE"];
+    const SCORE_IELTS = [4.5, 5, 5.5, 6];
+    const SCORE_GTELP = ["LEVEL3 63", "LEVEL3 71", "LEVEL2 50", "LEVEL3 73", "LEVEL2 53", "LEVEL3 78", "LEVEL2 57",
                             "LEVEL3 82", "LEVEL2 61", "LEVEL3 85", "LEVEL2 64", "LEVEL3 92", "LEVEL2 69", "LEVEL3 99", "LEVEL2 76"];
-
-        return (
-            <div className="fade-in">
-                <Stack direction="row" justifyContent="space-between" className="nav">
+    return (
+        <div className="fade-in">
+            <Stack direction="row" justifyContent="space-between" className="nav">
                     <Box style={{width: 30}}></Box>
                     <Link to='/'>
                         <Stack className="to_home" direction="row">
@@ -74,56 +87,67 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                             <AccountCircleRoundedIcon />
                         </Link>
                     </Box>
-                </Stack>
-                <Box className="signup">
+            </Stack>
+            <Box className="signup">
                 회원가입
-                </Box>
-                <Box className="text_area" component="form">
+            </Box>
+            <Box className="text_area" component="form">
                     <Stack direction="row" spacing={2}>
-                        <TextField // 이메일 입력
-                            className="text"
-                            name="id" 
-                            label="이메일" 
-                            variant="outlined" 
-                            size="small" 
-                            margin="normal"
-                            onChange={appChange} />
+                        <Stack style={{width: '70%'}}>
+                            <TextField // 이메일 입력
+                                className="text"
+                                error={emptyEmail}
+                                name="id" 
+                                label="이메일" 
+                                variant="outlined" 
+                                size="small" 
+                                margin="normal"
+                                onChange={onChangeEmail} />
+                            <span className="helper">{emptyEmail && '이메일을 입력하세요.'}</span>
+                        </Stack>
                         <Button startIcon={<CheckIcon />} size="small">
                             중복확인
                         </Button>
                     </Stack>
-                    <Box>
+                    <Stack style={{width: '70%'}}>
                         <TextField // 비밀번호 입력
                             className="text"
+                            error={emptyPW}
+                            value={password}
                             name="pw" 
                             label="비밀번호" 
                             type="Password" 
                             size="small" 
                             margin="normal" 
-                            onChange={appChange} />
-                    </Box>
-                    <Box>
+                            onChange={onChangePassword} />
+                        <span className="helper">{emptyPW && '비밀번호를 입력하세요.'}</span>
+                    </Stack>
+                    <Stack style={{width: '70%'}}>
                         <TextField // 비밀번호 확인
                             className="text"
+                            error={incorrectPW}
+                            value={passwordCheck}
                             name="pw" 
                             label="비밀번호 확인" 
                             type="Password" 
                             size="small" 
-                            margin="normal" 
-                            onChange={appChange} />
-                    </Box>
-                </Box>
-                <Box className="select_area" component="form">
+                            margin="normal"
+                            onChange={onChangePasswordCheck} />
+                        <span className="helper">{incorrectPW && '비밀번호가 다릅니다.'}</span>
+                    </Stack>
+            </Box>
+            <Box className="select_area" component="form">
                     <Stack direction="row" spacing={2} mt={2}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="year">입학년도</InputLabel>
                             <Select // 입학년도 선택
                                 className="select"
+                                error={emptyYear}
                                 labelId="year"
                                 value={year}
                                 name="year"
                                 label="입학년도" 
-                                onChange={appChange}
+                                onChange={onChangeYear}
                             >
                                 {
                                     YEAR.map((year, idx) => {
@@ -131,24 +155,27 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                                     })
                                 }
                             </Select>
+                            <span className="helper" style={{marginTop:'5px'}}>{emptyYear && '입학년도를 선택하세요.'}</span>
                         </FormControl>
                         <FormControl fullWidth size="small">
-                            <InputLabel id="register">이수학기수</InputLabel>
+                            <InputLabel id="semester">이수학기수</InputLabel>
                             <Select // 이수학기수 선택
                                 className="select"
+                                error={emptySemester}
                                 required
-                                labelId="register"
-                                value={register}
-                                name="register"
+                                labelId="semester"
+                                value={semester}
+                                name="semester"
                                 label="이수학기수" 
-                                onChange={appChange}
+                                onChange={onChangeSemester}
                             >
                                 {
-                                    REGISTER.map((register, idx) => {
-                                        return <MenuItem key={idx} value={register}>{register}학기</MenuItem>
+                                    SEMESTER.map((semester, idx) => {
+                                        return <MenuItem key={idx} value={semester}>{semester}학기</MenuItem>
                                     })
                                 }
                             </Select>
+                            <span className="helper" style={{marginTop:'5px'}}>{emptySemester && '이수학기수을 선택하세요.'}</span>
                         </FormControl>
                     </Stack>
                     <Stack direction="row" spacing={2} mt={2}>
@@ -156,11 +183,12 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                             <InputLabel id="course">심화/일반</InputLabel>
                             <Select // 심화/일반 과정 선택
                                 className="select"
+                                error={emptyCourse}
                                 labelId="course"
                                 value={course}
                                 name="course"
                                 label="심화/일반" 
-                                onChange={appChange}
+                                onChange={onChangeCourse}
                             >
                                 {
                                     COURSE.map((course, idx) => {
@@ -168,16 +196,18 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                                     })
                                 }
                             </Select>
+                            <span className="helper" style={{marginTop:'5px'}}>{emptyCourse && '심화과정 여부를 선택하세요.'}</span>
                         </FormControl>
                         <FormControl fullWidth size="small">
                             <InputLabel id="english">영어레벨</InputLabel>
                             <Select // 영어 레벨 선택
                                 className="select"
+                                error={emptyEnglish}
                                 labelId="english"
                                 value={english}
                                 name="english"
                                 label="영어레벨" 
-                                onChange={appChange}
+                                onChange={onChangeEnglish}
                             >
                                 {
                                     ENGLISH.map((english, idx) => {
@@ -185,6 +215,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                                     })
                                 }
                             </Select>
+                            <span className="helper" style={{marginTop:'5px'}}>{emptyEnglish && '영어레벨을 선택하세요.'}</span>
                         </FormControl>
                     </Stack>
                     <Stack direction="row" spacing={2} mt={2}>
@@ -196,7 +227,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                                 value={category}
                                 name="category"
                                 label="외국어시험" 
-                                onChange={appChange}
+                                onChange={onChangeCategory}
                             >
                                 {
                                     CATEGORY.map((category, idx) => {
@@ -213,7 +244,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                                 value={score}
                                 name="score"
                                 label="외국어성적" 
-                                onChange={appChange}
+                                onChange={onChangeScore}
                             >
                                 {
                                     category === "토익" ?
@@ -255,14 +286,12 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                             </Select>
                         </FormControl>
                     </Stack>
-                </Box>
-                <Box className="btn_area">
-                    {/* <button className="btn" variant="contained" onClick={appClick}>회원가입</button> */}
-                    <OpenAlert />
-                </Box>
-            </div>
-        );
-    }
+            </Box>
+            <Box className="btn_area">
+                    <button className="btn" variant="contained" onClick={onClickSignUp}>회원가입</button>
+            </Box>
+        </div>
+    );
 };
 
 export default SignUp;
