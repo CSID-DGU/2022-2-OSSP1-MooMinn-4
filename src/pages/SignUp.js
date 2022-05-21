@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import "./css/SignUp.css";
+import "./css/UserInfo.css";
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
@@ -9,8 +8,8 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import CheckIcon from '@mui/icons-material/Check';
+import Header from '../components/Header';
 
 const SignUp = () => {
     const [email, setEmail] = React.useState('')
@@ -74,20 +73,7 @@ const SignUp = () => {
                             "LEVEL3 82", "LEVEL2 61", "LEVEL3 85", "LEVEL2 64", "LEVEL3 92", "LEVEL2 69", "LEVEL3 99", "LEVEL2 76"];
     return (
         <div className="fade-in">
-            <Stack direction="row" justifyContent="space-between" className="nav">
-                    <Box style={{width: 30}}></Box>
-                    <Link to='/'>
-                        <Stack className="to_home" direction="row">
-                            <img className="to_home_img" alt="YouCanGraduate" src="img/logo.png"></img>
-                            <span className="to_home_title">졸업할 수 있을까?</span>
-                        </Stack>
-                    </Link>
-                    <Box className="to_mypage">
-                        <Link to="/mypage">
-                            <AccountCircleRoundedIcon />
-                        </Link>
-                    </Box>
-            </Stack>
+            <Header />
             <Box className="signup">
                 회원가입
             </Box>

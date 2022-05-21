@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box'
-import Stack from '@mui/material/Stack'
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import FindPW from '../components/FindPW';
-import "./css/SignUp.css";
+import "./css/UserInfo.css";
+import Header from '../components/Header';
 
 const SignIn = () => {
     const [email, setEmail] = React.useState('')
@@ -29,21 +28,8 @@ const SignIn = () => {
     }
 
     return (
-        <div className="fade-in">
-            <Stack direction="row" justifyContent="space-between" className="nav">
-                <Box style={{width: 30}}></Box>
-                <Link to='/'>
-                    <Stack className="to_home" direction="row">
-                        <img className="to_home_img" alt="YouCanGraduate" src="img/logo.png"></img>
-                        <span className="to_home_title">졸업할 수 있을까?</span>
-                    </Stack>
-                </Link>
-                <Box className="to_mypage">
-                    <Link to="/mypage">
-                        <AccountCircleRoundedIcon />
-                    </Link>
-                </Box>
-            </Stack>
+        <div className='fade-in'>
+            <Header />
             <Box className="signin">
                 로그인
             </Box>
@@ -68,7 +54,7 @@ const SignIn = () => {
                     onChange={onChangePW} />
                 <span className="helper">{emptyPW && '비밀번호를 입력하세요.'}</span>
             </Box>
-            <Box className="btn_area">
+            <Box className="btn_area" style={{marginBottom:0}}>
                 {/* <Link to='/'> */}
                 <button className="btn" onClick={onClickSignIn}>로그인</button>
                 {/* </Link> */}

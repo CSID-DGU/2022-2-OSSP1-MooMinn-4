@@ -6,9 +6,8 @@ import InputLabel from '@mui/material/InputLabel'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import './css/SignUp.css';
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import { Link } from 'react-router-dom'
+import './css/UserInfo.css';
+import Header from '../components/Header';
 
 class MyPage extends Component {
     state = {
@@ -55,20 +54,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
 
         return (
             <div className="fade-in">
-                <Stack direction="row" justifyContent="space-between" className="nav">
-                    <Box style={{width: 30}}></Box>
-                    <Link to="/">
-                        <Stack className="to_home" direction="row">
-                            <img className="to_home_img" alt="YouCanGraduate" src="img/logo.png"></img>
-                            <span className="to_home_title">졸업할 수 있을까?</span>
-                        </Stack>
-                    </Link>
-                    <Box className="to_mypage">
-                        <Link to="/mypage">
-                            <AccountCircleRoundedIcon />
-                        </Link>
-                    </Box>
-                </Stack>
+                <Header />
                 <Box className="mypage">
                 마이페이지
                 </Box>

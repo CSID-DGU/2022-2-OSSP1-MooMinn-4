@@ -1,12 +1,3 @@
-@font-face {
-    font-family: 'SsangMun';
-    src: url("../../fonts/Typo_SsangmundongGulimB.ttf");
-}
-@font-face {
-    font-family: 'NanumSquare';
-    src: url("../../fonts/NanumSquareB.ttf");
-}
-
 .guide {
     background-color: white;
     width: 80%;
