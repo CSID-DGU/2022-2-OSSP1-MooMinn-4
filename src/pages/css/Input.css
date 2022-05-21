@@ -8,14 +8,19 @@
 }
 
 .guide {
-    background-color: lightsteelblue;
+    background-color: white;
     width: 80%;
-    height: 250px;
     margin: 0 auto;
     margin-top: 20px;
     margin-bottom: 50px;
-    line-height: 250px;
+    padding: 20px 10px 10px 10px;
     text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 0 10px lightgray;
+}
+
+.guide_img {
+    width: 380px;
 }
 
 .input_area {
@@ -86,5 +91,18 @@
         border-bottom-right-radius: 5px;
         overflow: scroll;
     }
-    
+    .guide {
+        background-color: white;
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 20px;
+        margin-bottom: 50px;
+        padding: 20px 10px 10px 10px;
+        text-align: center;
+        border-radius: 20px;
+        box-shadow: 0 0 10px lightgray;
+    }    
+    .guide_img {
+        width: 300px;
+    }    
 }
