@@ -29,14 +29,42 @@ const Stats = () => {
             통계
             </Box>
             <Stack 
-                style={{marginTop:'20px'}} 
+                style={{marginTop:'20px', marginBottom:'30px'}} 
                 direction={{xs:'column', sm:'row'}}
                 justifyContent="center"
                 alignItems="center"
             >
-                <Chart data={data1} title="전체평점 비교" />
-                <Chart data={data2} title="전공평점 비교" />
-                <Chart data={data3} title="이수학점 비교" />
+                <Chart data={data1} title="전체평점 비교" dataKey={'평점'} />
+                <Chart data={data2} title="전공평점 비교" dataKey="평점" />
+                <Chart data={data3} title="이수학점 비교" dataKey="학점" />
+            </Stack>
+            <Stack flexDirection='row' justifyContent="center" mb={10}>
+                <Stack>
+                    <Box sx={{
+                        width:600,
+                        height:150,
+                        backgroundColor:'white',
+                        borderRadius:'15px',
+                        margin:'5px',
+                        boxShadow: '0 0 10px lightgray'
+                        }}></Box>
+                    <Box sx={{
+                        width:600,
+                        height:150,
+                        backgroundColor:'white',
+                        borderRadius:'15px',
+                        margin:'5px',
+                        boxShadow: '0 0 10px lightgray'
+                        }}></Box>
+                </Stack>
+                <Box sx={{
+                    width:400,
+                    height:310,
+                    backgroundColor:'white',
+                    borderRadius:'15px',
+                    margin:'5px',
+                    boxShadow: '0 0 10px lightgray'
+                    }}></Box>
             </Stack>
         </div>
     );

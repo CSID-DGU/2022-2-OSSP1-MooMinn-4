@@ -10,14 +10,13 @@ const chart = ({title, data}) => {
         <ResponsiveContainer aspect={11 / 6}>
           <LineChart 
             data={data}
-            margin={{left:-5, right:40,bottom:-15}}
+            margin={{left:-30, right:35,bottom:-15}}
           >
             <CartesianGrid stroke="silver" strokeDasharray="2 2" />
             <XAxis 
               dataKey="name"
               label={{value:"학기", offset:10, position:"right"}} />
             <YAxis 
-              label={{value:"평점", position:"insideTopLeft"}} 
               tickCount={10} 
               padding={{top: 10}} />
             <Tooltip />
