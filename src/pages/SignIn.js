@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import FindPW from './FindPW';
+import FindPW from '../components/FindPW';
 import "./css/SignUp.css";
 
 const SignIn = () => {

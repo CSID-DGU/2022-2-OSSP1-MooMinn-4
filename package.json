@@ -7,6 +7,8 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.6.2",
     "@mui/material": "^5.6.4",
+    "@nivo/core": "^0.79.0",
+    "@nivo/line": "^0.79.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -17,6 +19,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-select": "^5.3.1",
+    "recharts": "^2.1.10",
     "web-vitals": "^2.1.0",
     "xlsx": "^0.18.5"
   },
