@@ -53,7 +53,6 @@ class SignUp extends Component {
             },
             body: JSON.stringify(data),
         })
-            .then(res => res.json())
     };
 
 
