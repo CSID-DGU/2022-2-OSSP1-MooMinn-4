@@ -91,7 +91,7 @@ const SignUp = () => {
                                 onChange={onChangeEmail} />
                             <span className="helper">{emptyEmail && '이메일을 입력하세요.'}</span>
                         </Stack>
-                        <Button startIcon={<CheckIcon />} size="small">
+                        <Button startIcon={<CheckIcon />} variant="outlined" size="small">
                             중복확인
                         </Button>
                     </Stack>
