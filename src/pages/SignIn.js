@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react'
 import { Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box'
@@ -7,23 +8,50 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import FindPW from './FindPW';
 import "./css/SignUp.css";
 
-const onClickLogin = () => {
-    console.log('로그인 버튼 클릭')
-}
 
-const onClickSignup = () => {
-    console.log('회원가입 버튼 클릭')
-}
-
-const onClickFindPassword = () => {
-    console.log('비밀번호 찾기 버튼 클릭')
-}
 
 const SignIn = () => {
+    const [id, setId] = useState('')
+    const [pw, setPw] = useState('')
+
+    const appChangeId = (e) => {
+        setId(e.target.value)
+    }
+
+    const appChangePw = (e) => {
+        setPw(e.target.value)
+    }
+
+    const onClickLogin = (e) => {
+        e.preventDefault()
+        const data = {
+            id: id,
+            pw: pw,
+        }
+        console.log(data);
+
+        fetch("http://localhost:3001/signin", {
+            method: 'post',
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(data)
+
+        })
+    }
+
+    const onClickSignup = () => {
+        console.log('회원가입 버튼 클릭')
+    }
+
+    const onClickFindPassword = () => {
+        console.log('비밀번호 찾기 버튼 클릭')
+    }
+
     return (
         <div className="fade-in">
             <Stack direction="row" justifyContent="space-between" className="nav">
-                <Box style={{width: 30}}></Box>
+                <Box style={{ width: 30 }}></Box>
                 <Link to='/'>
                     <Stack className="to_home" direction="row">
                         <img className="to_home_img" alt="YouCanGraduate" src="img/logo.png"></img>
@@ -44,15 +72,17 @@ const SignIn = () => {
                     className="text_in"
                     name='id'
                     label='이메일'
-                    variant="outlined" 
-                    margin="normal" />
+                    variant="outlined"
+                    margin="normal"
+                    onChange={appChangeId} />
                 <TextField
                     className="text_in"
                     name='pw'
                     label='비밀번호'
                     type='password'
-                    variant="outlined" 
-                    margin="normal" />
+                    variant="outlined"
+                    margin="normal"
+                    onChange={appChangePw} />
             </Box>
             <Box className="btn_area">
                 <Link to='/'>
@@ -65,7 +95,7 @@ const SignIn = () => {
                 </Link>
                 <FindPW>비밀번호찾기</FindPW>
             </Box>
-      </div>
+        </div>
     );
 };
 

@@ -6,17 +6,16 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 const mysql = require('mysql')
 const { default: axios } = require('axios');
+const { ConnectingAirportsOutlined } = require('@mui/icons-material');
 const http = require('http').createServer(app)
 
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '1234',
-    database: 'user',
+    host: 'canigraduate.ctkzirrnabqi.us-west-2.rds.amazonaws.com',
+    user: 'admin',
+    password: 'turning123!',
+    database: 'graduation',
 })
-connection.connect()
-
 
 app.use(express.static(path.join(__dirname, 'build')))
 
@@ -31,10 +30,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/', (req, res) => {
-    res.send('abcd')
-})
-
 app.post("/signup", (req, res) => {
     const id = req.body.id
     const pw = req.body.pw
@@ -45,41 +40,60 @@ app.post("/signup", (req, res) => {
     const category = req.body.category
     const score = req.body.score
 
-    var sql = 'INSERT INTO userinfo (`ID`, `Pincode`, `Semester`, `StudentNumber`, `Course`, `Score`, `EnglishGrade`) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    var sql = 'INSERT INTO UserInfo (`ID`, `Pincode`, `Semester`, `StudentNumber`, `Course`, `Score`, `EnglishGrade`) VALUES (?, ?, ?, ?, ?, ?, ?)'
     var params = [id, pw, register, year, course, score, english]
     connection.query(sql, params,
         function (err, rows) {
             if (err) {
                 console.log("실패");
+                console.log(err);
             } else {
                 console.log("성공")
             }
         })
     res.end()
 })
-/*app.post("/userinfo", (req, res) => {
-    let id = req.body.id
-    let pw = req.body.pw
-    let year = req.body.year
-    let register = req.body.register
-    let course = req.body.course
-    let english = req.body.english
-    let category = req.body.category
-    let score = req.body.score
 
-    console.log(req)
-
-    var sql = 'INSERT INTO userinfo (ID, Pincode, Semester, StudentNumber, Course, Score, EnglishGrade) VALUES (`?` `?` `?` `?` `?` `?` `?`)'
-    var params = [id, pw, register, year, course, score, english]
-    connection.query(sql, params,
-        function (err, rows, fields) {
-            if (err) {
-                console.log("실패");
-            } else {
-                console.log("성공")
+app.post("/signin", (req, res) => {
+    const id = req.body.id
+    const pw = req.body.pw
+    var sql1 = 'SELECT COUNT(*) AS result FROM UserInfo WHERE ID = ?'
+    connection.query(sql1, [id],
+        function (err, data) {
+            if (!err) {
+                console.log(data[0].result)
+                if (data[0].result < 1) {
+                    console.log('입력하신 id 가 일치하지 않습니다.')
+                } else { // 동일한 id 가 있으면 비밀번호 일치 확인
+                    const sql2 = `SELECT 
+                                    CASE (SELECT COUNT(*) FROM UserInfo WHERE ID = ? AND Pincode = ?)
+                                        WHEN '0' THEN NULL
+                                        ELSE (SELECT ID FROM UserInfo WHERE ID = ? AND Pincode = ?)
+                                    END AS userId
+                                    , CASE (SELECT COUNT(*) FROM UserInfo WHERE ID = ? AND Pincode = ?)
+                                        WHEN '0' THEN NULL
+                                        ELSE (SELECT Pincode FROM UserInfo WHERE ID = ? AND Pincode = ?)
+                                    END AS userPw`;
+                    // sql 란에 필요한 parameter 값을 순서대로 기재
+                    const params = [id, pw, id, pw, id, pw, id, pw]
+                    connection.query(sql2, params, (err, data) => {
+                        if (!err) {
+                            console.log(data[0].userId)
+                            console.log(data[0].userPw)
+                        }
+                        else {
+                            res.send(err)
+                            console.log('에러1')
+                        }
+                    })
+                }
+            }
+            else {
+                res.send(err)
+                console.log('에러2')
             }
         })
-})*/
+})
 
 http.listen(port, () => {
     console.log(`Server On : http://localhost:${port}/`);
