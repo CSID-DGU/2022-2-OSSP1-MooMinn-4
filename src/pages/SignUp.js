@@ -78,7 +78,7 @@ const SignUp = () => {
                 회원가입
             </Box>
             <Box className="text_area" component="form">
-                    <Stack direction="row" spacing={2}>
+                    <Stack direction="row" alignItems="center" spacing={2}>
                         <Stack className="helperStack">
                             <TextField // 이메일 입력
                                 className="text"
