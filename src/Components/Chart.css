@@ -1,0 +1,14 @@
+.chart {
+    display: inline-block;
+    background-color: white;
+    width: 330px;
+    padding: 10px 0 10px 0;
+    margin: 5px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px lightgray;
+    font-size: small;
+}
+
+.chartTitle {
+    margin: 5px 0 0 15px;
+}

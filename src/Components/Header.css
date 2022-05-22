@@ -1,0 +1,38 @@
+.nav {
+    /* background-color: rgb(255, 228, 228); */
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+.nav a {
+    text-decoration: none;
+    color: black;
+}
+
+.to_home:hover {
+    opacity: 0.7;
+}
+
+.to_home_img {
+    width: 60px;
+}
+
+.to_home_title {
+    font-family: SsangMun, sans-serif;
+    font-size: 1.5em;
+    box-shadow: inset 0 -10px 0 silver;
+}
+
+.to_mypage {
+    /* background-color: gold; */
+    text-align: center;
+    margin-right: 30px;
+    width: 25px;
+}
+
+.to_mypage:hover {
+    opacity: 0.7;
+}

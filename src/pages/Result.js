@@ -1,14 +1,13 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import './css/Result.css';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import './css/Result.css';
+import Header from '../components/Header';
 
 const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -50,20 +49,7 @@ const Result = () => {
 
     return (
         <div className="fade-in">
-            <Stack direction="row" justifyContent="space-between" className="nav">
-                <Box style={{width: 30}}></Box>
-                <Link to="/">
-                    <Stack className="to_home" direction="row">
-                        <img className="to_home_img" alt="YouCanGraduate" src="img/logo.png"></img>
-                        <span className="to_home_title">졸업할 수 있을까?</span>
-                    </Stack>
-                </Link>
-                <Box className="to_mypage">
-                    <Link to="/mypage">
-                        <AccountCircleRoundedIcon />
-                    </Link>
-                </Box>
-            </Stack>
+            <Header mypage />
             <Stack className="result_stack" justifyContent="center" direction="row">
                 <span className="r0">졸업</span>
                 <span className="r1">불가능</span>
