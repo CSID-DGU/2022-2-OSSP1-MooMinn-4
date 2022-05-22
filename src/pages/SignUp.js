@@ -34,8 +34,7 @@ class SignUp extends Component {
     }
 
     // 클릭된 상태를 log에 출력
-    appClick = (e) => {
-        e.preventDefault()
+    appClick = () => {
         const data = {
             id: this.state.id,
             pw: this.state.pw,
@@ -44,20 +43,18 @@ class SignUp extends Component {
             course: this.state.course,
             english: this.state.english,
             category: this.state.category,
-            score: this.state.score
-        }
-        fetch('/userinfo', {
+            score: this.state.score,
+        };
+
+        fetch("http://localhost:3001/signup", {
             method: 'post',
             headers: {
-                "Content-type": "application/json",
+                "content-type": "application/json",
             },
             body: JSON.stringify(data),
-        }).then(res => {
-            if (res.ok) {
-                alert("회원가입 성공")
-            }
         })
-    }
+            .then(res => res.json())
+    };
 
 
     render() {

@@ -1,28 +1,24 @@
 const express = require('express')
 const path = require('path')
-const port = 3001;
 const app = express()
+const port = 3001;
+const cors = require('cors')
+const bodyParser = require('body-parser');
 const mysql = require('mysql')
-const bodyParser = require('body-parser')
+const { default: axios } = require('axios');
+const http = require('http').createServer(app)
 
 
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '1234',
-    database: 'user'
+    database: 'user',
 })
-
-const http = require('http').createServer(app)
-http.listen(port, () => {
-    console.log(`Server On : http://localhost:${port}/`);
-})
+connection.connect()
 
 
 app.use(express.static(path.join(__dirname, 'build')))
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-
 
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'build/index.html'))
@@ -31,9 +27,37 @@ app.get('/', function (req, res) {
 app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, 'build/index.html'))
 })
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cors());
 
+app.get('/', (req, res) => {
+    res.send('abcd')
+})
 
-app.post("/userinfo", (req, res) => {
+app.post("/signup", (req, res) => {
+    const id = req.body.id
+    const pw = req.body.pw
+    const year = req.body.year
+    const register = req.body.register
+    const course = req.body.course
+    const english = req.body.english
+    const category = req.body.category
+    const score = req.body.score
+
+    var sql = 'INSERT INTO userinfo (`ID`, `Pincode`, `Semester`, `StudentNumber`, `Course`, `Score`, `EnglishGrade`) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    var params = [id, pw, register, year, course, score, english]
+    connection.query(sql, params,
+        function (err, rows) {
+            if (err) {
+                console.log("실패");
+            } else {
+                console.log("성공")
+            }
+        })
+    res.end()
+})
+/*app.post("/userinfo", (req, res) => {
     let id = req.body.id
     let pw = req.body.pw
     let year = req.body.year
@@ -45,7 +69,7 @@ app.post("/userinfo", (req, res) => {
 
     console.log(req)
 
-    var sql = 'INSERT INTO userinfo (ID, Pincode, Semester, StudentNumber, Course, Score, EnglishGrade) VALUES (? ? ? ? ? ? ?)'
+    var sql = 'INSERT INTO userinfo (ID, Pincode, Semester, StudentNumber, Course, Score, EnglishGrade) VALUES (`?` `?` `?` `?` `?` `?` `?`)'
     var params = [id, pw, register, year, course, score, english]
     connection.query(sql, params,
         function (err, rows, fields) {
@@ -55,4 +79,8 @@ app.post("/userinfo", (req, res) => {
                 console.log("성공")
             }
         })
+})*/
+
+http.listen(port, () => {
+    console.log(`Server On : http://localhost:${port}/`);
 })
