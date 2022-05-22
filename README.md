@@ -1,1 +1,1 @@
-# 2022-1-OSSP2-turning-7
+7-TURNING "졸업할 수 있을까?"
