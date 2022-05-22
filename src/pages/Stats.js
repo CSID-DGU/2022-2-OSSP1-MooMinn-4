@@ -49,7 +49,7 @@ const Stats = () => {
                     backgroundColor:'white',
                     borderRadius:'15px',
                     margin:'5px',
-                    boxShadow: '0 0 10px lightgray'
+                    boxShadow: '0 0 15px lightgray'
                     }}></Box>
             </Stack>
         </div>
