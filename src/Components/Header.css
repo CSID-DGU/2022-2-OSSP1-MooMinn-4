@@ -1,15 +1,20 @@
 .nav {
     /* background-color: rgb(255, 228, 228); */
-    margin-top: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding-bottom: 20px;
+    height: 30px;
+    margin: 20px 10px 0 10px;
+    padding: 0 5px 20px 5px;
     border-bottom: 1px solid lightgray;
 }
 
 .nav a {
     text-decoration: none;
     color: black;
+}
+
+.to_home {
+    position: absolute;
+    left: 50%;
+    transform: translate(-55%, -50%);
 }
 
 .to_home:hover {
@@ -26,13 +31,32 @@
     box-shadow: inset 0 -10px 0 silver;
 }
 
-.to_mypage {
-    /* background-color: gold; */
+.tool {
+    /* background-color: aquamarine; */
+    width: 30px;
     text-align: center;
-    margin-right: 30px;
-    width: 25px;
 }
 
-.to_mypage:hover {
+.tool:hover {
     opacity: 0.7;
+}
+
+@media screen and (max-width: 700px) {
+    .to_home {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -60%);
+    }
+    .to_home:hover {
+        opacity: 0.7;
+    }
+    .to_home_img {
+        width: 40px;
+    }
+    .to_home_title {
+        font-family: SsangMun, sans-serif;
+        font-size: 1.2em;
+        box-shadow: inset 0 -10px 0 silver;
+    }
+    
 }

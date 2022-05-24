@@ -12,7 +12,7 @@ const Input = () => {
 
     return (
         <div className="fade-in">
-            <Header mypage />
+            <Header mypage signout />
             <Box className="sub_title">
                 파일업로드
             </Box>

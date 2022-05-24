@@ -49,7 +49,7 @@ const Result = () => {
 
     return (
         <div className="fade-in">
-            <Header mypage />
+            <Header mypage signout />
             <Stack className="result_stack" justifyContent="center" direction="row">
                 <span className="r0">졸업</span>
                 <span className="r1">불가능</span>

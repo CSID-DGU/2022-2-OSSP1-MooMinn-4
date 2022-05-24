@@ -54,7 +54,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
 
         return (
             <div className="fade-in">
-                <Header />
+                <Header signout />
                 <Box className="mypage">
                 마이페이지
                 </Box>

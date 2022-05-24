@@ -10,7 +10,7 @@ import Header from '../components/Header';
 const Stats = () => {
     return (
         <div className="fade-in">
-            <Header mypage />
+            <Header mypage signout />
             <Box className="sub_title">
             통계
             </Box>

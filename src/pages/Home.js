@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import "./css/Home.css";
 
 const Home = () => {
@@ -18,7 +20,7 @@ const Home = () => {
                 </div>
             </div>
             <Stack className="btn_area" spacing={1}>
-                {(isSignIn) && 
+                {!(isSignIn) && 
                     <Link to='/signin'>
                         <button className="btn" variant="contained">로그인</button>
                     </Link>
@@ -34,6 +36,9 @@ const Home = () => {
                     <Link to='/stats'>
                         <button className="btn" variant="contained">통계</button>
                     </Link>
+                    <Box className="signout_home" title="로그아웃">
+                        <LogoutOutlinedIcon />
+                    </Box>
                     </>
                 }
             </Stack>
