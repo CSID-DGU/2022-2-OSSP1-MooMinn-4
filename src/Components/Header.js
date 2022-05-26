@@ -12,7 +12,9 @@ const Header = ({mypage, signout}) => {
             <Box className="tool" title="로그아웃">
                 { signout && 
                     <Link to="/">
-                        <LogoutOutlinedIcon />
+                        <Stack direction="row">
+                            <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
+                        </Stack>
                     </Link>
                 }
             </Box>
@@ -25,7 +27,9 @@ const Header = ({mypage, signout}) => {
             <Box className="tool" title="마이페이지">
                 { mypage && 
                     <Link to="/mypage">
-                        <AccountCircleRoundedIcon />
+                        <Stack direction="row">
+                            <AccountCircleRoundedIcon /><div className="tool_title">마이페이지</div>
+                        </Stack>
                     </Link>
                 }
             </Box>

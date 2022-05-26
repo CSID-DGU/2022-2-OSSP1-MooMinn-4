@@ -20,7 +20,7 @@ const Home = () => {
                 </div>
             </div>
             <Stack className="btn_area" spacing={1}>
-                {!(isSignIn) && 
+                {(isSignIn) && 
                     <Link to='/signin'>
                         <button className="btn" variant="contained">로그인</button>
                     </Link>
@@ -37,7 +37,11 @@ const Home = () => {
                         <button className="btn" variant="contained">통계</button>
                     </Link>
                     <Box className="signout_home" title="로그아웃">
-                        <LogoutOutlinedIcon />
+                        <Link to="/" style={{color:'black', textDecoration:'none'}}>
+                            <Stack direction="row">
+                                <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
+                            </Stack>
+                        </Link>
                     </Box>
                     </>
                 }

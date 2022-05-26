@@ -131,7 +131,7 @@ body {
     font-size: 1em;
 }
 
-@media screen and (max-width: 600px)  {   
+@media screen and (max-width: 700px)  {   
     .title_area {
         /* background-color: aqua; */
         width: 100%;
@@ -190,11 +190,12 @@ body {
 .signout_home {
   /* background-color: #007FFF; */
   position: absolute;
-  left: 15px;
-  top: 20px;
+  left: 23px;
+  top: 15px;
 } 
 
 .signout_home:hover {
   opacity: 0.7;
   cursor:pointer;
 }
+
