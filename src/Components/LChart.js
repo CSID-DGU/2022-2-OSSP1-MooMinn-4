@@ -1,11 +1,11 @@
 import React from 'react';
-import './Chart.css'
+import './LChart.css'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const chart = ({title, data}) => {
+const LChart = ({title, data}) => {
   return (
-    <div className="chart">
-      <h4 className="chartTitle">{title}</h4>
+    <div className="LChart">
+      <h4 className="LChartTitle">{title}</h4>
       <div style={{padding:'20px'}}>
         <ResponsiveContainer aspect={11 / 6}>
           <LineChart 
@@ -30,4 +30,4 @@ const chart = ({title, data}) => {
   );
 }
 
-export default chart;
+export default LChart;
