@@ -32,12 +32,12 @@ const Home = () => {
                 </div>
             </div>
             <Stack className="btn_area" spacing={1}>
-                {(isSignIn) && 
+                {isSignIn && 
                     <Link to='/signin'>
                         <button className="btn" variant="contained">로그인</button>
                     </Link>
                 }
-                {isSignIn &&
+                {!(isSignIn) &&
                     <>
                     <Link to='/input'>
                         <button className="btn" variant="contained">입력</button>
