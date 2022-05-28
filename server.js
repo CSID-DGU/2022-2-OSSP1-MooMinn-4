@@ -126,7 +126,8 @@ app.post('/sendemail', (req, res) => {
         var ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
         return ranNum;
     }
-    const number = generateRandom(111111, 999999)
+    const number = String(generateRandom(111111, 999999))
+
     console.log(number)
     let info = transporter.sendMail({
         from: 'wdse123@gmail.com',
@@ -136,6 +137,21 @@ app.post('/sendemail', (req, res) => {
     })
     res.json({ number: number })
 })
+
+app.post('/changepw', (req, res) => {
+    const pw = req.body.pw
+    console.log(pw)
+    var sql = ''
+
+    connection.query(sql, [pw],
+        function (err, data) {
+            if (!err) {
+
+            }
+        }
+    )
+})
+
 
 http.listen(port, () => {
     console.log(`Server On : http://localhost:${port}/`);

@@ -3,7 +3,9 @@ import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
+import MenuItem from '@mui/material/MenuItem'
 import Autocomplete from '@mui/material/Autocomplete'
+import Select from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
 import SendIcon from '@mui/icons-material/Send'
 import './FindPW.css';
@@ -30,14 +32,8 @@ const Cancel = () => {
 }
 
 const FindPW = () => {
-    const emailList = [
-        { label: 'naver.com' },
-        { label: 'gmail.com' },
-        { label: 'dgu.ac.kr' },
-        { label: 'daum.net' },
-        { label: 'hanmail.com' },
-        { label: 'nate.com' }
-    ]
+    const EMAILADDRESS = ['naver.com', 'gmail.com', 'dgu.ac.kr', 'daum.net', 'hanmail.com', 'nate.com']
+
     const [open, setOpen] = useState(false)
     const [email, setEmail] = useState('')
     const [emailAddress, setEmailAddress] = useState('')
@@ -48,6 +44,7 @@ const FindPW = () => {
     const [emailCheck, setEmailCheck] = useState(false)
     const [securityCheck, setSecurityCheck] = useState(false)
     const [emptyEmail, setEmptyEmail] = useState(false)
+    const [emptyEmailAddress, setEmptyEamilAddress] = useState(false)
     const [emptyPW, setEmptyPW] = useState(false)
     const [incorrectPW, setCorrectPW] = useState(false)
     const [incorrectSecureCode, setIncorrectSecureCode] = useState(false)
@@ -55,8 +52,11 @@ const FindPW = () => {
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
 
-    const onChangeEmail = (e) => {
-        setEmail(e.target.value)
+    const onChangeEmail = (e) => { setEmail(e.target.value) }
+
+    const onChangeEmailAddress = (e) => {
+        setEmailAddress(e.target.value)
+        console.log(emailAddress)
     }
 
     const onChangeSecurityCode = (e) => {
@@ -72,6 +72,10 @@ const FindPW = () => {
     }
 
     const handleClickChangePassword = () => {
+        const data = {
+            pw: password,
+        }
+
         if (password === '') {
             console.log('비밀번호가 입력되지 않음')
             setEmptyPW(true)
@@ -84,6 +88,13 @@ const FindPW = () => {
             console.log('비밀번호가 같음')
             setCorrectPW(false)
             // 비밀번호 변경
+            fetch("/changepw", {
+                method: 'post',
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
         }
         else {
             console.log('비밀번호가 다름')
@@ -92,29 +103,47 @@ const FindPW = () => {
     }
 
     const handleClickSend = (e) => {
-        const data = {
-            email: email,
-        }
+        console.log(email + '@' + emailAddress)
 
         if (email === '') {
-            setEmptyEmail(true)
+            if (emailAddress === '') {
+                // 둘다 입력 X일 때
+                setEmptyEamilAddress(true)
+                setEmptyEmail(true)
+            }
+            else {
+                // 이메일 주소만 입력했을 때
+                setEmailCheck(false)
+            }
         }
         else {
-            setEmptyEmail(false)
-            // 해당 이메일로 코드 전송하기
-            fetch("/sendemail", {
-                method: 'post',
-                headers: {
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify(data),
-            })
-                .then((res) => res.json())
-                .then((json) => {
-                    setSecurityCode(json.number)
-                })
+            if (emailAddress === '') {
+                // 이메일만 입력했을 때
+                setEmailAddress(true)
+            }
+            else {
+                // 모두 입력 했을 때
+                setEmptyEmail(false)
+                setEmptyEamilAddress(false)
+                setEmailCheck(true)
 
-            setEmailCheck(true)
+                const data = {
+                    email: email + '@' + emailAddress,
+                }
+
+                // 해당 이메일로 보안코드 전송하기
+                fetch("/sendemail", {
+                    method: 'post',
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                })
+                    .then((res) => res.json())
+                    .then((json) => {
+                        setSecurityCode(json.number)
+                    })
+            }
         }
     }
 
@@ -175,14 +204,24 @@ const FindPW = () => {
                                 margin='normal'
                                 onChange={onChangeEmail} />
                             <span>@</span>
-                            <Autocomplete
+                            <Select
                                 disabled={emailCheck}
-                                id='emailAddress'
-                                options={emailList}
-                                renderInput={(params) => <TextField {...params} label="이메일 주소"
-                                    size="small"
-                                    sx={{ width: 150, marginTop: 1 }} />}
-                            ></Autocomplete>
+                                className="select"
+                                error={emptyEmailAddress}
+                                labelId="emailAddress"
+                                value={emailAddress}
+                                name="emailAddress"
+                                label="이메일 주소"
+                                onChange={onChangeEmailAddress}
+                            >
+                                {
+                                    EMAILADDRESS.map((emailAddress, idx) => {
+                                        return <MenuItem key={idx} value={emailAddress}>{emailAddress}</MenuItem>
+                                    })
+                                }
+                            </Select>
+
+
                         </Stack>
                         <Button disabled={emailCheck} variant="outlined" startIcon={<SendIcon />} size="small" className="send_btn" onClick={handleClickSend} >
                             보내기

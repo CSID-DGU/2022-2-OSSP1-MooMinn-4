@@ -11,7 +11,7 @@ import "./css/SignUp.css";
 
 
 const SignIn = () => {
-    const [id, setId] = useState('')
+    const [email, setId] = useState('')
     const [pw, setPw] = useState('')
 
     const appChangeId = (e) => {
@@ -25,7 +25,7 @@ const SignIn = () => {
     const onClickLogin = (e) => {
         e.preventDefault()
         const data = {
-            email: id,
+            email: email,
             pw: pw,
         }
 
@@ -48,10 +48,10 @@ const SignIn = () => {
                     // id는 있지만, pw 는 다른 경우 userId = null , msg = undefined
                     console.log('잘못된 비밀번호')
                     alert('잘못된 비밀번호입니다.')
-                } else if (json.id === id) {
+                } else if (json.id === email) {
                     // id, pw 모두 일치 userId = userId1, msg = undefined
                     console.log('로그인 성공')
-                    sessionStorage.setItem('userId', id)
+                    sessionStorage.setItem('userId', email)
                     console.log(sessionStorage.getItem('userId'))
                     // 작업 완료 되면 페이지 이동(새로고침)
                     document.location.href = '/'
