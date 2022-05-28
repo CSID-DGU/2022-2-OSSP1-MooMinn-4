@@ -156,12 +156,12 @@ app.post("/result",(req,res)=>{
     var sql4 = 'select EnglishGrade As result from UserInfo where ID = ?'// S0인지 아닌지 판별할 떄 사용
     var sql5 = 'select sum(ClassCredit) As result from UserSelectList where where UserID = ? and ClassArea like ?'//기본소양, BSM수학,Bsm과학 학점 판정시 사용
     var sql6='select count(*) AS result from UserSelectList where CNumber=?' //필수 전공과목 이수 판별
-    var sql7='select ClassCredit AS result from UserSelectList,Lecture where CNumber=ClassNumber, Curriculum=?'//전공 학점 수가 84학점이 되는지 여부 확인
-    var sql8='select ClassCredit AS result from UserSelectList,Lecture where CNumber=ClassNumber, ClassArea=?'// 전공 전문 학점 수가 42학점이 되는지 여부 확인
+    var sql7='select ClassCredit AS result from UserSelectList,Lecture where CNumber=ClassNumber,TNumber=TermNumber, Curriculum=?'//전공 학점 수가 84학점이 되는지 여부 확인
+    var sql8='select ClassCredit AS result from UserSelectList,Lecture where CNumber=ClassNumber,TNumber=TermNumber, ClassArea=?'// 전공 전문 학점 수가 42학점이 되는지 여부 확인
     var sql9='select ClassCredit AS result from UserSelectList' //총 학점이 140점이 되는지 여부 확인
     var sql10='select Score AS result from UserInfo,UserSelectList where ID=UserID'//외국어 성적이 700을 넘는지 조건 확인
     var sql11='select ClassScore AS result from UserSelectList'//평점 평균이 2.0을 넘는지 조건 확인
-    var sql12='select EnglishClass AS result from UserSelectList, Lecture where CNumber=ClassNumber' //영어 강의 수가 4개 이상인지 조건 확인
+    var sql12='select EnglishClass AS result from UserSelectList, Lecture where CNumber=ClassNumber,TNumber=TermNumber' //영어 강의 수가 4개 이상인지 조건 확인
 	// 공통 교양 판별
 	var necessay_common_class = ['RGC-1074%', 'RGC-0017%', 'RGC-0018%', 'RGC-0003%', 'RGC-0005%']//공통 필수 과목
 	var select_common_class = ['RGC-1050%', 'RGC-1051%', 'RGC-1052%']//공통 선택 필수 과목
@@ -362,7 +362,7 @@ app.post("/result",(req,res)=>{
             function(err,data){
                 if(!err){
                     for(var j=0; j<data.length; j++){
-                        sumOfCredit+=data[j].result;
+                        sumOfCredit+=parseInt(data[j].result);
                     }
                     if(sumOfCredit>=84){
                         console.log('총 전공학점 조건을 만족함')
@@ -387,7 +387,7 @@ app.post("/result",(req,res)=>{
             function(err,data){
                 if(!err){
                     for(var j=0; j<data.length; j++){
-                        sumOfCredit+=data[j].result;
+                        sumOfCredit+=parseInt(data[j].result);
                     }
                     if(sumOfCredit>=42){
                         console.log('총 전문강의 수강 학점 조건을 만족함')
@@ -409,7 +409,7 @@ app.post("/result",(req,res)=>{
         function(err,data){
             if(!err){
                 for(var j=0; j<data.length; j++){
-                    sumOfCredit+=data[j].result;
+                    sumOfCredit+=parseInt(data[j].result);
                 }
                 if(sumOfCredit>=140){
                     console.log('총 학점 조건을 만족함')
@@ -428,7 +428,7 @@ app.post("/result",(req,res)=>{
     connection.quary(sql10,
         function(err,data){
             if(!err){
-                if(data[0].result>=700){
+                if(parseInt(data[0].result)>=700){
                     console.log('외국어 성적 조건을 만족함')
                 }
                 else{
@@ -466,7 +466,7 @@ app.post("/result",(req,res)=>{
         function(err,data){
             if(!err){
                 for(var i=0; i<data.length; i++){
-                    English+=data[i].result;
+                    English+=parseInt(data[i].result);
                 }
                 if(Enlish>=4)
                 {
