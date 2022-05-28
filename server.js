@@ -49,14 +49,14 @@ app.post("/signup", (req, res) => {
     const email = req.body.email
     const pw = req.body.pw
     const year = req.body.year
-    const register = req.body.register
+    const semester = req.body.semester
     const course = req.body.course
     const english = req.body.english
     const category = req.body.category
     const score = req.body.score
 
     var sql = 'INSERT INTO UserInfo (`ID`, `Pincode`, `Semester`, `StudentNumber`, `Course`, `Score`, `EnglishGrade`) VALUES (?, ?, ?, ?, ?, ?, ?)'
-    var params = [email, pw, register, year, course, score, english]
+    var params = [email, pw, semester, year, course, score, english]
     connection.query(sql, params,
         function (err, rows) {
             if (err) {
@@ -107,6 +107,19 @@ app.post("/signin", (req, res) => {
         })
 })
 
+app.post('/isthereemail', (req, res) => {
+    const email = req.body.email
+
+    const sql = 'SELECT COUNT(*) AS result FROM UserInfo WHERE ID = ?'
+    connection.query(sql, [email],
+        function (err, data) {
+            if (!err) {
+                console.log(data[0].result)
+                res.json(data[0])
+            }
+        })
+})
+
 app.post('/sendemail', (req, res) => {
     const email = req.body.email
     console.log(email)
@@ -139,17 +152,24 @@ app.post('/sendemail', (req, res) => {
 })
 
 app.post('/changepw', (req, res) => {
+    const ID = req.body.ID
     const pw = req.body.pw
-    console.log(pw)
-    var sql = ''
 
-    connection.query(sql, [pw],
+    var sql = 'UPDATE `UserInfo` SET `Pincode` = ? WHERE `ID` = ?'
+    const params = [pw, ID]
+    connection.query(sql, params,
         function (err, data) {
             if (!err) {
-
+                // 에러 없음
             }
-        }
-    )
+            else {
+                // 에러 있음
+                res.json(err)
+            }
+        })
+
+
+
 })
 
 

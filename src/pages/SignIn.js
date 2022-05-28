@@ -21,11 +21,11 @@ const SignIn = () => {
         e.preventDefault()
         const data = {
             email: email,
-            pw: pw,
+            pw: password,
         }
         console.log(data);
 
-        fetch("http://localhost:3001/signin", {
+        fetch("/signin", {
             method: 'post',
             headers: {
                 "content-type": "application/json",

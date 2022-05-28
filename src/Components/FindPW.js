@@ -4,7 +4,6 @@ import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
-import Autocomplete from '@mui/material/Autocomplete'
 import Select from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
 import SendIcon from '@mui/icons-material/Send'
@@ -51,41 +50,24 @@ const FindPW = () => {
 
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
-
     const onChangeEmail = (e) => { setEmail(e.target.value) }
-
-    const onChangeEmailAddress = (e) => {
-        setEmailAddress(e.target.value)
-        console.log(emailAddress)
-    }
-
-    const onChangeSecurityCode = (e) => {
-        setInputSecurityCode(e.target.value)
-    }
-
-    const onChangePassword = (e) => {
-        setPassword(e.target.value)
-    }
-
-    const onChangePasswordCheck = (e) => {
-        setPasswordCheck(e.target.value)
-    }
-
+    const onChangeEmailAddress = (e) => { setEmailAddress(e.target.value) }
+    const onChangeSecurityCode = (e) => { setInputSecurityCode(e.target.value) }
+    const onChangePassword = (e) => { setPassword(e.target.value) }
+    const onChangePasswordCheck = (e) => { setPasswordCheck(e.target.value) }
     const handleClickChangePassword = () => {
         const data = {
+            ID: email + '@' + emailAddress,
             pw: password,
         }
 
         if (password === '') {
-            console.log('비밀번호가 입력되지 않음')
             setEmptyPW(true)
         }
         else {
-            console.log('비밀번호가 입력됨')
             setEmptyPW(false)
         }
         if (password === passwordCheck) {
-            console.log('비밀번호가 같음')
             setCorrectPW(false)
             // 비밀번호 변경
             fetch("/changepw", {
@@ -95,14 +77,17 @@ const FindPW = () => {
                 },
                 body: JSON.stringify(data),
             })
+            window.location.replace('/')
         }
         else {
-            console.log('비밀번호가 다름')
             setCorrectPW(true)
         }
     }
 
-    const handleClickSend = (e) => {
+    const handleClickSend = () => {
+        const data = {
+            email: email + '@' + emailAddress,
+        }
         console.log(email + '@' + emailAddress)
 
         if (email === '') {
@@ -125,14 +110,9 @@ const FindPW = () => {
                 // 모두 입력 했을 때
                 setEmptyEmail(false)
                 setEmptyEamilAddress(false)
-                setEmailCheck(true)
 
-                const data = {
-                    email: email + '@' + emailAddress,
-                }
-
-                // 해당 이메일로 보안코드 전송하기
-                fetch("/sendemail", {
+                // 이메일 존재하는지 확인
+                fetch("/isthereemail", {
                     method: 'post',
                     headers: {
                         "content-type": "application/json",
@@ -141,7 +121,27 @@ const FindPW = () => {
                 })
                     .then((res) => res.json())
                     .then((json) => {
-                        setSecurityCode(json.number)
+                        if (json.result === 1) {
+                            // DB에 존재하는 ID일 때
+                            setEmailCheck(true)
+
+                            // 해당 이메일로 보안코드 전송하기
+                            fetch("/sendemail", {
+                                method: 'post',
+                                headers: {
+                                    "content-type": "application/json",
+                                },
+                                body: JSON.stringify(data),
+                            })
+                                .then((res) => res.json())
+                                .then((json) => {
+                                    setSecurityCode(json.number)
+                                })
+                        }
+                        else {
+                            // DB에 없는 ID일 때
+                            alert('존재하지 않는 ID입니다.')
+                        }
                     })
             }
         }
