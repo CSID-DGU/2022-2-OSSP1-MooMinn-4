@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import FindPW from './FindPW';
+import FindPW from '../components/FindPW';
 import "./css/SignUp.css";
 
 
@@ -25,7 +25,7 @@ const SignIn = () => {
     const onClickLogin = (e) => {
         e.preventDefault()
         const data = {
-            id: id,
+            email: id,
             pw: pw,
         }
 
@@ -42,19 +42,21 @@ const SignIn = () => {
 
                 if (json.id === undefined) {
                     // id 일치하지 않는 경우 userId = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
-                    console.log('======================', '없는 id')
-                    alert('입력하신 id 가 일치하지 않습니다.')
+                    console.log('없는 id')
+                    alert('없는 ID입니다.')
                 } else if (json.id === null) {
                     // id는 있지만, pw 는 다른 경우 userId = null , msg = undefined
-                    console.log('======================', '잘못된 비밀번호')
-                    alert('입력하신 비밀번호 가 일치하지 않습니다.')
+                    console.log('잘못된 비밀번호')
+                    alert('잘못된 비밀번호입니다.')
                 } else if (json.id === id) {
                     // id, pw 모두 일치 userId = userId1, msg = undefined
-                    console.log('======================', '로그인 성공')
-                    sessionStorage.setItem('user_id', id)
+                    console.log('로그인 성공')
+                    sessionStorage.setItem('userId', id)
+                    console.log(sessionStorage.getItem('userId'))
+                    // 작업 완료 되면 페이지 이동(새로고침)
+                    document.location.href = '/'
                 }
-                // 작업 완료 되면 페이지 이동(새로고침)
-                document.location.href = '/'
+
             })
             .catch()
     }

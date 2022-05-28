@@ -1,9 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Stack from '@mui/material/Stack'
+import Stack from '@mui/material/Stack';
 import "./css/Home.css";
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const Home = () => {
+    const [isSignIn, setIsSignIn] = useState(true)
+    useEffect(() => {
+        console.log(sessionStorage.getItem('userId'))
+        if (sessionStorage.getItem('userId') === null) {
+            // 로그인 안 되었다면
+            setIsSignIn(true)
+        }
+        else {
+            // 로그인 되었다면
+            setIsSignIn(false)
+        }
+    })
     return (
         <div>
             <div className="title_area">
@@ -16,18 +30,24 @@ const Home = () => {
                 </div>
             </div>
             <Stack className="btn_area" spacing={1}>
-                <Link to='/signin'>
-                    <button className="btn" variant="contained">로그인</button>
-                </Link>
-                <Link to='/input'>
-                    <button className="btn" variant="contained">입력</button>
-                </Link>
-                <Link to='/result'>
-                    <button className="btn" variant="contained">결과</button>
-                </Link>
-                <Link to='/stats'>
-                    <button className="btn" variant="contained">통계</button>
-                </Link>
+                {(isSignIn) &&
+                    <Link to='/signin'>
+                        <button className="btn" variant="contained">로그인</button>
+                    </Link>
+                }
+                {!isSignIn &&
+                    <>
+                        <Link to='/input'>
+                            <button className="btn" variant="contained">입력</button>
+                        </Link>
+                        <Link to='/result'>
+                            <button className="btn" variant="contained">결과</button>
+                        </Link>
+                        <Link to='/stats'>
+                            <button className="btn" variant="contained">통계</button>
+                        </Link>
+                    </>
+                }
             </Stack>
         </div>
     );
