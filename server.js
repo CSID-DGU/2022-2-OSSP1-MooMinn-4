@@ -5,12 +5,6 @@ const port = 3001;
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const mysql = require('mysql')
-<<<<<<< HEAD
-const { default: axios } = require('axios');
-const { ConnectingAirportsOutlined } = require('@mui/icons-material');
-const { BOOLEAN } = require('sequelize');
-=======
->>>>>>> edcf5cafe7fa09ec0510836e9dbfa760e51406f4
 const http = require('http').createServer(app)
 let nodemailer = require('nodemailer')
 
