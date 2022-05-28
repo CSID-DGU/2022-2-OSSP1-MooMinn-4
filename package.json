@@ -42,6 +42,7 @@
     "mini-css-extract-plugin": "^2.4.5",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.5",
     "notistack": "^2.0.5",
     "path": "^0.12.7",
     "postcss": "^8.4.4",
@@ -71,7 +72,8 @@
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
-    "workbox-webpack-plugin": "^6.4.1"
+    "workbox-webpack-plugin": "^6.4.1",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "node scripts/start.js",

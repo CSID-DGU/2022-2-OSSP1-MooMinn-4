@@ -65,7 +65,6 @@
     animation-timing-function: ease-out;
   }
 }  
-
 @keyframes tracking-in-expand {
     0% {
       letter-spacing: -0.5em;
@@ -132,7 +131,7 @@ body {
     font-size: 1em;
 }
 
-@media screen and (max-width: 600px)  {   
+@media screen and (max-width: 700px)  {   
     .title_area {
         /* background-color: aqua; */
         width: 100%;
@@ -155,6 +154,12 @@ body {
         font-family: SsangMun, sans-serif;
         font-size: 0.8em;
     }    
+    .signout_home {
+      /* background-color: #007FFF; */
+      position: absolute;
+      left: 10px;
+      top: 20px;
+    }     
 }
 
 .btn_area {
@@ -181,3 +186,16 @@ body {
     background-color: #004488;
     cursor: pointer;
 }
+
+.signout_home {
+  /* background-color: #007FFF; */
+  position: absolute;
+  left: 23px;
+  top: 15px;
+} 
+
+.signout_home:hover {
+  opacity: 0.7;
+  cursor:pointer;
+}
+

@@ -1,11 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import "./css/Home.css";
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const Home = () => {
-    const isSignIn = true;
-
+    const [isSignIn, setIsSignIn] = useState(true)
+    useEffect(() => {
+        console.log(sessionStorage.getItem('userId'))
+        if (sessionStorage.getItem('userId') === null) {
+            // 로그인 안 되었다면
+            setIsSignIn(true)
+        }
+        else {
+            // 로그인 되었다면
+            setIsSignIn(false)
+        }
+    })
     return (
         <div>
             <div className="title_area">
@@ -34,6 +48,13 @@ const Home = () => {
                     <Link to='/stats'>
                         <button className="btn" variant="contained">통계</button>
                     </Link>
+                    <Box className="signout_home" title="로그아웃">
+                        <Link to="/" style={{color:'black', textDecoration:'none'}}>
+                            <Stack direction="row">
+                                <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
+                            </Stack>
+                        </Link>
+                    </Box>
                     </>
                 }
             </Stack>

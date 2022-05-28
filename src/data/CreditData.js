@@ -1,4 +1,4 @@
-export const data3 = [
+export const CreditData = [
     {
       name: '1', 나: 21, 평균: 21,
     },

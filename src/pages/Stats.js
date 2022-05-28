@@ -1,56 +1,39 @@
 import React from 'react';
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import { data1 } from '../data/data1';
-import { data2 } from '../data/data2';
-import { data3 } from '../data/data3';
-import Chart from '../components/Chart';
+import { AllScoreData } from '../data/AllScoreData';
+import { MajorScoreData } from '../data/MajorScoreData';
+import { CreditData } from '../data/CreditData';
+import { BestLectureData } from '../data/BestLectureData';
+import LChart from '../components/LChart';
+import BChart from '../components/BChart';
 import Header from '../components/Header';
+import './css/Stats.css';
 
 const Stats = () => {
     return (
         <div className="fade-in">
-            <Header mypage />
+            <Header mypage signout />
             <Box className="sub_title">
             통계
             </Box>
             <Stack 
-                style={{marginTop:'20px', marginBottom:'30px'}} 
+                style={{margin:'20px 80px 0 80px'}} 
                 direction={{xs:'column', sm:'row'}}
                 justifyContent="center"
                 alignItems="center"
             >
-                <Chart data={data1} title="전체평점 비교" dataKey={'평점'} />
-                <Chart data={data2} title="전공평점 비교" dataKey="평점" />
-                <Chart data={data3} title="이수학점 비교" dataKey="학점" />
+                <LChart data={AllScoreData} title="전체평점 비교" dataKey={'평점'} />
+                <LChart data={MajorScoreData} title="전공평점 비교" dataKey="평점" />
+                <LChart data={CreditData} title="이수학점 비교" dataKey="학점" />
             </Stack>
-            <Stack flexDirection='row' justifyContent="center" mb={10}>
-                <Stack>
-                    <Box sx={{
-                        width:600,
-                        height:150,
-                        backgroundColor:'white',
-                        borderRadius:'15px',
-                        margin:'5px',
-                        boxShadow: '0 0 10px lightgray'
-                        }}></Box>
-                    <Box sx={{
-                        width:600,
-                        height:150,
-                        backgroundColor:'white',
-                        borderRadius:'15px',
-                        margin:'5px',
-                        boxShadow: '0 0 10px lightgray'
-                        }}></Box>
-                </Stack>
-                <Box sx={{
-                    width:400,
-                    height:310,
-                    backgroundColor:'white',
-                    borderRadius:'15px',
-                    margin:'5px',
-                    boxShadow: '0 0 15px lightgray'
-                    }}></Box>
+            <Stack style={{marginBottom:'80px'}}  justifyContent="center" alignItems="center">
+                <Box className="B_PC">
+                    <BChart data={BestLectureData}></BChart>
+                </Box>
+                <Box className="B_mobile">
+                    <BChart data={BestLectureData} isMobile></BChart>
+                </Box>
             </Stack>
         </div>
     );
