@@ -11,34 +11,34 @@ import Header from '../components/Header';
 
 const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
-  ))(({ theme }) => ({
+))(({ theme }) => ({
     '&:before': {
-      display: 'none',
+        display: 'none',
     },
-  }));
-  
-  const AccordionSummary = styled((props) => (
+}));
+
+const AccordionSummary = styled((props) => (
     <MuiAccordionSummary
-      expandIcon={<ExpandMoreIcon />}
-      {...props}
+        expandIcon={<ExpandMoreIcon />}
+        {...props}
     />
-  ))(({ theme }) => ({
+))(({ theme }) => ({
     flexDirection: 'row',
     '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-      transform: 'rotate(180deg)',
+        transform: 'rotate(180deg)',
     },
     '& .MuiAccordionSummary-content': {
-      marginLeft: theme.spacing(-2),
-      marginTop: theme.spacing(0.5),
-      marginBottom: theme.spacing(1),
+        marginLeft: theme.spacing(-2),
+        marginTop: theme.spacing(0.5),
+        marginBottom: theme.spacing(1),
     },
-  }));
-  
-  const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
     padding: theme.spacing(1),
     marginTop: theme.spacing(2),
     backgroundColor: '#F6f6f6',
-  }));
+}));
 
 const Result = () => {
     const [expanded, setExpanded] = React.useState('panel1');
@@ -64,7 +64,7 @@ const Result = () => {
                         <img className="check_img" alt="nope" src="img/nope.png"></img>
                         <span className="detail_title">등록학기</span>
                     </div>
-                    <span className="detail_content"><u>5학기</u>를 이수하였습니다. <b style={{color:'crimson'}}>3학기</b>가 부족합니다.</span>
+                    <span className="detail_content"><u>5학기</u>를 이수하였습니다. <b style={{ color: 'crimson' }}>3학기</b>가 부족합니다.</span>
                 </Box>
                 <Box className="detail_box">
                     <div className="stack">
@@ -80,7 +80,7 @@ const Result = () => {
                                 <img className="check_img0" alt="nope" src="img/nope.png"></img>
                                 <span className="detail_title2">취득학점</span>
                             </div>
-                            <span className="detail_content2">총 <u>122학점</u>으로 <b style={{color:'crimson'}}>18학점</b>이 부족합니다.</span>
+                            <span className="detail_content2">총 <u>122학점</u>으로 <b style={{ color: 'crimson' }}>18학점</b>이 부족합니다.</span>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Stack className="category" direction="row" spacing={1}>
@@ -120,7 +120,7 @@ const Result = () => {
                         <img className="check_img" alt="nope" src="img/nope.png"></img>
                         <span className="detail_title">영어강의</span>
                     </div>
-                    <span className="detail_content"><u>3강의</u>를 이수하였습니다. <b style={{color:'crimson'}}>1강의</b>가 부족합니다.</span>
+                    <span className="detail_content"><u>3강의</u>를 이수하였습니다. <b style={{ color: 'crimson' }}>1강의</b>가 부족합니다.</span>
                 </Box>
                 <Box className="final_detail_box">
                     <div className="stack">

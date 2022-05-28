@@ -4,10 +4,22 @@ import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import "./css/Home.css";
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const Home = () => {
-    const isSignIn = true;
-
+    const [isSignIn, setIsSignIn] = useState(true)
+    useEffect(() => {
+        console.log(sessionStorage.getItem('userId'))
+        if (sessionStorage.getItem('userId') === null) {
+            // 로그인 안 되었다면
+            setIsSignIn(true)
+        }
+        else {
+            // 로그인 되었다면
+            setIsSignIn(false)
+        }
+    })
     return (
         <div>
             <div className="title_area">

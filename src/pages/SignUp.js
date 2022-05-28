@@ -39,42 +39,79 @@ const SignUp = () => {
     const onChangeScore = (e) => { setScore(e.target.value) }
     const onChangePasswordCheck = (e) => { setPasswordCheck(e.target.value) }
 
+    const data = {
+        email: email,
+        pw: password,
+        year: year,
+        semester: semester,
+        course: course,
+        english: english,
+        category: category,
+        score: score,
+    }
+
+    const onClickDuplication = () => {
+        const body = {
+            email: data.email
+        }
+        if (email === '') {
+            setEmptyEmail(true)
+            alert('ID를 입력하세요.')
+        }
+        else {
+            setEmptyEmail(false)
+            fetch("/emailcheck", {
+                method: 'post',
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(body),
+            })
+                .then((res) => res.json())
+                .then((json) => {
+                    console.log(json)
+
+                    if (json.result === 1) {
+                        // 중복
+                        alert('중복된 ID입니다.')
+                    }
+                    else {
+                        // 사용가능
+                        alert('사용가능한 ID입니다.')
+                    }
+
+                })
+                .catch()
+        }
+    }
+
     const onClickSignUp = () => {
-        if (email === '') {setEmptyEmail(true)}
-        else {setEmptyEmail(false)}
-        if (password === '') {setEmptyPW(true)}
-        else {setEmptyPW(false)}
-        if (year === '') {setEmptyYear(true)}
-        else {setEmptyYear(false)}
-        if (semester === '') {setEmptySemester(true)}
-        else {setEmptySemester(false)}
-        if (course === '') {setEmptyCourse(true)}
-        else {setEmptyCourse(false)}
-        if (english === '') {setEmptyEnglish(true)}
-        else {setEmptyEnglish(false)}
-        if (password === passwordCheck) {setCorrectPW(false)}
-        else {setCorrectPW(true)}
+        if (email === '') { setEmptyEmail(true) }
+        else { setEmptyEmail(false) }
+        if (password === '') { setEmptyPW(true) }
+        else { setEmptyPW(false) }
+        if (year === '') { setEmptyYear(true) }
+        else { setEmptyYear(false) }
+        if (semester === '') { setEmptySemester(true) }
+        else { setEmptySemester(false) }
+        if (course === '') { setEmptyCourse(true) }
+        else { setEmptyCourse(false) }
+        if (english === '') { setEmptyEnglish(true) }
+        else { setEmptyEnglish(false) }
+        if (password === passwordCheck) { setCorrectPW(false) }
+        else { setCorrectPW(true) }
 
-        const data = {
-            id: this.state.id,
-            pw: this.state.pw,
-            year: this.state.year,
-            register: this.state.register,
-            course: this.state.course,
-            english: this.state.english,
-            category: this.state.category,
-            score: this.state.score,
-        };
 
-        fetch("http://localhost:3001/signup", {
+
+        fetch("/signup", {
             method: 'post',
             headers: {
                 "content-type": "application/json",
             },
             body: JSON.stringify(data),
         })
-            .then(res => res.json())
-    }    
+            .then(res => console.log(res))
+    }
 
     const YEAR = [2018, 2019, 2020, 2021, 2022];
     const SEMESTER = [8, 7, 6, 5, 4, 3, 2, 1];
@@ -90,7 +127,7 @@ const SignUp = () => {
     const SCORE_ESOL = ["PET", "FCE"];
     const SCORE_IELTS = [4.5, 5, 5.5, 6];
     const SCORE_GTELP = ["LEVEL3 63", "LEVEL3 71", "LEVEL2 50", "LEVEL3 73", "LEVEL2 53", "LEVEL3 78", "LEVEL2 57",
-                            "LEVEL3 82", "LEVEL2 61", "LEVEL3 85", "LEVEL2 64", "LEVEL3 92", "LEVEL2 69", "LEVEL3 99", "LEVEL2 76"];
+            "LEVEL3 82", "LEVEL2 61", "LEVEL3 85", "LEVEL2 64", "LEVEL3 92", "LEVEL2 69", "LEVEL3 99", "LEVEL2 76"];
 
     return (
         <div className="fade-in">
@@ -112,7 +149,7 @@ const SignUp = () => {
                             onChange={onChangeEmail} />
                         <span className="helper">{emptyEmail && '이메일을 입력하세요.'}</span>
                     </Stack>
-                    <Button startIcon={<CheckIcon />} variant="outlined" size="small">
+                    <Button startIcon={<CheckIcon />} variant="outlined" size="small" onClick={onClickDuplication} >
                         중복확인
                     </Button>
                 </Stack>
@@ -162,7 +199,7 @@ const SignUp = () => {
                                 })
                             }
                         </Select>
-                        <span className="helper" style={{marginTop:'5px'}}>{emptyYear && '입학년도를 선택하세요.'}</span>
+                        <span className="helper" style={{ marginTop: '5px' }}>{emptyYear && '입학년도를 선택하세요.'}</span>
                     </FormControl>
                     <FormControl fullWidth size="small">
                         <InputLabel id="register">이수학기수</InputLabel>
@@ -177,12 +214,12 @@ const SignUp = () => {
                             onChange={onChangeSemester}
                         >
                             {
-                                SEMESTER.map((register, idx) => {
+                                SEMESTER.map((semester, idx) => {
                                     return <MenuItem key={idx} value={semester}>{semester}학기</MenuItem>
                                 })
                             }
                         </Select>
-                        <span className="helper" style={{marginTop:'5px'}}>{emptySemester && '이수학기수을 선택하세요.'}</span>
+                        <span className="helper" style={{ marginTop: '5px' }}>{emptySemester && '이수학기수을 선택하세요.'}</span>
                     </FormControl>
                 </Stack>
                 <Stack direction="row" spacing={2} mt={2}>
@@ -203,7 +240,7 @@ const SignUp = () => {
                                 })
                             }
                         </Select>
-                        <span className="helper" style={{marginTop:'5px'}}>{emptyCourse && '심화과정 여부를 선택하세요.'}</span>
+                        <span className="helper" style={{ marginTop: '5px' }}>{emptyCourse && '심화과정 여부를 선택하세요.'}</span>
                     </FormControl>
                     <FormControl fullWidth size="small">
                         <InputLabel id="english">영어레벨</InputLabel>
@@ -222,7 +259,7 @@ const SignUp = () => {
                                 })
                             }
                         </Select>
-                        <span className="helper" style={{marginTop:'5px'}}>{emptyEnglish && '영어레벨을 선택하세요.'}</span>
+                        <span className="helper" style={{ marginTop: '5px' }}>{emptyEnglish && '영어레벨을 선택하세요.'}</span>
                     </FormControl>
                 </Stack>
                 <Stack direction="row" spacing={2} mt={2}>
