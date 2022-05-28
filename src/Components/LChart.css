@@ -1,4 +1,4 @@
-.chart {
+.LChart {
     display: inline-block;
     background-color: white;
     width: 330px;
@@ -9,6 +9,6 @@
     font-size: small;
 }
 
-.chartTitle {
+.LChartTitle {
     margin: 5px 0 0 15px;
 }

@@ -43,7 +43,7 @@ const SignUp = () => {
         email: email,
         pw: password,
         year: year,
-        register: semester,
+        semester: semester,
         course: course,
         english: english,
         category: category,
@@ -127,7 +127,7 @@ const SignUp = () => {
     const SCORE_ESOL = ["PET", "FCE"];
     const SCORE_IELTS = [4.5, 5, 5.5, 6];
     const SCORE_GTELP = ["LEVEL3 63", "LEVEL3 71", "LEVEL2 50", "LEVEL3 73", "LEVEL2 53", "LEVEL3 78", "LEVEL2 57",
-        "LEVEL3 82", "LEVEL2 61", "LEVEL3 85", "LEVEL2 64", "LEVEL3 92", "LEVEL2 69", "LEVEL3 99", "LEVEL2 76"];
+            "LEVEL3 82", "LEVEL2 61", "LEVEL3 85", "LEVEL2 64", "LEVEL3 92", "LEVEL2 69", "LEVEL3 99", "LEVEL2 76"];
 
     return (
         <div className="fade-in">
@@ -141,10 +141,10 @@ const SignUp = () => {
                         <TextField // 이메일 입력
                             className="text"
                             error={emptyEmail}
-                            name="id"
-                            label="이메일"
-                            variant="outlined"
-                            size="small"
+                            name="id" 
+                            label="이메일" 
+                            variant="outlined" 
+                            size="small" 
                             margin="normal"
                             onChange={onChangeEmail} />
                         <span className="helper">{emptyEmail && '이메일을 입력하세요.'}</span>
@@ -158,11 +158,11 @@ const SignUp = () => {
                         className="text"
                         error={emptyPW}
                         value={password}
-                        name="pw"
-                        label="비밀번호"
-                        type="Password"
-                        size="small"
-                        margin="normal"
+                        name="pw" 
+                        label="비밀번호" 
+                        type="Password" 
+                        size="small" 
+                        margin="normal" 
                         onChange={onChangePassword} />
                     <span className="helper">{emptyPW && '비밀번호를 입력하세요.'}</span>
                 </Stack>
@@ -171,10 +171,10 @@ const SignUp = () => {
                         className="text"
                         error={incorrectPW}
                         value={passwordCheck}
-                        name="pw"
-                        label="비밀번호 확인"
-                        type="Password"
-                        size="small"
+                        name="pw" 
+                        label="비밀번호 확인" 
+                        type="Password" 
+                        size="small" 
                         margin="normal"
                         onChange={onChangePasswordCheck} />
                     <span className="helper">{incorrectPW && '비밀번호가 다릅니다.'}</span>
@@ -210,11 +210,11 @@ const SignUp = () => {
                             labelId="semester"
                             value={semester}
                             name="semester"
-                            label="이수학기수"
+                            label="이수학기수" 
                             onChange={onChangeSemester}
                         >
                             {
-                                SEMESTER.map((register, idx) => {
+                                SEMESTER.map((semester, idx) => {
                                     return <MenuItem key={idx} value={semester}>{semester}학기</MenuItem>
                                 })
                             }
@@ -231,7 +231,7 @@ const SignUp = () => {
                             labelId="course"
                             value={course}
                             name="course"
-                            label="심화/일반"
+                            label="심화/일반" 
                             onChange={onChangeCourse}
                         >
                             {
@@ -250,7 +250,7 @@ const SignUp = () => {
                             labelId="english"
                             value={english}
                             name="english"
-                            label="영어레벨"
+                            label="영어레벨" 
                             onChange={onChangeEnglish}
                         >
                             {
@@ -270,7 +270,7 @@ const SignUp = () => {
                             labelId="category"
                             value={category}
                             name="category"
-                            label="외국어시험"
+                            label="외국어시험" 
                             onChange={onChangeCategory}
                         >
                             {

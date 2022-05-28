@@ -1,4 +1,4 @@
-export const data2 = [
+export const MajorScoreData = [
     {
       name: '1', 나: 4.1, 평균: 3.5,
     },
