@@ -38,12 +38,20 @@ const Home = () => {
                 </div>
             </div>
             <Stack className="btn_area" spacing={1}>
+<<<<<<< HEAD
                 {(isSignIn) &&
+=======
+                {isSignIn && 
+>>>>>>> 156e9f947526741e083293d4d3bd06601ff7480f
                     <Link to='/signin'>
                         <button className="btn" variant="contained">로그인</button>
                     </Link>
                 }
+<<<<<<< HEAD
                 {!isSignIn &&
+=======
+                {!(isSignIn) &&
+>>>>>>> 156e9f947526741e083293d4d3bd06601ff7480f
                     <>
                         <Link to='/input'>
                             <button className="btn" variant="contained">입력</button>

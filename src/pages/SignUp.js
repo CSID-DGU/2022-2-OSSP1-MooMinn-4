@@ -43,7 +43,7 @@ const SignUp = () => {
         email: email,
         pw: password,
         year: year,
-        semester: semester,
+        register: semester,
         course: course,
         english: english,
         category: category,
