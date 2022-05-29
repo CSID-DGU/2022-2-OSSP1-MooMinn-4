@@ -3,8 +3,11 @@ import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
-import Autocomplete from '@mui/material/Autocomplete'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
 import SendIcon from '@mui/icons-material/Send'
 import './FindPW.css';
 
@@ -30,14 +33,8 @@ const Cancel = () => {
 }
 
 const FindPW = () => {
-    const emailList = [
-        { label: 'naver.com' },
-        { label: 'gmail.com' },
-        { label: 'dgu.ac.kr' },
-        { label: 'daum.net' },
-        { label: 'hanmail.com' },
-        { label: 'nate.com' }
-    ]
+    const EMAILADDRESS = ['naver.com', 'gmail.com', 'dgu.ac.kr', 'daum.net', 'hanmail.com', 'nate.com']
+
     const [open, setOpen] = useState(false)
     const [email, setEmail] = useState('')
     const [emailAddress, setEmailAddress] = useState('')
@@ -48,73 +45,107 @@ const FindPW = () => {
     const [emailCheck, setEmailCheck] = useState(false)
     const [securityCheck, setSecurityCheck] = useState(false)
     const [emptyEmail, setEmptyEmail] = useState(false)
+    const [emptyEmailAddress, setEmptyEmailAddress] = useState(false)
     const [emptyPW, setEmptyPW] = useState(false)
     const [incorrectPW, setCorrectPW] = useState(false)
     const [incorrectSecureCode, setIncorrectSecureCode] = useState(false)
 
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
-
-    const onChangeEmail = (e) => {
-        setEmail(e.target.value)
-    }
-
-    const onChangeSecurityCode = (e) => {
-        setInputSecurityCode(e.target.value)
-    }
-
-    const onChangePassword = (e) => {
-        setPassword(e.target.value)
-    }
-
-    const onChangePasswordCheck = (e) => {
-        setPasswordCheck(e.target.value)
-    }
-
+    const onChangeEmail = (e) => { setEmail(e.target.value) }
+    const onChangeEmailAddress = (e) => { setEmailAddress(e.target.value) }
+    const onChangeSecurityCode = (e) => { setInputSecurityCode(e.target.value) }
+    const onChangePassword = (e) => { setPassword(e.target.value) }
+    const onChangePasswordCheck = (e) => { setPasswordCheck(e.target.value) }
     const handleClickChangePassword = () => {
+        const data = {
+            ID: email + '@' + emailAddress,
+            pw: password,
+        }
+
         if (password === '') {
-            console.log('비밀번호가 입력되지 않음')
             setEmptyPW(true)
         }
         else {
-            console.log('비밀번호가 입력됨')
             setEmptyPW(false)
         }
         if (password === passwordCheck) {
-            console.log('비밀번호가 같음')
             setCorrectPW(false)
             // 비밀번호 변경
-        }
-        else {
-            console.log('비밀번호가 다름')
-            setCorrectPW(true)
-        }
-    }
-
-    const handleClickSend = (e) => {
-        const data = {
-            email: email,
-        }
-
-        if (email === '') {
-            setEmptyEmail(true)
-        }
-        else {
-            setEmptyEmail(false)
-            // 해당 이메일로 코드 전송하기
-            fetch("/sendemail", {
+            fetch("/changepw", {
                 method: 'post',
                 headers: {
                     "content-type": "application/json",
                 },
                 body: JSON.stringify(data),
             })
-                .then((res) => res.json())
-                .then((json) => {
-                    setSecurityCode(json.number)
-                })
+            window.location.replace('/')
+        }
+        else {
+            setCorrectPW(true)
+        }
+    }
 
-            setEmailCheck(true)
+    const handleClickSend = () => {
+        const data = {
+            email: email + '@' + emailAddress,
+        }
+        console.log(email + '@' + emailAddress)
+
+        if (email === '') {
+            if (emailAddress === '') {
+                // 둘다 입력 X일 때
+                setEmptyEmailAddress(true)
+                setEmptyEmail(true)
+            }
+            else {
+                // 이메일 주소만 입력했을 때
+                setEmailCheck(false)
+            }
+        }
+        else {
+            if (emailAddress === '') {
+                // 이메일만 입력했을 때
+                setEmailAddress(true)
+            }
+            else {
+                // 모두 입력 했을 때
+                setEmptyEmail(false)
+                setEmptyEmailAddress(false)
+
+                // 이메일 존재하는지 확인
+                fetch("/isthereemail", {
+                    method: 'post',
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                })
+                    .then((res) => res.json())
+                    .then((json) => {
+                        if (json.result === 1) {
+                            // DB에 존재하는 ID일 때
+                            setEmailCheck(true)
+
+                            // 해당 이메일로 보안코드 전송하기
+                            fetch("/sendemail", {
+                                method: 'post',
+                                headers: {
+                                    "content-type": "application/json",
+                                },
+                                body: JSON.stringify(data),
+                            })
+                                .then((res) => res.json())
+                                .then((json) => {
+                                    setSecurityCode(json.number)
+                                })
+                        }
+                        else {
+                            // DB에 없는 ID일 때
+                            alert('존재하지 않는 ID입니다.')
+                        }
+                    })
+            }
         }
     }
 
@@ -160,6 +191,7 @@ const FindPW = () => {
                     <Box className="findPW">
                         비밀번호찾기
                     </Box>
+                    <span style={{fontSize:'14px'}}>이메일 확인</span>
                     <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" spacing={{ xs: 0, sm: 4 }}>
                         <Stack direction="row" alignItems="center" spacing={1}>
                             <TextField
@@ -174,21 +206,34 @@ const FindPW = () => {
                                 size="small"
                                 margin='normal'
                                 onChange={onChangeEmail} />
-                            <span>@</span>
-                            <Autocomplete
-                                disabled={emailCheck}
-                                id='emailAddress'
-                                options={emailList}
-                                renderInput={(params) => <TextField {...params} label="이메일 주소"
+                            <span style={{marginTop:6}}>@</span>
+                            <FormControl sx={{width: 150}} size="small">
+                                <InputLabel id="emailAdress" sx={{marginTop:1}}>이메일주소</InputLabel> 
+                                <Select
+                                    disabled={emailCheck}
+                                    className="select"
+                                    error={emptyEmailAddress}
+                                    labelId="emailAddress"
+                                    value={emailAddress}
+                                    name="emailAddress"
+                                    label="이메일 주소"
+                                    onChange={onChangeEmailAddress}
                                     size="small"
-                                    sx={{ width: 150, marginTop: 1 }} />}
-                            ></Autocomplete>
+                                    sx={{marginTop:1}}
+                                >
+                                    {
+                                        EMAILADDRESS.map((emailAddress, idx) => {
+                                            return <MenuItem key={idx} value={emailAddress}>{emailAddress}</MenuItem>
+                                        })
+                                    }
+                                </Select>
+                            </FormControl>
                         </Stack>
                         <Button disabled={emailCheck} variant="outlined" startIcon={<SendIcon />} size="small" className="send_btn" onClick={handleClickSend} >
                             보내기
                         </Button>
                     </Stack>
-                    <Stack direction="row" alignItems="center" spacing={5}>
+                    <Stack direction="row" alignItems="center" spacing={5} mb={2}>
                         <TextField
                             disabled={securityCheck}
                             error={incorrectSecureCode}
@@ -211,6 +256,7 @@ const FindPW = () => {
                             </Button>
                         </Stack>
                     </Stack>
+                    <span style={{fontSize:'14px'}}>비밀번호 변경</span>
                     <Stack spacing={1} className="PW_Stack">
                         <TextField
                             disabled={!securityCheck}

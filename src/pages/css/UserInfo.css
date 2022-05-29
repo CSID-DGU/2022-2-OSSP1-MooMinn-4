@@ -32,8 +32,8 @@ input[type=password] {
 
 .text_area {
     /* background-color: aquamarine; */
-    margin-left: 32%;
-    margin-right: 32%;
+    margin-left: 30%;
+    margin-right: 30%;
     margin-top: 20px;
 }
 
@@ -46,18 +46,17 @@ input[type=password] {
 
 .select_area {
     /* background-color: coral; */
-    margin-left: 32%;
-    margin-right: 32%;
+    margin-left: 30%;
+    margin-right: 30%;
 }
 
 .email {
     background-color: white;
-    width: 200px;
+    width: 170px;
 }
 
 .text {
     background-color: white;
-    width: 80%;
 }
 
 .text_in {
@@ -99,12 +98,18 @@ input[type=password] {
 
 .check_btn {
     background-color: transparent;
-    border: 1px solid #007fff;
-    border-radius: 5px;
-    color: #007fff;
+    border: 1px solid #1976d279;
+    border-radius: 6px;
+    color: #1976D2;
     text-align: center;
     padding: 7px;
     height: 35px;
+}
+
+.check_btn:hover {
+    background-color: #1976d208;
+    border: 1px solid #1976D2;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 700px) {
@@ -161,7 +166,7 @@ input[type=password] {
     }    
     .helperStack {
         /* background-color: cornflowerblue; */
-        width: 80%;
+        width: 85%;
     }    
     .check_text {
         display: none;

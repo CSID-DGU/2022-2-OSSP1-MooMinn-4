@@ -59,6 +59,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                     마이페이지
                 </Box>
                 <Box className="text_area" component="form">
+                    <span style={{fontSize:'14px'}}>가입정보</span>
                     <Stack direction="row" spacing={2}>
                         <TextField
                             className="text"
@@ -69,11 +70,13 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                             variant="outlined"
                             size="small"
                             margin="normal"
-                            onChange={appChange} />
+                            onChange={appChange} 
+                            sx={{width: 250}} />
                     </Stack>
                 </Box>
                 <br />
                 <Box className="select_area">
+                    <span  style={{fontSize:'14px'}}>개인정보</span>
                     <Stack direction="row" spacing={2} mt={2}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="year">입학년도</InputLabel>

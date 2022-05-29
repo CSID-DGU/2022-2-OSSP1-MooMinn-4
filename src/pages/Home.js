@@ -8,18 +8,24 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 
 const Home = () => {
+    useEffect(() => {
+        console.log(sessionStorage.getItem('userId'))
+        if (sessionStorage.getItem('userId') === null) {
+            // 로그인 안 되었다면
+            setIsSignIn(true)
+        }
+        else {
+            // 로그인 되었다면
+            setIsSignIn(false)
+        }
+    })
+
     const [isSignIn, setIsSignIn] = useState(true)
-    // useEffect(() => {
-    //     console.log(sessionStorage.getItem('userId'))
-    //     if (sessionStorage.getItem('userId') === null) {
-    //         // 로그인 안 되었다면
-    //         setIsSignIn(true)
-    //     }
-    //     else {
-    //         // 로그인 되었다면
-    //         setIsSignIn(false)
-    //     }
-    // })
+    const onClickLogout = () => {
+        sessionStorage.clear()
+        window.location.replace('/')
+    }
+
     return (
         <div>
             <div className="title_area">
@@ -37,24 +43,24 @@ const Home = () => {
                         <button className="btn" variant="contained">로그인</button>
                     </Link>
                 }
-                {(isSignIn) &&
+                {!(isSignIn) &&
                     <>
-                    <Link to='/input'>
-                        <button className="btn" variant="contained">입력</button>
-                    </Link>
-                    <Link to='/result'>
-                        <button className="btn" variant="contained">결과</button>
-                    </Link>
-                    <Link to='/stats'>
-                        <button className="btn" variant="contained">통계</button>
-                    </Link>
-                    <Box className="signout_home" title="로그아웃">
-                        <Link to="/" style={{color:'black', textDecoration:'none'}}>
-                            <Stack direction="row">
-                                <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
-                            </Stack>
+                        <Link to='/input'>
+                            <button className="btn" variant="contained">입력</button>
                         </Link>
-                    </Box>
+                        <Link to='/result'>
+                            <button className="btn" variant="contained">결과</button>
+                        </Link>
+                        <Link to='/stats'>
+                            <button className="btn" variant="contained">통계</button>
+                        </Link>
+                        <Box className="signout_home" title="로그아웃">
+                            <Link to="/" style={{ color: 'black', textDecoration: 'none' }}>
+                                <Stack direction="row" onClick={onClickLogout}>
+                                    <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
+                                </Stack>
+                            </Link>
+                        </Box>
                     </>
                 }
             </Stack>

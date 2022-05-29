@@ -13,10 +13,10 @@ const SignIn = () => {
     const [emptyPw, setEmptyPw] = React.useState(false)
 
     const onClickSignIn = (e) => {
-        if (id === '') {setEmptyId(true)}
-        else {setEmptyId(false)}
-        if (pw === '') {setEmptyPw(true)}
-        else {setEmptyPw(false)}
+        if (id === '') { setEmptyId(true) }
+        else { setEmptyId(false) }
+        if (pw === '') { setEmptyPw(true) }
+        else { setEmptyPw(false) }
 
         e.preventDefault()
         const data = {
@@ -25,7 +25,7 @@ const SignIn = () => {
         }
         console.log(data);
 
-        fetch("http://localhost:3001/signin", {
+        fetch("/signin", {
             method: 'post',
             headers: {
                 "content-type": "application/json",
@@ -34,7 +34,7 @@ const SignIn = () => {
         })
             .then((res) => res.json())
             .then((json) => {
-                console.log('json',json)
+                console.log('json', json)
 
                 if (json.id === undefined) {
                     // id 일치하지 않는 경우 userId = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
@@ -57,11 +57,11 @@ const SignIn = () => {
             .catch()
     }
 
-    const onChangeEmail = (e) => {
+    const onChangeId = (e) => {
         setId(e.target.value)
     }
 
-    const onChangePW = (e) => {
+    const onChangePw = (e) => {
         setPw(e.target.value)
     }
 
@@ -81,22 +81,22 @@ const SignIn = () => {
                     error={emptyId}
                     name='id'
                     label='이메일'
-                    variant="outlined" 
+                    variant="outlined"
                     margin="normal"
-                    onChange={onChangeEmail} />
+                    onChange={onChangeId} />
                 <span className="helper">{emptyId && '이메일을 입력하세요.'}</span>
                 <TextField
                     className="text_in"
                     error={emptyPw}
                     name='pw'
                     label='비밀번호'
-                    type='Password'
-                    variant="outlined" 
-                    margin="normal" 
-                    onChange={onChangePW} />
+                    type='password'
+                    variant="outlined"
+                    margin="normal"
+                    onChange={onChangePw} />
                 <span className="helper">{emptyPw && '비밀번호를 입력하세요.'}</span>
             </Box>
-            <Box className="btn_area" style={{marginBottom:0}}>
+            <Box className="btn_area" style={{ marginBottom: 0 }}>
                 <button className="btn" onClick={onClickSignIn}>로그인</button>
             </Box>
             <Box className="sub_btn_area">

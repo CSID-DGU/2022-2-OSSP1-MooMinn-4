@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -10,6 +10,9 @@ import './css/Result.css';
 import Header from '../components/Header';
 
 const Accordion = styled((props) => (
+
+
+
     <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
     '&:before': {
@@ -41,6 +44,16 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 const Result = () => {
+    useEffect(() => {
+        fetch("/result", {
+            method: 'post',
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify()
+        })
+    })
+
     const [expanded, setExpanded] = React.useState('panel1');
 
     const handleChange = (panel) => (event, newExpanded) => {
