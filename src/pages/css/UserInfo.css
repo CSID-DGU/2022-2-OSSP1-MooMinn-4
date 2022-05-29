@@ -50,9 +50,14 @@ input[type=password] {
     margin-right: 32%;
 }
 
+.email {
+    background-color: white;
+    width: 200px;
+}
+
 .text {
     background-color: white;
-    /* width: 70%; */
+    width: 80%;
 }
 
 .text_in {
@@ -71,7 +76,8 @@ input[type=password] {
 }
 
 .helperStack {
-    width: 70%;
+    /* background-color: cornflowerblue; */
+    width: 75%;
 }
 
 .sub_btn_area {
@@ -89,6 +95,16 @@ input[type=password] {
 .sub_btn:hover {
     background-color: rgb(220, 220, 220);
     cursor: pointer;
+}
+
+.check_btn {
+    background-color: transparent;
+    border: 1px solid #007fff;
+    border-radius: 5px;
+    color: #007fff;
+    text-align: center;
+    padding: 7px;
+    height: 35px;
 }
 
 @media screen and (max-width: 700px) {
@@ -143,4 +159,11 @@ input[type=password] {
         text-align: center;
         margin-right: 10px;
     }    
+    .helperStack {
+        /* background-color: cornflowerblue; */
+        width: 80%;
+    }    
+    .check_text {
+        display: none;
+    }
 }

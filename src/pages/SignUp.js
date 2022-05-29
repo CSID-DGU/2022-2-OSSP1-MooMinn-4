@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
+import Autocomplete from '@mui/material/Autocomplete'
 import CheckIcon from '@mui/icons-material/Check';
 import "./css/UserInfo.css";
 import Header from '../components/Header';
@@ -49,6 +50,15 @@ const SignUp = () => {
         category: category,
         score: score,
     }
+
+    const emailList = [
+        { label: 'naver.com' },
+        { label: 'gmail.com' },
+        { label: 'dgu.ac.kr' },
+        { label: 'daum.net' },
+        { label: 'hanmail.com' },
+        { label: 'nate.com' }
+    ]
 
     const onClickDuplication = () => {
         const body = {
@@ -138,20 +148,32 @@ const SignUp = () => {
             <Box className="text_area" component="form">
                 <Stack direction="row" alignItems="center" spacing={2}>
                     <Stack className="helperStack">
-                        <TextField // 이메일 입력
-                            className="text"
-                            error={emptyEmail}
-                            name="id" 
-                            label="이메일" 
-                            variant="outlined" 
-                            size="small" 
-                            margin="normal"
-                            onChange={onChangeEmail} />
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                            <TextField // 이메일 입력
+                                className="email"
+                                error={emptyEmail}
+                                name="id" 
+                                label="이메일" 
+                                variant="outlined" 
+                                size="small" 
+                                margin="normal"
+                                onChange={onChangeEmail} />
+                            <span>@</span>
+                            <Autocomplete
+                                id='emailAddress'
+                                options={emailList}
+                                renderInput={(params) => <TextField {...params} label="이메일 주소"
+                                size="small"
+                                sx={{ width: 150, marginTop: 1, backgroundColor: 'white' }} />}
+                            ></Autocomplete>
+                        </Stack>
                         <span className="helper">{emptyEmail && '이메일을 입력하세요.'}</span>
                     </Stack>
-                    <Button startIcon={<CheckIcon />} variant="outlined" size="small" onClick={onClickDuplication} >
-                        중복확인
-                    </Button>
+                    <button onClick={onClickDuplication} className="check_btn">
+                        <Stack direction="row" alignItems="center" spacing={0.5}>
+                            <CheckIcon fontSize="small"/><span className="check_text">중복확인</span>
+                        </Stack>
+                    </button>
                 </Stack>
                 <Stack className="helperStack">
                     <TextField // 비밀번호 입력

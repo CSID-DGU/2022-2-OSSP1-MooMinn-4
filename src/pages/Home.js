@@ -9,17 +9,17 @@ import { useState } from 'react';
 
 const Home = () => {
     const [isSignIn, setIsSignIn] = useState(true)
-    useEffect(() => {
-        console.log(sessionStorage.getItem('userId'))
-        if (sessionStorage.getItem('userId') === null) {
-            // 로그인 안 되었다면
-            setIsSignIn(true)
-        }
-        else {
-            // 로그인 되었다면
-            setIsSignIn(false)
-        }
-    })
+    // useEffect(() => {
+    //     console.log(sessionStorage.getItem('userId'))
+    //     if (sessionStorage.getItem('userId') === null) {
+    //         // 로그인 안 되었다면
+    //         setIsSignIn(true)
+    //     }
+    //     else {
+    //         // 로그인 되었다면
+    //         setIsSignIn(false)
+    //     }
+    // })
     return (
         <div>
             <div className="title_area">
@@ -37,7 +37,7 @@ const Home = () => {
                         <button className="btn" variant="contained">로그인</button>
                     </Link>
                 }
-                {!(isSignIn) &&
+                {(isSignIn) &&
                     <>
                     <Link to='/input'>
                         <button className="btn" variant="contained">입력</button>
