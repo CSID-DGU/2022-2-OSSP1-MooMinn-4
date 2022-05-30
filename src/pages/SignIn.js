@@ -13,15 +13,15 @@ const SignIn = () => {
     const [emptyPw, setEmptyPw] = React.useState(false)
 
     const onClickSignIn = (e) => {
-        if (email === '') { setEmptyEmail(true) }
-        else { setEmptyEmail(false) }
-        if (password === '') { setEmptyPW(true) }
-        else { setEmptyPW(false) }
+        if (id === '') { setEmptyId(true) }
+        else { setEmptyId(false) }
+        if (pw === '') { setEmptyPw(true) }
+        else { setEmptyPw(false) }
 
         e.preventDefault()
         const data = {
-            email: email,
-            pw: password,
+            email: id,
+            pw: pw,
         }
         console.log(data);
 
@@ -57,11 +57,11 @@ const SignIn = () => {
             .catch()
     }
 
-    const onChangeEmail = (e) => {
+    const onChangeId = (e) => {
         setId(e.target.value)
     }
 
-    const onChangePW = (e) => {
+    const onChangePw = (e) => {
         setPw(e.target.value)
     }
 
@@ -83,7 +83,7 @@ const SignIn = () => {
                     label='이메일'
                     variant="outlined"
                     margin="normal"
-                    onChange={onChangeEmail} />
+                    onChange={onChangeId} />
                 <span className="helper">{emptyId && '이메일을 입력하세요.'}</span>
                 <TextField
                     className="text_in"
@@ -93,7 +93,7 @@ const SignIn = () => {
                     type='password'
                     variant="outlined"
                     margin="normal"
-                    onChange={onChangePW} />
+                    onChange={onChangePw} />
                 <span className="helper">{emptyPw && '비밀번호를 입력하세요.'}</span>
             </Box>
             <Box className="btn_area" style={{ marginBottom: 0 }}>

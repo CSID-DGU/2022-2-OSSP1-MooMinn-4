@@ -6,6 +6,8 @@ import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
 import SendIcon from '@mui/icons-material/Send'
 import './FindPW.css';
 
@@ -43,7 +45,7 @@ const FindPW = () => {
     const [emailCheck, setEmailCheck] = useState(false)
     const [securityCheck, setSecurityCheck] = useState(false)
     const [emptyEmail, setEmptyEmail] = useState(false)
-    const [emptyEmailAddress, setEmptyEamilAddress] = useState(false)
+    const [emptyEmailAddress, setEmptyEmailAddress] = useState(false)
     const [emptyPW, setEmptyPW] = useState(false)
     const [incorrectPW, setCorrectPW] = useState(false)
     const [incorrectSecureCode, setIncorrectSecureCode] = useState(false)
@@ -93,7 +95,7 @@ const FindPW = () => {
         if (email === '') {
             if (emailAddress === '') {
                 // 둘다 입력 X일 때
-                setEmptyEamilAddress(true)
+                setEmptyEmailAddress(true)
                 setEmptyEmail(true)
             }
             else {
@@ -109,7 +111,7 @@ const FindPW = () => {
             else {
                 // 모두 입력 했을 때
                 setEmptyEmail(false)
-                setEmptyEamilAddress(false)
+                setEmptyEmailAddress(false)
 
                 // 이메일 존재하는지 확인
                 fetch("/isthereemail", {
@@ -190,6 +192,7 @@ const FindPW = () => {
                     <Box className="findPW">
                         비밀번호찾기
                     </Box>
+                    <span style={{fontSize:'14px'}}>이메일 확인</span>
                     <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" spacing={{ xs: 0, sm: 4 }}>
                         <Stack direction="row" alignItems="center" spacing={1}>
                             <TextField
@@ -204,31 +207,34 @@ const FindPW = () => {
                                 size="small"
                                 margin='normal'
                                 onChange={onChangeEmail} />
-                            <span>@</span>
-                            <Select
-                                disabled={emailCheck}
-                                className="select"
-                                error={emptyEmailAddress}
-                                labelId="emailAddress"
-                                value={emailAddress}
-                                name="emailAddress"
-                                label="이메일 주소"
-                                onChange={onChangeEmailAddress}
-                            >
-                                {
-                                    EMAILADDRESS.map((emailAddress, idx) => {
-                                        return <MenuItem key={idx} value={emailAddress}>{emailAddress}</MenuItem>
-                                    })
-                                }
-                            </Select>
-
-
+                            <span style={{marginTop:6}}>@</span>
+                            <FormControl sx={{width: 150}} size="small">
+                                <InputLabel id="emailAdress" sx={{marginTop:1}}>이메일주소</InputLabel> 
+                                <Select
+                                    disabled={emailCheck}
+                                    className="select"
+                                    error={emptyEmailAddress}
+                                    labelId="emailAddress"
+                                    value={emailAddress}
+                                    name="emailAddress"
+                                    label="이메일 주소"
+                                    onChange={onChangeEmailAddress}
+                                    size="small"
+                                    sx={{marginTop:1}}
+                                >
+                                    {
+                                        EMAILADDRESS.map((emailAddress, idx) => {
+                                            return <MenuItem key={idx} value={emailAddress}>{emailAddress}</MenuItem>
+                                        })
+                                    }
+                                </Select>
+                            </FormControl>
                         </Stack>
                         <Button disabled={emailCheck} variant="outlined" startIcon={<SendIcon />} size="small" className="send_btn" onClick={handleClickSend} >
                             보내기
                         </Button>
                     </Stack>
-                    <Stack direction="row" alignItems="center" spacing={5}>
+                    <Stack direction="row" alignItems="center" spacing={5} mb={2}>
                         <TextField
                             disabled={securityCheck}
                             error={incorrectSecureCode}
@@ -251,6 +257,7 @@ const FindPW = () => {
                             </Button>
                         </Stack>
                     </Stack>
+                    <span style={{fontSize:'14px'}}>비밀번호 변경</span>
                     <Stack spacing={1} className="PW_Stack">
                         <TextField
                             disabled={!securityCheck}

@@ -7,15 +7,18 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import "./Header.css";
 
 const Header = ({ mypage, signout }) => {
-    const onClickLogout = () => { sessionStorage.clear() }
+    const onClickLogout = () => { 
+        sessionStorage.clear() 
+        window.location.replace('/') 
+    }
 
     return (
         <Stack className="nav" direction="row" justifyContent="space-between" alignItems="center">
             <Box className="tool" title="로그아웃">
                 {signout &&
                     <Link to="/">
-                        <Stack direction="row">
-                            <LogoutOutlinedIcon /><div className="tool_title" onClick={onClickLogout}>로그아웃</div>
+                        <Stack direction="row" onClick={onClickLogout}>
+                            <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
                         </Stack>
                     </Link>
                 }
