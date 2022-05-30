@@ -213,7 +213,7 @@ app.post("/result",(req,res)=>{
 			if (!err) {
 				if(data[0].result <1){//해당 강의를 수강하지 않은 경우
 					console.log('해당 필수 과목을 수강하지 않음')
-					isNotClass.append(necessary_common_class[i]);
+					isNotClass.push(necessary_common_class[i]);
 				} else{//해당 강의를 수강한 경우
 					console.log('해당 강의를 수강함')
 				}
@@ -302,7 +302,7 @@ app.post("/result",(req,res)=>{
                 if (!err) {
                     if (data[0].result < 1) {//해당 강의를 수강하지 않은 경우
                         console.log('해당 필수 과목을 수강하지 않음')
-                        isNotClass.append(math_class[i]);
+                        isNotClass.push(math_class[i]);
                     } else {//해당 강의를 수강한 경우
                         console.log('해당 강의를 수강함')
                     }
@@ -400,7 +400,7 @@ app.post("/result",(req,res)=>{
             if(!err){
                 if(data[0].result<1){
                     console.log('해당 필수 전공을 수강하지 않음')
-                    isNotClass.append(necessary_major_class[i]);
+                    isNotClass.push(necessary_major_class[i])
                 } else{
                     console.log('해당 강의를 수강함')
                 }
