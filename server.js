@@ -296,7 +296,7 @@ app.post("/result",(req,res)=>{
     )
 
     for (var i = 0; i < math_class.length; i++) {
-        var isNotClass = new Array//수강하지 않은 강의를 담을 배열
+        var isNotClass = new Array()//수강하지 않은 강의를 담을 배열
         connection.query(sql1, [email, math_class[i]],
             function (err, data) {
                 if (!err) {
