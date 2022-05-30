@@ -219,7 +219,6 @@ app.post("/result",(req,res)=>{
 				}
 			}
             else {//에러 처리
-                res.send(err)
                 console.log('필수 공통 교양 판별 error')
             }
         }
@@ -308,7 +307,6 @@ app.post("/result",(req,res)=>{
                     }
                 }
                 else {//에러 처리
-                    res.send(err)
                     console.log('BSM 수학 필수 과목 error')
                 }
             }
@@ -412,7 +410,7 @@ app.post("/result",(req,res)=>{
         function(err, data){
             if(!err){
                 if(data[0].result == '심화'){
-                        connection.quary(sql7,[email, '전공'],
+                        connection.query(sql7,[email, '전공'],
                             function(err,data){
                                 if(!err){
                                     if(data[0].result>=84){
@@ -422,7 +420,6 @@ app.post("/result",(req,res)=>{
                                     }
                                 }
                                 else{
-                                res.send(err)
                                 console.log('전공학점 총합 계산 error')
                             }
                         }
@@ -440,7 +437,6 @@ app.post("/result",(req,res)=>{
                                     }
                                 }
                                 else{
-                                    res.send(err)
                                     console.log('전문 학점 총합 계산 error')
                                 }
                             }
@@ -457,9 +453,7 @@ app.post("/result",(req,res)=>{
                                 else{
                                     console.log('총 학점 조건을 만족하지 않음')
                                 }
-                            }
-                        else{
-                            res.send(err)
+                            }  else{
                             console.log('총 학점 계산 error')
                         }
                     }
@@ -478,7 +472,6 @@ app.post("/result",(req,res)=>{
                                     }
                                 }
                                 else{
-                                res.send(err)
                                 console.log('전공학점 총합 계산 error')
                             }
                         }
@@ -499,7 +492,6 @@ app.post("/result",(req,res)=>{
                                     }
                                 }
                                 else{
-                                    res.send(err)
                                     console.log('전문 학점 총합 계산 error')
                                 }
                             }
@@ -518,7 +510,6 @@ app.post("/result",(req,res)=>{
                                 }
                             }
                         else{
-                            res.send(err)
                             console.log('총 학점 계산 error')
                         }
                     }
