@@ -245,7 +245,7 @@ app.post("/result",(req,res)=>{
             if (!err) {
                 if (data[0].result != 0) {
                     // EAS1 판별
-                    connection.quary(sql3, [email, EAS1_common_class],
+                    connection.query(sql3, [email, EAS1_common_class],
                         function (err, data2) {
                             if(!err){
                                 if(data2[0].result>0){//두 종류의 EAS1중 하나라도 이수한 경우
@@ -412,8 +412,6 @@ app.post("/result",(req,res)=>{
         function(err, data){
             if(!err){
                 if(data[0].result == '심화'){
-                    var sumOfCredit=0;
-                    for(var i=0; i<major.length; i++){
                         connection.quary(sql7,[email, '전공'],
                             function(err,data){
                                 if(!err){
@@ -429,11 +427,9 @@ app.post("/result",(req,res)=>{
                             }
                         }
                         )
-                    }
+                
                     // 전공 전문 학점 수가 42학점이 되는지 여부 확인
                     sumOfCredit=0;
-                    for(var i=0; i<special.length; i++){
-                
                         connection.query(sql8,[email, '전문'],
                             function(err,data){
                                 if(!err){
@@ -449,7 +445,7 @@ app.post("/result",(req,res)=>{
                                 }
                             }
                             )
-                        }
+                        
                     //총 학점이 140점이 되는지 여부 확인
                     sumOfCredit=0;
                     connection.query(sql9,[email],
@@ -470,7 +466,7 @@ app.post("/result",(req,res)=>{
                     )
                 }else{//전공 학점 계산 72학점 이상
                     var sumOfCredit=0;
-                    for(var i=0; i<major.length; i++){
+                    
                         connection.query(sql7,[email,'전공'],
                             function(err,data){
                                 if(!err){
@@ -487,10 +483,10 @@ app.post("/result",(req,res)=>{
                             }
                         }
                         )
-                    }
+                    
                     // 전공 전문 학점 수가 36학점이 되는지 여부 확인
                     sumOfCredit=0;
-                    for(var i=0; i<special.length; i++){
+                    
                 
                         connection.query(sql8,[email,'전문'],
                             function(err,data){
@@ -508,7 +504,7 @@ app.post("/result",(req,res)=>{
                                 }
                             }
                             )
-                        }
+                        
                     //총 학점이 130점이 되는지 여부 확인
                     sumOfCredit=0;
                     connection.query(sql9,[email],
