@@ -32,8 +32,8 @@ input[type=password] {
 
 .text_area {
     /* background-color: aquamarine; */
-    margin-left: 32%;
-    margin-right: 32%;
+    margin-left: 30%;
+    margin-right: 30%;
     margin-top: 20px;
 }
 
@@ -46,13 +46,17 @@ input[type=password] {
 
 .select_area {
     /* background-color: coral; */
-    margin-left: 32%;
-    margin-right: 32%;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+.email {
+    background-color: white;
+    width: 170px;
 }
 
 .text {
     background-color: white;
-    /* width: 70%; */
 }
 
 .text_in {
@@ -71,7 +75,8 @@ input[type=password] {
 }
 
 .helperStack {
-    width: 70%;
+    /* background-color: cornflowerblue; */
+    width: 75%;
 }
 
 .sub_btn_area {
@@ -88,6 +93,22 @@ input[type=password] {
 
 .sub_btn:hover {
     background-color: rgb(220, 220, 220);
+    cursor: pointer;
+}
+
+.check_btn {
+    background-color: transparent;
+    border: 1px solid #1976d279;
+    border-radius: 6px;
+    color: #1976D2;
+    text-align: center;
+    padding: 7px;
+    height: 35px;
+}
+
+.check_btn:hover {
+    background-color: #1976d208;
+    border: 1px solid #1976D2;
     cursor: pointer;
 }
 
@@ -143,4 +164,11 @@ input[type=password] {
         text-align: center;
         margin-right: 10px;
     }    
+    .helperStack {
+        /* background-color: cornflowerblue; */
+        width: 85%;
+    }    
+    .check_text {
+        display: none;
+    }
 }

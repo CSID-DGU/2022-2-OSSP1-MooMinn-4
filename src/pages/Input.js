@@ -7,9 +7,6 @@ import Header from '../components/Header';
 import UploadFile from '../components/UploadFile';
 
 const Input = () => {
-    const input = React.useRef(null);
-    const [placeholder, setPlaceholder] = React.useState('');
-
     return (
         <div className="fade-in">
             <Header mypage signout />

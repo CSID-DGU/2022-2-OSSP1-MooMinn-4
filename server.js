@@ -5,9 +5,12 @@ const port = 3001;
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const mysql = require('mysql')
+<<<<<<< HEAD
 const { default: axios } = require('axios');
 const { ConnectingAirportsOutlined } = require('@mui/icons-material');
 const { BOOLEAN } = require('sequelize');
+=======
+>>>>>>> e51e4309d1a73fb13bf7a48ba33ea3e6e4cdb186
 const http = require('http').createServer(app)
 let nodemailer = require('nodemailer');
 const { fileURLToPath } = require('url');
@@ -53,14 +56,14 @@ app.post("/signup", (req, res) => {
     const email = req.body.email
     const pw = req.body.pw
     const year = req.body.year
-    const register = req.body.register
+    const semester = req.body.semester
     const course = req.body.course
     const english = req.body.english
     const category = req.body.category
     const score = req.body.score
 
     var sql = 'INSERT INTO UserInfo (`ID`, `Pincode`, `Semester`, `StudentNumber`, `Course`, `Score`, `EnglishGrade`) VALUES (?, ?, ?, ?, ?, ?, ?)'
-    var params = [email, pw, register, year, course, score, english]
+    var params = [email, pw, semester, year, course, score, english]
     connection.query(sql, params,
         function (err, rows) {
             if (err) {
@@ -111,6 +114,19 @@ app.post("/signin", (req, res) => {
         })
 })
 
+app.post('/isthereemail', (req, res) => {
+    const email = req.body.email
+
+    const sql = 'SELECT COUNT(*) AS result FROM UserInfo WHERE ID = ?'
+    connection.query(sql, [email],
+        function (err, data) {
+            if (!err) {
+                console.log(data[0].result)
+                res.json(data[0])
+            }
+        })
+})
+
 app.post('/sendemail', (req, res) => {
     const email = req.body.email
     console.log(email)
@@ -130,7 +146,8 @@ app.post('/sendemail', (req, res) => {
         var ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
         return ranNum;
     }
-    const number = generateRandom(111111, 999999)
+    const number = String(generateRandom(111111, 999999))
+
     console.log(number)
     let info = transporter.sendMail({
         from: 'wdse123@gmail.com',
@@ -140,6 +157,28 @@ app.post('/sendemail', (req, res) => {
     })
     res.json({ number: number })
 })
+
+app.post('/changepw', (req, res) => {
+    const ID = req.body.ID
+    const pw = req.body.pw
+
+    var sql = 'UPDATE `UserInfo` SET `Pincode` = ? WHERE `ID` = ?'
+    const params = [pw, ID]
+    connection.query(sql, params,
+        function (err, data) {
+            if (!err) {
+                // 에러 없음
+            }
+            else {
+                // 에러 있음
+                res.json(err)
+            }
+        })
+
+
+
+})
+
 
 http.listen(port, () => {
     console.log(`Server On : http://localhost:${port}/`);
@@ -186,38 +225,37 @@ app.post("/result",(req,res)=>{
                 res.send(err)
                 console.log('필수 공통 교양 판별 error')
             }
-		}
-	)
-	}
+        )
+    }
     // 선택 필수 공통 교양 판별
     connection.query(sql2, [email, select_common_class],
         function (err, data) {
-            if(!err) {
-                if(data[0].result>0){//리더쉽 수업을 적어도 하나를 이수한 경우
+            if (!err) {
+                if (data[0].result > 0) {//리더쉽 수업을 적어도 하나를 이수한 경우
                     console.log('선택 필수 공통 교양 요건 만족')
-                } else{//리더쉽 강의를 하나도 이수하지 않은경우
+                } else {//리더쉽 강의를 하나도 이수하지 않은경우
                     console.log('리더쉽 과목 중 하나를 수강하시오')
-                }        
-             } else{
-                 console.log('선택 필수 공통 교양 판별 error')
-             }
+                }
+            } else {
+                console.log('선택 필수 공통 교양 판별 error')
+            }
         }
     )
     
     connection.query(sql4, [email],
         function (err, data) {
-            if(!err){
-                if(data[0].result != 0){
+            if (!err) {
+                if (data[0].result != 0) {
                     // EAS1 판별
                     connection.quary(sql3, [email, EAS1_common_class],
                         function (err, data2) {
                             if(!err){
                                 if(data2[0].result>0){//두 종류의 EAS1중 하나라도 이수한 경우
                                     console.log('EAS1을 수강하였습니다')
-                                }else{// 둘 다 수강하지 않은 경우
+                                } else {// 둘 다 수강하지 않은 경우
                                     console.log('EAS1을 수강하지 않았습니다')
                                 }
-                            } else{
+                            } else {
                                 console.log('EAS1 error')
                             }
                         }
@@ -225,18 +263,18 @@ app.post("/result",(req,res)=>{
                     //EAS2 판별
                     connection.query(sql3, [email, EAS2_common_class],
                         function (err, data) {
-                            if(!err){
-                                if(data[0].result>0){//두 종류의 EAS2중 하나라도 수강한 경우
+                            if (!err) {
+                                if (data[0].result > 0) {//두 종류의 EAS2중 하나라도 수강한 경우
                                     console.log('EAS2을 수강하였습니다')
-                                }else{//둘 다 수강하지 않은 경우
+                                } else {//둘 다 수강하지 않은 경우
                                     console.log('EAS2을 수강하지 않았습니다')
                                 }
-                            } else{
+                            } else {
                                 console.log('EAS2 error')
                             }
                         }
                     )
-                } else{
+                } else {
                     console.log('EAS를 수강하지 않아도 됩니다')
                 }
             } else {
@@ -250,24 +288,24 @@ app.post("/result",(req,res)=>{
             if(!err){
                 if(data[0].result>=9){
                     console.log('기본소양 학점을 만족합니다')
-                } else{
+                } else {
                     console.log('기본소양 학점이 모자랍니다')
                 }
-            } else{
+            } else {
                 console.log('기본소양 err')
             }
         }
     )
-    
-    for (var i = 0; i < math_class.length; i++){
+
+    for (var i = 0; i < math_class.length; i++) {
         let isNotClass = document.createElement('isNotClass')//수강하지 않은 강의를 담을 배열
         connection.query(sql1, [email, math_class[i]],
             function (err, data) {
                 if (!err) {
-                    if(data[0].result <1){//해당 강의를 수강하지 않은 경우
+                    if (data[0].result < 1) {//해당 강의를 수강하지 않은 경우
                         console.log('해당 필수 과목을 수강하지 않음')
                         isNotClass.append(math_class[i]);
-                    } else{//해당 강의를 수강한 경우
+                    } else {//해당 강의를 수강한 경우
                         console.log('해당 강의를 수강함')
                     }
                 }
@@ -284,10 +322,10 @@ app.post("/result",(req,res)=>{
             if(!err){
                 if(data[0].result>=12){
                     console.log('BSM수학 학점을 만족합니다')
-                } else{
+                } else {
                     console.log('BSM수학 학점이 모자랍니다')
                 }
-            } else{
+            } else {
                 console.log('Bsm수학 학점 err')
             }
         }
@@ -298,10 +336,10 @@ app.post("/result",(req,res)=>{
             if(!err){
                 if(data[0].result>=3){
                     console.log('BSM과학 실험 학점을 만족합니다')
-                } else{
+                } else {
                     console.log('BSM과학 실험 학점이 모자랍니다')
                 }
-            } else{
+            } else {
                 console.log('Bsm과학 실험 학점 err')
             }
         }
@@ -312,10 +350,10 @@ app.post("/result",(req,res)=>{
             if(!err){
                 if(data[0].result>=6){
                     console.log('BSM과학 학점을 만족합니다')
-                } else{
+                } else {
                     console.log('BSM과학 학점이 모자랍니다')
                 }
-            } else{
+            } else {
                 console.log('Bsm과학 학점 err')
             }
         }
@@ -326,10 +364,10 @@ app.post("/result",(req,res)=>{
             if(!err){
                 if(data[0].result>=21){
                     console.log('BSM 학점을 만족합니다')
-                } else{
+                } else {
                     console.log('BSM 학점이 모자랍니다')
                 }
-            } else{
+            } else {
                 console.log('Bsm 학점 err')
             }
         }
@@ -369,12 +407,7 @@ app.post("/result",(req,res)=>{
                     console.log('해당 강의를 수강함')
                 }
             }
-            else{
-                res.send(err)
-                console.log('필수 전공 판별 error')
-            }
-        }
-    )
+        )
     }
     connection.query(sql13, [email],
         function(err, data){
@@ -506,11 +539,11 @@ app.post("/result",(req,res)=>{
                 if(data[0].result>=700){
                     console.log('외국어 성적 조건을 만족함')
                 }
-                else{
+                else {
                     console.log('외국어 성적 조건을 만족하지 않음')
                 }
             }
-            else{
+            else {
                 console.log('외국어 성적 계산 error')
             }
         }
@@ -554,14 +587,14 @@ app.post("/result",(req,res)=>{
                 {
                     console.log('영어 강의 수 조건을 만족함')
                 }
-                else{
+                else {
                     console.log('영어 강의 수 조건을 만족하지 않음')
                 }
             }
-            else{
+            else {
                 console.log('영어 강의 판별 error')
             }
         }
-        )
+    )
 }
 )
