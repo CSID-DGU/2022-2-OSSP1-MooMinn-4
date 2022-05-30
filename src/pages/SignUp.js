@@ -13,6 +13,7 @@ import Header from '../components/Header';
 const SignUp = () => {
     const [email, setEmail] = React.useState('')
     const [emptyEmail, setEmptyEmail] = React.useState(false)
+    const [duplicatedEmail, setDuplicatedEmail] = React.useState(true)
     const [emailAddress, setEmailAddress] = React.useState('')
     const [emptyEmailAddress, setEmptyEmailAddress] = React.useState(false)
     const [password, setPassword] = React.useState('')
@@ -31,7 +32,7 @@ const SignUp = () => {
     const [incorrectPW, setCorrectPW] = React.useState(false)
 
     const EMAILADDRESS = ['naver.com', 'gmail.com', 'dgu.ac.kr', 'daum.net', 'hanmail.com', 'nate.com']
-    
+
     const onChangeEmail = (e) => { setEmail(e.target.value) }
     const onChangeEmailAddress = (e) => { setEmailAddress(e.target.value) }
     const onChangePassword = (e) => { setPassword(e.target.value) }
@@ -47,14 +48,15 @@ const SignUp = () => {
         email: email + '@' + emailAddress,
         pw: password,
         year: year,
-        register: semester,
+        semester: semester,
         course: course,
         english: english,
         category: category,
         score: score,
     }
 
-    const onClickDuplication = () => {
+    const onClickDuplication = (e) => {
+        e.preventDefault()
         const body = {
             email: data.email
         }
@@ -64,32 +66,41 @@ const SignUp = () => {
         }
         else {
             setEmptyEmail(false)
-            fetch("/emailcheck", {
-                method: 'post',
-                headers: {
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify(body),
-            })
-                .then((res) => res.json())
-                .then((json) => {
-                    console.log(json)
-
-                    if (json.result === 1) {
-                        // 중복
-                        alert('중복된 ID입니다.')
-                    }
-                    else {
-                        // 사용가능
-                        alert('사용가능한 ID입니다.')
-                    }
-
+            if (emailAddress === '') {
+                setEmptyEmailAddress(true)
+                alert('이메일주소를 고르세요.')
+            }
+            else {
+                setEmptyEmailAddress(false)
+                fetch("/emailcheck", {
+                    method: 'post',
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(body),
                 })
-                .catch()
+                    .then((res) => res.json())
+                    .then((json) => {
+                        console.log(json)
+
+                        if (json.result === 1) {
+                            // 중복
+                            alert('중복된 ID입니다.')
+                        }
+                        else {
+                            // 사용가능
+                            setDuplicatedEmail(false)
+                            alert('사용가능한 ID입니다.')
+                        }
+
+                    })
+                    .catch()
+            }
         }
     }
 
-    const onClickSignUp = () => {
+    const onClickSignUp = (e) => {
+        e.preventDefault()
         if (email === '') { setEmptyEmail(true) }
         else { setEmptyEmail(false) }
         if (emailAddress === '') { setEmptyEmailAddress(true) }
@@ -108,21 +119,28 @@ const SignUp = () => {
         else { setCorrectPW(true) }
 
 
-        fetch("/signup", {
-            method: 'post',
-            headers: {
-                "content-type": "application/json",
-            },
-            body: JSON.stringify(data),
-        })
-            .then(res => console.log(res))
+        if (duplicatedEmail) {
+            alert('이메일 중복확인을 하세요.')
+        }
+        else {
+            fetch("/signup", {
+                method: 'post',
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+                .then(res => console.log(res))
+            alert("회원가입 성공!")
+            window.location.replace('/')
+        }
     }
 
     const YEAR = [2018, 2019, 2020, 2021, 2022];
     const SEMESTER = [8, 7, 6, 5, 4, 3, 2, 1];
     const COURSE = ["심화", "일반"];
     const ENGLISH = [0, 1, 2, 3, 4];
-    const CATEGORY = ["토익", "토플CBT", "토플IBT", "텝스", "TOEIC Speaking", "OPIc", "Cambridge ESOL Examinations", "IELTS Academic", "G-TELP","없음"];
+    const CATEGORY = ["토익", "토플CBT", "토플IBT", "텝스", "TOEIC Speaking", "OPIc", "Cambridge ESOL Examinations", "IELTS Academic", "G-TELP", "없음"];
     const SCORE_TOEIC = [550, 600, 620, 650, 680, 700, 750, 800];
     const SCORE_CBT = [136, 177, 182, 192, 200, 207, 212, 227];
     const SCORE_IBT = [57, 62, 64, 68, 72, 76, 82, 87];
@@ -132,7 +150,7 @@ const SignUp = () => {
     const SCORE_ESOL = ["PET", "FCE"];
     const SCORE_IELTS = [4.5, 5, 5.5, 6];
     const SCORE_GTELP = ["LEVEL3 63", "LEVEL3 71", "LEVEL2 50", "LEVEL3 73", "LEVEL2 53", "LEVEL3 78", "LEVEL2 57",
-            "LEVEL3 82", "LEVEL2 61", "LEVEL3 85", "LEVEL2 64", "LEVEL3 92", "LEVEL2 69", "LEVEL3 99", "LEVEL2 76"];
+        "LEVEL3 82", "LEVEL2 61", "LEVEL3 85", "LEVEL2 64", "LEVEL3 92", "LEVEL2 69", "LEVEL3 99", "LEVEL2 76"];
 
     return (
         <div className="fade-in">
@@ -141,23 +159,25 @@ const SignUp = () => {
                 회원가입
             </Box>
             <Box className="text_area" component="form">
-                <span style={{fontSize:'14px'}}>가입정보</span>
+                <span style={{ fontSize: '14px' }}>가입정보</span>
                 <Stack direction="row" alignItems="center" spacing={2}>
                     <Stack className="helperStack">
                         <Stack direction="row" alignItems="center" spacing={1}>
                             <TextField // 이메일 입력
+                                disabled={!duplicatedEmail}
                                 className="email"
                                 error={emptyEmail}
-                                name="id" 
-                                label="이메일" 
-                                variant="outlined" 
-                                size="small" 
+                                name="id"
+                                label="이메일"
+                                variant="outlined"
+                                size="small"
                                 margin="normal"
                                 onChange={onChangeEmail} />
-                            <span style={{marginTop:6}}>@</span>
-                            <FormControl sx={{width: 140}} size="small">
-                                <InputLabel id="emailAdress" sx={{marginTop:1}}>이메일주소</InputLabel> 
+                            <span style={{ marginTop: 6 }}>@</span>
+                            <FormControl sx={{ width: 140 }} size="small">
+                                <InputLabel id="emailAdress" sx={{ marginTop: 1 }}>이메일주소</InputLabel>
                                 <Select
+                                    disabled={!duplicatedEmail}
                                     className="select"
                                     error={emptyEmailAddress}
                                     labelId="emailAddress"
@@ -165,7 +185,7 @@ const SignUp = () => {
                                     name="emailAddress"
                                     label="이메일 주소"
                                     onChange={onChangeEmailAddress}
-                                    sx={{marginTop:1}}
+                                    sx={{ marginTop: 1 }}
                                 >
                                     {
                                         EMAILADDRESS.map((emailAddress, idx) => {
@@ -177,9 +197,9 @@ const SignUp = () => {
                         </Stack>
                         <span className="helper">{emptyEmail && '이메일을 입력하세요.'}</span>
                     </Stack>
-                    <button onClick={onClickDuplication} className="check_btn" title="중복확인">
+                    <button disabled={!duplicatedEmail} onClick={onClickDuplication} className="check_btn" title="중복확인">
                         <Stack direction="row" alignItems="center" spacing={0.5}>
-                            <CheckIcon fontSize="small"/><span className="check_text">중복확인</span>
+                            <CheckIcon fontSize="small" /><span className="check_text">중복확인</span>
                         </Stack>
                     </button>
                 </Stack>
@@ -189,11 +209,11 @@ const SignUp = () => {
                             className="text"
                             error={emptyPW}
                             value={password}
-                            name="pw" 
-                            label="비밀번호" 
-                            type="Password" 
-                            size="small" 
-                            margin="normal" 
+                            name="pw"
+                            label="비밀번호"
+                            type="Password"
+                            size="small"
+                            margin="normal"
                             onChange={onChangePassword} />
                         <span className="helper">{emptyPW && '비밀번호를 입력하세요.'}</span>
                     </Stack>
@@ -202,10 +222,10 @@ const SignUp = () => {
                             className="text"
                             error={incorrectPW}
                             value={passwordCheck}
-                            name="pw" 
-                            label="비밀번호 확인" 
-                            type="Password" 
-                            size="small" 
+                            name="pw"
+                            label="비밀번호 확인"
+                            type="Password"
+                            size="small"
                             margin="normal"
                             onChange={onChangePasswordCheck} />
                         <span className="helper">{incorrectPW && '비밀번호가 다릅니다.'}</span>
@@ -213,7 +233,7 @@ const SignUp = () => {
                 </Stack>
             </Box>
             <Box className="select_area" component="form" mt={2}>
-                <span  style={{fontSize:'14px'}}>개인정보</span>
+                <span style={{ fontSize: '14px' }}>개인정보</span>
                 <Stack direction="row" spacing={2} mt={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="year">입학년도</InputLabel>
@@ -243,7 +263,7 @@ const SignUp = () => {
                             labelId="semester"
                             value={semester}
                             name="semester"
-                            label="이수학기수" 
+                            label="이수학기수"
                             onChange={onChangeSemester}
                         >
                             {
@@ -264,7 +284,7 @@ const SignUp = () => {
                             labelId="course"
                             value={course}
                             name="course"
-                            label="심화/일반" 
+                            label="심화/일반"
                             onChange={onChangeCourse}
                         >
                             {
@@ -283,7 +303,7 @@ const SignUp = () => {
                             labelId="english"
                             value={english}
                             name="english"
-                            label="영어레벨" 
+                            label="영어레벨"
                             onChange={onChangeEnglish}
                         >
                             {
@@ -303,7 +323,7 @@ const SignUp = () => {
                             labelId="category"
                             value={category}
                             name="category"
-                            label="외국어시험" 
+                            label="외국어시험"
                             onChange={onChangeCategory}
                         >
                             {

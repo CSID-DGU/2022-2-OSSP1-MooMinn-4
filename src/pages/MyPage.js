@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
@@ -11,15 +11,44 @@ import Header from '../components/Header';
 
 class MyPage extends Component {
     state = {
-        id: 'dnjsrbwls08@gmail.com',
+        id: sessionStorage.getItem('userId'),
         pw: '',
-        year: '2019',
-        register: '5',
-        course: '심화',
-        english: '2',
+        year: '',
+        register: '',
+        course: '',
+        english: '',
         category: '토익',
-        score: '800',
+        score: '',
     }
+
+    componentDidMount() {
+        this.setState({
+            id: sessionStorage.getItem('userId')
+        })
+        const data = {
+            email: this.state.id
+        }
+        fetch("/mypage", {
+            method: 'post',
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(data)
+        })
+            .then((res) => res.json())
+            .then((json) => {
+                this.setState({
+                    year: json.StudentNumber,
+                    register: json.Semester,
+                    course: json.Course,
+                    english: json.EnglishGrade,
+                    score: json.Score
+                })
+            })
+
+    }
+
+
 
     appChange = (e) => {
         this.setState({
@@ -28,9 +57,25 @@ class MyPage extends Component {
     }
 
     appClick = () => {
-        console.log(`ID: ${this.state.id}\nPW: ${this.state.pw}\nYEAR: ${this.state.year}
-REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.state.english}
-CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
+        const data = {
+            email: this.state.id,
+            year: this.state.year,
+            register: this.state.register,
+            course: this.state.course,
+            english: this.state.english,
+            category: this.state.category,
+            score: this.state.score
+        }
+
+        fetch("/updateuserinfo", {
+            method: 'post',
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(data)
+        })
+        alert('변경이 완료되었습니다.')
+        document.location.href = '/'
     }
 
     render() {
@@ -59,7 +104,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                     마이페이지
                 </Box>
                 <Box className="text_area" component="form">
-                    <span style={{fontSize:'14px'}}>가입정보</span>
+                    <span style={{ fontSize: '14px' }}>가입정보</span>
                     <Stack direction="row" spacing={2}>
                         <TextField
                             className="text"
@@ -70,13 +115,13 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                             variant="outlined"
                             size="small"
                             margin="normal"
-                            onChange={appChange} 
-                            sx={{width: 250}} />
+                            onChange={appChange}
+                            sx={{ width: 250 }} />
                     </Stack>
                 </Box>
                 <br />
                 <Box className="select_area">
-                    <span  style={{fontSize:'14px'}}>개인정보</span>
+                    <span style={{ fontSize: '14px' }}>개인정보</span>
                     <Stack direction="row" spacing={2} mt={2}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="year">입학년도</InputLabel>

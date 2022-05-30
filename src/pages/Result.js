@@ -45,12 +45,15 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 const Result = () => {
     useEffect(() => {
+        const data = {
+            email: sessionStorage.getItem('userId')
+        }
         fetch("/result", {
             method: 'post',
             headers: {
                 "content-type": "application/json",
             },
-            body: JSON.stringify()
+            body: JSON.stringify(data)
         })
     })
 

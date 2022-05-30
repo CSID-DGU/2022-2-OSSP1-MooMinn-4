@@ -4,23 +4,22 @@ import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import "./css/Home.css";
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Home = () => {
     useEffect(() => {
         console.log(sessionStorage.getItem('userId'))
         if (sessionStorage.getItem('userId') === null) {
             // 로그인 안 되었다면
-            setIsSignIn(true)
+            setIsSignIn(false)
         }
         else {
             // 로그인 되었다면
-            setIsSignIn(false)
+            setIsSignIn(true)
         }
     })
 
-    const [isSignIn, setIsSignIn] = useState(true)
+    const [isSignIn, setIsSignIn] = useState(false)
     const onClickLogout = () => {
         sessionStorage.clear()
         window.location.replace('/')
@@ -38,12 +37,12 @@ const Home = () => {
                 </div>
             </div>
             <Stack className="btn_area" spacing={1}>
-                {isSignIn && 
+                {!isSignIn &&
                     <Link to='/signin'>
                         <button className="btn" variant="contained">로그인</button>
                     </Link>
                 }
-                {!(isSignIn) &&
+                {isSignIn &&
                     <>
                         <Link to='/input'>
                             <button className="btn" variant="contained">입력</button>
