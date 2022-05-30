@@ -57,7 +57,7 @@ const FindPW = () => {
     const onChangePasswordCheck = (e) => { setPasswordCheck(e.target.value) }
     const handleClickChangePassword = () => {
         const data = {
-            ID: email + '@' + emailAddress,
+            email: email + '@' + emailAddress,
             pw: password,
         }
 
@@ -173,6 +173,7 @@ const FindPW = () => {
         }
         // 일치하지 않으면
         else {
+            setIncorrectSecureCode(true)
             alert('보안코드가 잘못 입력되었습니다.')
         }
 
