@@ -5,12 +5,9 @@ const port = 3001;
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const mysql = require('mysql')
-<<<<<<< HEAD
 const { default: axios } = require('axios');
 const { ConnectingAirportsOutlined } = require('@mui/icons-material');
 const { BOOLEAN } = require('sequelize');
-=======
->>>>>>> e51e4309d1a73fb13bf7a48ba33ea3e6e4cdb186
 const http = require('http').createServer(app)
 let nodemailer = require('nodemailer');
 const { fileURLToPath } = require('url');
@@ -203,11 +200,11 @@ app.post("/result",(req,res)=>{
     var sql14 = 'select StudentNumber As result from UserInfo where ID =?'//학번 판별
    
 	// 공통 교양 판별
-	var necessay_common_class = ['RGC-1074%', 'RGC-0017%', 'RGC-0018%', 'RGC-0003%', 'RGC-0005%']//공통 필수 과목
-	var select_common_class = ['RGC-1050%', 'RGC-1051%', 'RGC-1052%']//공통 선택 필수 과목
-	var EAS1_common_class = ['RGC-1080%', 'RGC-1033%']//EAS1
-	var EAS2_common_class = ['RGC-1081%', 'RGC-1034%']//EAS2
-    var math_class = ['PRI-4001%','PRI-4023%','PRI-4024%']//수학 필수 과목
+	const necessay_common_class = ['RGC-1074%', 'RGC-0017%', 'RGC-0018%', 'RGC-0003%', 'RGC-0005%']//공통 필수 과목
+	const select_common_class = ['RGC-1050%', 'RGC-1051%', 'RGC-1052%']//공통 선택 필수 과목
+	const EAS1_common_class = ['RGC-1080%', 'RGC-1033%']//EAS1
+	const EAS2_common_class = ['RGC-1081%', 'RGC-1034%']//EAS2
+    const math_class = ['PRI-4001%','PRI-4023%','PRI-4024%']//수학 필수 과목
 	// 필수 공통 교양 판별
 	for (var i = 0; i < necessay_common_class.length; i++){
 	let isNotClass = document.createElement('isNotClass')//수강하지 않은 강의를 담을 배열
@@ -225,6 +222,7 @@ app.post("/result",(req,res)=>{
                 res.send(err)
                 console.log('필수 공통 교양 판별 error')
             }
+        }
         )
     }
     // 선택 필수 공통 교양 판별
@@ -407,6 +405,7 @@ app.post("/result",(req,res)=>{
                     console.log('해당 강의를 수강함')
                 }
             }
+        }
         )
     }
     connection.query(sql13, [email],
