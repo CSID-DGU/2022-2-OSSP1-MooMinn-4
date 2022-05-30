@@ -207,7 +207,7 @@ app.post("/result",(req,res)=>{
     const math_class = ['PRI-4001%','PRI-4023%','PRI-4024%']//수학 필수 과목
 	// 필수 공통 교양 판별
 	for (var i = 0; i < necessay_common_class.length; i++){
-	let isNotClass = document.createElement('isNotClass')//수강하지 않은 강의를 담을 배열
+	var isNotClass = new Array()//수강하지 않은 강의를 담을 배열
 	connection.query(sql1, [email, necessary_common_class[i]],
 		function (err, data) {
 			if (!err) {
@@ -394,7 +394,7 @@ app.post("/result",(req,res)=>{
         } )
     
     for(var i=0; i<necessary_major_class.length; i++){
-    let isNotClass=document.createElement('isNotClass')
+    var isNotClass= new Array()
     connection.query(sql6,[email, necessary_major_class[i]],
         function(err,data){
             if(!err){
