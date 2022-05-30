@@ -200,13 +200,13 @@ app.post("/result",(req,res)=>{
     var sql14 = 'select StudentNumber As result from UserInfo where ID =?'//학번 판별
    
 	// 공통 교양 판별
-	const necessay_common_class = ['RGC-1074%', 'RGC-0017%', 'RGC-0018%', 'RGC-0003%', 'RGC-0005%']//공통 필수 과목
+	const necessary_common_class = ['RGC-1074%', 'RGC-0017%', 'RGC-0018%', 'RGC-0003%', 'RGC-0005%']//공통 필수 과목
 	const select_common_class = ['RGC-1050%', 'RGC-1051%', 'RGC-1052%']//공통 선택 필수 과목
 	const EAS1_common_class = ['RGC-1080%', 'RGC-1033%']//EAS1
 	const EAS2_common_class = ['RGC-1081%', 'RGC-1034%']//EAS2
     const math_class = ['PRI-4001%','PRI-4023%','PRI-4024%']//수학 필수 과목
 	// 필수 공통 교양 판별
-	for (var i = 0; i < necessay_common_class.length; i++){
+	for (var i = 0; i < necessary_common_class.length; i++){
 	var isNotClass = new Array()//수강하지 않은 강의를 담을 배열
 	connection.query(sql1, [email, necessary_common_class[i]],
 		function (err, data) {
@@ -296,7 +296,7 @@ app.post("/result",(req,res)=>{
     )
 
     for (var i = 0; i < math_class.length; i++) {
-        let isNotClass = document.createElement('isNotClass')//수강하지 않은 강의를 담을 배열
+        var isNotClass = new Array//수강하지 않은 강의를 담을 배열
         connection.query(sql1, [email, math_class[i]],
             function (err, data) {
                 if (!err) {
