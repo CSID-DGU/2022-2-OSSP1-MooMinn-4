@@ -60,9 +60,10 @@ app.post("/signup", (req, res) => {
 
     var sql = 'INSERT INTO UserInfo (`ID`, `Pincode`, `Semester`, `StudentNumber`, `Course`, `Score`, `EnglishGrade`) VALUES (?, ?, ?, ?, ?, ?, ?)'
     var params = [email, pw, semester, year, course, score, english]
+    console.log(sql + params)
     connection.query(sql, params,
         function (err, rows) {
-            if (err) {
+            if (!err) {
                 res.end()
             } else {
                 res.json(err)

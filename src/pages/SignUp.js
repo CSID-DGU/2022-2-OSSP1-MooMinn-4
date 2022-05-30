@@ -48,14 +48,15 @@ const SignUp = () => {
         email: email + '@' + emailAddress,
         pw: password,
         year: year,
-        register: semester,
+        semester: semester,
         course: course,
         english: english,
         category: category,
         score: score,
     }
 
-    const onClickDuplication = () => {
+    const onClickDuplication = (e) => {
+        e.preventDefault()
         const body = {
             email: data.email
         }
@@ -65,33 +66,41 @@ const SignUp = () => {
         }
         else {
             setEmptyEmail(false)
-            fetch("/emailcheck", {
-                method: 'post',
-                headers: {
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify(body),
-            })
-                .then((res) => res.json())
-                .then((json) => {
-                    console.log(json)
-
-                    if (json.result === 1) {
-                        // 중복
-                        alert('중복된 ID입니다.')
-                    }
-                    else {
-                        // 사용가능
-                        setDuplicatedEmail(false)
-                        alert('사용가능한 ID입니다.')
-                    }
-
+            if (emailAddress === '') {
+                setEmptyEmailAddress(true)
+                alert('이메일주소를 고르세요.')
+            }
+            else {
+                setEmptyEmailAddress(false)
+                fetch("/emailcheck", {
+                    method: 'post',
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(body),
                 })
-                .catch()
+                    .then((res) => res.json())
+                    .then((json) => {
+                        console.log(json)
+
+                        if (json.result === 1) {
+                            // 중복
+                            alert('중복된 ID입니다.')
+                        }
+                        else {
+                            // 사용가능
+                            setDuplicatedEmail(false)
+                            alert('사용가능한 ID입니다.')
+                        }
+
+                    })
+                    .catch()
+            }
         }
     }
 
-    const onClickSignUp = () => {
+    const onClickSignUp = (e) => {
+        e.preventDefault()
         if (email === '') { setEmptyEmail(true) }
         else { setEmptyEmail(false) }
         if (emailAddress === '') { setEmptyEmailAddress(true) }
@@ -122,6 +131,8 @@ const SignUp = () => {
                 body: JSON.stringify(data),
             })
                 .then(res => console.log(res))
+            alert("회원가입 성공!")
+            window.location.replace('/')
         }
     }
 
@@ -153,6 +164,7 @@ const SignUp = () => {
                     <Stack className="helperStack">
                         <Stack direction="row" alignItems="center" spacing={1}>
                             <TextField // 이메일 입력
+                                disabled={!duplicatedEmail}
                                 className="email"
                                 error={emptyEmail}
                                 name="id"
@@ -165,6 +177,7 @@ const SignUp = () => {
                             <FormControl sx={{ width: 140 }} size="small">
                                 <InputLabel id="emailAdress" sx={{ marginTop: 1 }}>이메일주소</InputLabel>
                                 <Select
+                                    disabled={!duplicatedEmail}
                                     className="select"
                                     error={emptyEmailAddress}
                                     labelId="emailAddress"
@@ -184,7 +197,7 @@ const SignUp = () => {
                         </Stack>
                         <span className="helper">{emptyEmail && '이메일을 입력하세요.'}</span>
                     </Stack>
-                    <button onClick={onClickDuplication} className="check_btn" title="중복확인">
+                    <button disabled={!duplicatedEmail} onClick={onClickDuplication} className="check_btn" title="중복확인">
                         <Stack direction="row" alignItems="center" spacing={0.5}>
                             <CheckIcon fontSize="small" /><span className="check_text">중복확인</span>
                         </Stack>

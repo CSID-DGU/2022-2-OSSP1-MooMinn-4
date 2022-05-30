@@ -79,6 +79,7 @@ const FindPW = () => {
                 },
                 body: JSON.stringify(data),
             })
+            alert('비밀번호 변경!')
             window.location.replace('/')
         }
         else {
@@ -192,7 +193,7 @@ const FindPW = () => {
                     <Box className="findPW">
                         비밀번호찾기
                     </Box>
-                    <span style={{fontSize:'14px'}}>이메일 확인</span>
+                    <span style={{ fontSize: '14px' }}>이메일 확인</span>
                     <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" spacing={{ xs: 0, sm: 4 }}>
                         <Stack direction="row" alignItems="center" spacing={1}>
                             <TextField
@@ -207,9 +208,9 @@ const FindPW = () => {
                                 size="small"
                                 margin='normal'
                                 onChange={onChangeEmail} />
-                            <span style={{marginTop:6}}>@</span>
-                            <FormControl sx={{width: 150}} size="small">
-                                <InputLabel id="emailAdress" sx={{marginTop:1}}>이메일주소</InputLabel> 
+                            <span style={{ marginTop: 6 }}>@</span>
+                            <FormControl sx={{ width: 150 }} size="small">
+                                <InputLabel id="emailAdress" sx={{ marginTop: 1 }}>이메일주소</InputLabel>
                                 <Select
                                     disabled={emailCheck}
                                     className="select"
@@ -220,7 +221,7 @@ const FindPW = () => {
                                     label="이메일 주소"
                                     onChange={onChangeEmailAddress}
                                     size="small"
-                                    sx={{marginTop:1}}
+                                    sx={{ marginTop: 1 }}
                                 >
                                     {
                                         EMAILADDRESS.map((emailAddress, idx) => {
@@ -257,7 +258,7 @@ const FindPW = () => {
                             </Button>
                         </Stack>
                     </Stack>
-                    <span style={{fontSize:'14px'}}>비밀번호 변경</span>
+                    <span style={{ fontSize: '14px' }}>비밀번호 변경</span>
                     <Stack spacing={1} className="PW_Stack">
                         <TextField
                             disabled={!securityCheck}
