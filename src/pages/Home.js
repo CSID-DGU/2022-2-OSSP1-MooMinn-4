@@ -37,20 +37,12 @@ const Home = () => {
                 </div>
             </div>
             <Stack className="btn_area" spacing={1}>
-<<<<<<< HEAD
                 {!isSignIn &&
-=======
-                {isSignIn && 
->>>>>>> c196337148aecb0beb509feefd89f083c68239e2
                     <Link to='/signin'>
                         <button className="btn" variant="contained">로그인</button>
                     </Link>
                 }
-<<<<<<< HEAD
                 {isSignIn &&
-=======
-                {!(isSignIn) &&
->>>>>>> c196337148aecb0beb509feefd89f083c68239e2
                     <>
                         <Link to='/input'>
                             <button className="btn" variant="contained">입력</button>

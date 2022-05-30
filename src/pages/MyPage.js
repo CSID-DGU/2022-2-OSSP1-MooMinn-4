@@ -37,7 +37,6 @@ class MyPage extends Component {
         })
             .then((res) => res.json())
             .then((json) => {
-                console.log(json)
                 this.setState({
                     year: json.StudentNumber,
                     register: json.Semester,
@@ -58,10 +57,6 @@ class MyPage extends Component {
     }
 
     appClick = () => {
-        console.log(`ID: ${this.state.id}\nPW: ${this.state.pw}\nYEAR: ${this.state.year}
-REGISTER: ${this.state.register}\nCOURSE: ${this.state.course}\nENGLISH: ${this.state.english}
-CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
-
         const data = {
             email: this.state.id,
             year: this.state.year,
@@ -109,7 +104,7 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                     마이페이지
                 </Box>
                 <Box className="text_area" component="form">
-                    <span style={{fontSize:'14px'}}>가입정보</span>
+                    <span style={{ fontSize: '14px' }}>가입정보</span>
                     <Stack direction="row" spacing={2}>
                         <TextField
                             className="text"
@@ -120,13 +115,13 @@ CATEGORY: ${this.state.category}\nSCORE: ${this.state.score}`);
                             variant="outlined"
                             size="small"
                             margin="normal"
-                            onChange={appChange} 
-                            sx={{width: 250}} />
+                            onChange={appChange}
+                            sx={{ width: 250 }} />
                     </Stack>
                 </Box>
                 <br />
                 <Box className="select_area">
-                    <span  style={{fontSize:'14px'}}>개인정보</span>
+                    <span style={{ fontSize: '14px' }}>개인정보</span>
                     <Stack direction="row" spacing={2} mt={2}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="year">입학년도</InputLabel>

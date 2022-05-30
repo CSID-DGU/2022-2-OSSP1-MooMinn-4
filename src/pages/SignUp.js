@@ -13,12 +13,9 @@ import Header from '../components/Header';
 const SignUp = () => {
     const [email, setEmail] = React.useState('')
     const [emptyEmail, setEmptyEmail] = React.useState(false)
-<<<<<<< HEAD
     const [duplicatedEmail, setDuplicatedEmail] = React.useState(true)
-=======
     const [emailAddress, setEmailAddress] = React.useState('')
     const [emptyEmailAddress, setEmptyEmailAddress] = React.useState(false)
->>>>>>> c196337148aecb0beb509feefd89f083c68239e2
     const [password, setPassword] = React.useState('')
     const [emptyPW, setEmptyPW] = React.useState(false)
     const [year, setYear] = React.useState('')
@@ -35,7 +32,7 @@ const SignUp = () => {
     const [incorrectPW, setCorrectPW] = React.useState(false)
 
     const EMAILADDRESS = ['naver.com', 'gmail.com', 'dgu.ac.kr', 'daum.net', 'hanmail.com', 'nate.com']
-    
+
     const onChangeEmail = (e) => { setEmail(e.target.value) }
     const onChangeEmailAddress = (e) => { setEmailAddress(e.target.value) }
     const onChangePassword = (e) => { setPassword(e.target.value) }
@@ -113,7 +110,6 @@ const SignUp = () => {
         else { setCorrectPW(true) }
 
 
-<<<<<<< HEAD
         if (duplicatedEmail) {
             alert('이메일 중복확인을 하세요.')
         }
@@ -127,23 +123,13 @@ const SignUp = () => {
             })
                 .then(res => console.log(res))
         }
-=======
-        fetch("/signup", {
-            method: 'post',
-            headers: {
-                "content-type": "application/json",
-            },
-            body: JSON.stringify(data),
-        })
-            .then(res => console.log(res))
->>>>>>> c196337148aecb0beb509feefd89f083c68239e2
     }
 
     const YEAR = [2018, 2019, 2020, 2021, 2022];
     const SEMESTER = [8, 7, 6, 5, 4, 3, 2, 1];
     const COURSE = ["심화", "일반"];
     const ENGLISH = [0, 1, 2, 3, 4];
-    const CATEGORY = ["토익", "토플CBT", "토플IBT", "텝스", "TOEIC Speaking", "OPIc", "Cambridge ESOL Examinations", "IELTS Academic", "G-TELP","없음"];
+    const CATEGORY = ["토익", "토플CBT", "토플IBT", "텝스", "TOEIC Speaking", "OPIc", "Cambridge ESOL Examinations", "IELTS Academic", "G-TELP", "없음"];
     const SCORE_TOEIC = [550, 600, 620, 650, 680, 700, 750, 800];
     const SCORE_CBT = [136, 177, 182, 192, 200, 207, 212, 227];
     const SCORE_IBT = [57, 62, 64, 68, 72, 76, 82, 87];
@@ -162,33 +148,22 @@ const SignUp = () => {
                 회원가입
             </Box>
             <Box className="text_area" component="form">
-                <span style={{fontSize:'14px'}}>가입정보</span>
+                <span style={{ fontSize: '14px' }}>가입정보</span>
                 <Stack direction="row" alignItems="center" spacing={2}>
                     <Stack className="helperStack">
-<<<<<<< HEAD
-                        <TextField // 이메일 입력
-                            className="text"
-                            error={emptyEmail}
-                            name="id"
-                            label="이메일"
-                            variant="outlined"
-                            size="small"
-                            margin="normal"
-                            onChange={onChangeEmail} />
-=======
                         <Stack direction="row" alignItems="center" spacing={1}>
                             <TextField // 이메일 입력
                                 className="email"
                                 error={emptyEmail}
-                                name="id" 
-                                label="이메일" 
-                                variant="outlined" 
-                                size="small" 
+                                name="id"
+                                label="이메일"
+                                variant="outlined"
+                                size="small"
                                 margin="normal"
                                 onChange={onChangeEmail} />
-                            <span style={{marginTop:6}}>@</span>
-                            <FormControl sx={{width: 140}} size="small">
-                                <InputLabel id="emailAdress" sx={{marginTop:1}}>이메일주소</InputLabel> 
+                            <span style={{ marginTop: 6 }}>@</span>
+                            <FormControl sx={{ width: 140 }} size="small">
+                                <InputLabel id="emailAdress" sx={{ marginTop: 1 }}>이메일주소</InputLabel>
                                 <Select
                                     className="select"
                                     error={emptyEmailAddress}
@@ -197,7 +172,7 @@ const SignUp = () => {
                                     name="emailAddress"
                                     label="이메일 주소"
                                     onChange={onChangeEmailAddress}
-                                    sx={{marginTop:1}}
+                                    sx={{ marginTop: 1 }}
                                 >
                                     {
                                         EMAILADDRESS.map((emailAddress, idx) => {
@@ -207,53 +182,25 @@ const SignUp = () => {
                                 </Select>
                             </FormControl>
                         </Stack>
->>>>>>> c196337148aecb0beb509feefd89f083c68239e2
                         <span className="helper">{emptyEmail && '이메일을 입력하세요.'}</span>
                     </Stack>
                     <button onClick={onClickDuplication} className="check_btn" title="중복확인">
                         <Stack direction="row" alignItems="center" spacing={0.5}>
-                            <CheckIcon fontSize="small"/><span className="check_text">중복확인</span>
+                            <CheckIcon fontSize="small" /><span className="check_text">중복확인</span>
                         </Stack>
                     </button>
                 </Stack>
-<<<<<<< HEAD
-                <Stack className="helperStack">
-                    <TextField // 비밀번호 입력
-                        className="text"
-                        error={emptyPW}
-                        value={password}
-                        name="pw"
-                        label="비밀번호"
-                        type="Password"
-                        size="small"
-                        margin="normal"
-                        onChange={onChangePassword} />
-                    <span className="helper">{emptyPW && '비밀번호를 입력하세요.'}</span>
-                </Stack>
-                <Stack className="helperStack">
-                    <TextField // 비밀번호 확인
-                        className="text"
-                        error={incorrectPW}
-                        value={passwordCheck}
-                        name="pw"
-                        label="비밀번호 확인"
-                        type="Password"
-                        size="small"
-                        margin="normal"
-                        onChange={onChangePasswordCheck} />
-                    <span className="helper">{incorrectPW && '비밀번호가 다릅니다.'}</span>
-=======
                 <Stack direction="row" spacing={2}>
                     <Stack className="helperStack">
                         <TextField // 비밀번호 입력
                             className="text"
                             error={emptyPW}
                             value={password}
-                            name="pw" 
-                            label="비밀번호" 
-                            type="Password" 
-                            size="small" 
-                            margin="normal" 
+                            name="pw"
+                            label="비밀번호"
+                            type="Password"
+                            size="small"
+                            margin="normal"
                             onChange={onChangePassword} />
                         <span className="helper">{emptyPW && '비밀번호를 입력하세요.'}</span>
                     </Stack>
@@ -262,19 +209,18 @@ const SignUp = () => {
                             className="text"
                             error={incorrectPW}
                             value={passwordCheck}
-                            name="pw" 
-                            label="비밀번호 확인" 
-                            type="Password" 
-                            size="small" 
+                            name="pw"
+                            label="비밀번호 확인"
+                            type="Password"
+                            size="small"
                             margin="normal"
                             onChange={onChangePasswordCheck} />
                         <span className="helper">{incorrectPW && '비밀번호가 다릅니다.'}</span>
                     </Stack>
->>>>>>> c196337148aecb0beb509feefd89f083c68239e2
                 </Stack>
             </Box>
             <Box className="select_area" component="form" mt={2}>
-                <span  style={{fontSize:'14px'}}>개인정보</span>
+                <span style={{ fontSize: '14px' }}>개인정보</span>
                 <Stack direction="row" spacing={2} mt={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="year">입학년도</InputLabel>
