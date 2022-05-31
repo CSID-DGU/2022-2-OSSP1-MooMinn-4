@@ -594,9 +594,9 @@ app.post("/result", (req, res) => {
         function (err, rows, fields) {
             if (!err) {
                 for (var i = 0; i < rows.length; i++) {
-                    temp += row[i].ClassScore * rows[i].ClassCredit
+                    temp += rows[i].ClassScore * rows[i].ClassCredit
                 }
-                connection.query(sql9,
+                connection.query(sql9, [email],
                     function (err, data) {
                         if (!err) {
                             sumOfCredit = data[0].result
