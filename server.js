@@ -478,7 +478,7 @@ app.post("/result", (req, res) => {
                     )
 
                     // 전공 전문 학점 수가 42학점이 되는지 여부 확인
-                    sumOfCredit = 0;
+                  
                     connection.query(sql8, [email, '전문'],
                         function (err, data) {
                             if (!err) {
@@ -495,7 +495,7 @@ app.post("/result", (req, res) => {
                     )
 
                     //총 학점이 140점이 되는지 여부 확인
-                    sumOfCredit = 0;
+                  
                     connection.query(sql9, [email],
                         function (err, data) {
                             if (!err) {
@@ -511,7 +511,7 @@ app.post("/result", (req, res) => {
                         }
                     )
                 } else {//전공 학점 계산 72학점 이상
-                    var sumOfCredit = 0;
+                   
 
                     connection.query(sql7, [email, '전공'],
                         function (err, data) {
@@ -588,6 +588,7 @@ app.post("/result", (req, res) => {
         }
     )
     
+    var sumOfCredit =0
     var temp=0
     //평점 평균이 2.0을 넘는지 조건 확인
     connection.query(sql11, [email],
