@@ -50,7 +50,6 @@ const UploadFile = () => {
                 },
                 body: JSON.stringify(UserDatas),
             })
-            .then(res => console.log(res))
             alert("성적이 입력되었습니다!")
             window.location.replace('/result')
         }
