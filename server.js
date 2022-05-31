@@ -216,9 +216,9 @@ app.post("/result", (req, res) => {
 
     var sql1 = 'select count(*) AS result From UserSelectList where UserID = ? and CNumber like ?'// 필수과목 판별시 사용
     var sql2  = 'select count(*) AS result from UserSelectList where UserID = ? and (CNumber like ? or CNumber like ? or CNumber like ?)'//선택과목 판별시 사용(3과목)
-    var sql3 = 'select count(*) AS result from UserSelectList where where UserID = ? and (CNumber like ? or CNumber like ?)'//EAS 판별시 사용(2과목)
+    var sql3 = 'select count(*) AS result from UserSelectList where UserID = ? and (CNumber like ? or CNumber like ?)'//EAS 판별시 사용(2과목)
     var sql4 = 'select EnglishGrade As result from UserInfo where ID = ?'// S0인지 아닌지 판별할 떄 사용
-    var sql5 = 'select sum(ClassCredit) As result from UserSelectList,Lecture where where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? and ClassArea like ?'//기본소양, BSM수학,Bsm과학 학점 판정시 사용
+    var sql5 = 'select sum(ClassCredit) As result from UserSelectList,Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? and ClassArea like ?'//기본소양, BSM수학,Bsm과학 학점 판정시 사용
     var sql6= 'select count(*) AS result from UserSelectList where UserID = ? and CNumber like ?' //필수 전공과목 이수 판별
     var sql7= 'select sum(ClassCredit) AS result from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) UserID = ? and Curriculum=?'//전공 학점 수가 84학점이 되는지 여부 확인
     var sql8= 'select sum(ClassCredit) AS result from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) UserID = ? and ClassArea=?'// 전공 전문 학점 수가 42학점이 되는지 여부 확인
@@ -231,7 +231,7 @@ app.post("/result", (req, res) => {
 
     // 공통 교양 판별
     const necessary_common_class = ['RGC-1074%', 'RGC-0017%', 'RGC-0018%', 'RGC-0003%', 'RGC-0005%']//공통 필수 과목
-    const select_common_class = ['RGC-1050%', 'RGC-1051%', 'RGC-1052%']//공통 선택 필수 과목
+    const select_common_class = [email,'RGC-1050%', 'RGC-1051%', 'RGC-1052%']//공통 선택 필수 과목
     const EAS1_common_class = ['RGC-1080%', 'RGC-1033%']//EAS1
     const EAS2_common_class = ['RGC-1081%', 'RGC-1034%']//EAS2
     const math_class = ['PRI-4001%', 'PRI-4023%', 'PRI-4024%']//수학 필수 과목
@@ -255,7 +255,7 @@ app.post("/result", (req, res) => {
         )
     }
     // 선택 필수 공통 교양 판별
-    connection.query(sql2, [email, select_common_class],
+    connection.query(sql2, select_common_class,
         function (err, data) {
             if (!err) {
                 if (data[0].result > 0) {//리더쉽 수업을 적어도 하나를 이수한 경우
