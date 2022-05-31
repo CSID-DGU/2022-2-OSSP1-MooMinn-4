@@ -25,11 +25,6 @@ const Input = () => {
                 <img className="guide_img" alt="엑셀 파일 다운로드 방법" src="img/guide2.png"></img>
             </Box>
             <UploadFile />
-            <Box className="btn_area">
-                <Link to='/result'>
-                    <button className="btn">계산</button>
-                </Link>
-            </Box>
         </div>
     );
 };

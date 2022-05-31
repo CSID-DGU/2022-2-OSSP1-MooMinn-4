@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import "./css/Home.css";
 import { useState, useEffect } from 'react';
 
@@ -57,6 +58,13 @@ const Home = () => {
                             <Link to="/" style={{ color: 'black', textDecoration: 'none' }}>
                                 <Stack direction="row" onClick={onClickLogout}>
                                     <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
+                                </Stack>
+                            </Link>
+                        </Box>
+                        <Box className="mypage_home" title="마이페이지">
+                            <Link to="/mypage" style={{ color: 'black', textDecoration: 'none' }}>
+                                <Stack direction="row">
+                                    <AccountCircleRoundedIcon /><div className="tool_title">마이페이지</div>
                                 </Stack>
                             </Link>
                         </Box>

@@ -71,6 +71,30 @@ app.post("/signup", (req, res) => {
         })
 })
 
+app.post("/input", (req, res) => {
+    const UserDatas = req.body
+
+    var sql = ''
+    for (var i=1; i < UserDatas.length; i++) {
+        const UserID = UserDatas[0].email
+        const TNumber = UserDatas[i].TNumber
+        const CNumber = UserDatas[i].CNumber
+        const ClassScore = UserDatas[i].ClassScore
+        sql += 'INSERT INTO `UserSelectList` VALUES (\''+UserID+'\',\''+TNumber+'\',\''+CNumber+'\',\''+ClassScore+'\');'
+    }
+    console.log(sql)
+    connection.query(sql, 
+        function (err, rows) {
+            if (!err) {
+                console.log("성공")
+                res.end()
+            } else {
+                console.log("실패", err)
+                res.json(err)
+            }
+        })
+})
+
 app.post("/signin", (req, res) => {
     const email = req.body.email
     const pw = req.body.pw
