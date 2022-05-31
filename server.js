@@ -239,18 +239,18 @@ app.post("/result", (req, res) => {
     const email = req.body.email
 
     var sql1 = 'select count(*) AS result From UserSelectList where UserID = ? and CNumber like ?'// 필수과목 판별시 사용
-    var sql2 = 'select count(*) AS result from UserSelectList where UserID = ? and CNumber like ? or CNumber like ? or CNumber like ?'//선택과목 판별시 사용(3과목)
-    var sql3 = 'select count(*) AS result from UserSelectList where where UserID = ? and CNumber like ? or CNumber like ?'//EAS 판별시 사용(2과목)
+    var sql2  = 'select count(*) AS result from UserSelectList where UserID = ? and (CNumber like ? or CNumber like ? or CNumber like ?)'//선택과목 판별시 사용(3과목)
+    var sql3 = 'select count(*) AS result from UserSelectList where where UserID = ? and (CNumber like ? or CNumber like ?)'//EAS 판별시 사용(2과목)
     var sql4 = 'select EnglishGrade As result from UserInfo where ID = ?'// S0인지 아닌지 판별할 떄 사용
-    var sql5 = 'select sum(ClassCredit) As result from UserSelectList,Lecture where where TNumber = TermNumber,CNumber=ClassNumber, UserID = ? and ClassArea like ?'//기본소양, BSM수학,Bsm과학 학점 판정시 사용
-    var sql6 = 'select count(*) AS result from UserSelectList where UserID = ? and CNumber like ?' //필수 전공과목 이수 판별
-    var sql7 = 'select sum(ClassCredit) AS result from UserSelectList,Lecture where TNumber = TermNumber, CNumber=ClassNumber, UserID = ? and Curriculum=?'//전공 학점 수가 84학점이 되는지 여부 확인
-    var sql8 = 'select sum(ClassCredit) AS result from UserSelectList,Lecture where CNumber=ClassNumber, UserID = ? and ClassArea=?'// 전공 전문 학점 수가 42학점이 되는지 여부 확인
-    var sql9 = 'select sum(ClassCredit) AS result from UserSelectList,Lecture where TNumber = TermNumber, UserID = ? and CNumber=ClassNumber'//총 학점이 140점이 되는지 여부 확인
-    var sql10 = 'select Score AS result from UserInfo where ID= ?'//외국어 성적이 700을 넘는지 조건 확인
-    var sql11 = 'select ClassScore,ClassCredit from UserSelectList, Lecture where TNumber = TermNumber, CNumber=ClassNumber ,UserID = ?'//평점 평균이 2.0을 넘는지 조건 확인
-    var sql12 = 'select sum(EnglishClass) AS result from UserSelectList, Lecture where CNumber=ClassNumber, TNumber=TermNumber ,UserID = ?' //영어 강의 수가 4개 이상인지 조건 확인
-    var sql13 = 'select Course AS result from UserInfo where ID = ?'//일반 심화 판별
+    var sql5 = 'select sum(ClassCredit) As result from UserSelectList,Lecture where where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? and ClassArea like ?'//기본소양, BSM수학,Bsm과학 학점 판정시 사용
+    var sql6= 'select count(*) AS result from UserSelectList where UserID = ? and CNumber like ?' //필수 전공과목 이수 판별
+    var sql7= 'select sum(ClassCredit) AS result from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) UserID = ? and Curriculum=?'//전공 학점 수가 84학점이 되는지 여부 확인
+    var sql8= 'select sum(ClassCredit) AS result from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) UserID = ? and ClassArea=?'// 전공 전문 학점 수가 42학점이 되는지 여부 확인
+    var sql9= 'select sum(ClassCredit) AS result from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ?'//총 학점이 140점이 되는지 여부 확인
+    var sql10= 'select Score AS result from UserInfo where ID= ?'//외국어 성적이 700을 넘는지 조건 확인
+    var sql11= 'select ClassScore,ClassCredit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ?'//평점 평균이 2.0을 넘는지 조건 확인
+    var sql12= 'select sum(EnglishClass) AS result from UserSelectList, Lecture where (CNumber=ClassNumber and TNumber=TermNumber) and UserID = ?' //영어 강의 수가 4개 이상인지 조건 확인
+    var sql13= 'select Course AS result from UserInfo where ID = ?'//일반 심화 판별
     var sql14 = 'select StudentNumber As result from UserInfo where ID =?'//학번 판별
 
     // 공통 교양 판별
@@ -570,8 +570,9 @@ app.post("/result", (req, res) => {
                     )
                 }
             }
-        })
-
+        }
+    )
+    
     //외국어 성적이 700을 넘는지 조건 확인
     connection.query(sql10, [email],
         function (err, data) {
@@ -588,7 +589,8 @@ app.post("/result", (req, res) => {
             }
         }
     )
-    var temp = 0
+    
+    var temp=0
     //평점 평균이 2.0을 넘는지 조건 확인
     connection.query(sql11, [email],
         function (err, rows, fields) {
