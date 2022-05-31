@@ -10,9 +10,6 @@ import './css/Result.css';
 import Header from '../components/Header';
 
 const Accordion = styled((props) => (
-
-
-
     <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
     '&:before': {

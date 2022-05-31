@@ -199,3 +199,14 @@ body {
   cursor:pointer;
 }
 
+.mypage_home {
+  /* background-color: #007FFF; */
+  position: absolute;
+  right: 23px;
+  top: 15px;
+} 
+
+.mypage_home:hover {
+  opacity: 0.7;
+  cursor:pointer;
+}
