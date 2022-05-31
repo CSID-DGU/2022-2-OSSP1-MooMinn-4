@@ -242,8 +242,8 @@ app.post("/result", (req, res) => {
     var sql4 = 'select EnglishGrade As result from UserInfo where ID = ?'// S0인지 아닌지 판별할 떄 사용
     var sql5 = 'select sum(ClassCredit) As result from UserSelectList,Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? and ClassArea like ?'//기본소양, BSM수학,Bsm과학 학점 판정시 사용
     var sql6= 'select count(*) AS result from UserSelectList where UserID = ? and CNumber like ?' //필수 전공과목 이수 판별
-    var sql7= 'select sum(ClassCredit) AS result from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) UserID = ? and Curriculum=?'//전공 학점 수가 84학점이 되는지 여부 확인
-    var sql8= 'select sum(ClassCredit) AS result from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) UserID = ? and ClassArea=?'// 전공 전문 학점 수가 42학점이 되는지 여부 확인
+    var sql7= 'select sum(ClassCredit) AS result from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ? and Curriculum=?'//전공 학점 수가 84학점이 되는지 여부 확인
+    var sql8= 'select sum(ClassCredit) AS result from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ? and ClassArea=?'// 전공 전문 학점 수가 42학점이 되는지 여부 확인
     var sql9= 'select sum(ClassCredit) AS result from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ?'//총 학점이 140점이 되는지 여부 확인
     var sql10= 'select Score AS result from UserInfo where ID= ?'//외국어 성적이 700을 넘는지 조건 확인
     var sql11= 'select ClassScore,ClassCredit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ?'//평점 평균이 2.0을 넘는지 조건 확인
@@ -252,11 +252,11 @@ app.post("/result", (req, res) => {
     var sql14 = 'select StudentNumber As result from UserInfo where ID =?'//학번 판별
 
     // 공통 교양 판별
-    const necessary_common_class = ['RGC-1074%', 'RGC-0017%', 'RGC-0018%', 'RGC-0003%', 'RGC-0005%']//공통 필수 과목
-    const select_common_class = [email,'RGC-1050%', 'RGC-1051%', 'RGC-1052%']//공통 선택 필수 과목
-    const EAS1_common_class = ['RGC-1080%', 'RGC-1033%']//EAS1
-    const EAS2_common_class = ['RGC-1081%', 'RGC-1034%']//EAS2
-    const math_class = ['PRI-4001%', 'PRI-4023%', 'PRI-4024%']//수학 필수 과목
+    const necessary_common_class = ['RGC1074%', 'RGC0017%', 'RGC0018%', 'RGC0003%', 'RGC0005%']//공통 필수 과목
+    const select_common_class = [email,'RGC1050%', 'RGC1051%', 'RGC1052%']//공통 선택 필수 과목
+    const EAS1_common_class = ['RGC1080%', 'RGC-1033%']//EAS1
+    const EAS2_common_class = ['RGC1081%', 'RGC-1034%']//EAS2
+    const math_class = ['PRI4001%', 'PRI4023%', 'PRI4024%']//수학 필수 과목
     // 필수 공통 교양 판별
     for (var i = 0; i < necessary_common_class.length; i++) {
         var isNotClass = new Array()//수강하지 않은 강의를 담을 배열
@@ -311,9 +311,9 @@ app.post("/result", (req, res) => {
                     )
                     //EAS2 판별
                     connection.query(sql3, [email, EAS2_common_class],
-                        function (err, data) {
+                        function (err, data2) {
                             if (!err) {
-                                if (data[0].result > 0) {//두 종류의 EAS2중 하나라도 수강한 경우
+                                if (data2[0].result > 0) {//두 종류의 EAS2중 하나라도 수강한 경우
                                     console.log('EAS2을 수강하였습니다')
                                 } else {//둘 다 수강하지 않은 경우
                                     console.log('EAS2을 수강하지 않았습니다')
@@ -437,9 +437,9 @@ app.post("/result", (req, res) => {
                                 console.log('필수 전공 배정 오류')
                             }
                         })
-                } else {
-                    console.log('학번 판정 오류')
-                }
+                } 
+            } else {
+                console.log('학번 판정 오류')
             }
         })
 
@@ -463,9 +463,9 @@ app.post("/result", (req, res) => {
             if (!err) {
                 if (data[0].result == '심화') {
                     connection.query(sql7, [email, '전공'],
-                        function (err, data) {
+                        function (err, data2) {
                             if (!err) {
-                                if (data[0].result >= 84) {
+                                if (data2[0].result >= 84) {
                                     console.log("전공학점을 만족합니다")
                                 } else {
                                     console.log("전공학점이 부족합니다")
@@ -480,9 +480,9 @@ app.post("/result", (req, res) => {
                     // 전공 전문 학점 수가 42학점이 되는지 여부 확인
                   
                     connection.query(sql8, [email, '전문'],
-                        function (err, data) {
+                        function (err, data2) {
                             if (!err) {
-                                if (data[0].result >= 42) {
+                                if (data2[0].result >= 42) {
                                     console.log("전문 학점을 만족합니다")
                                 } else {
                                     console.log("전문학점이 부족합니다")
@@ -497,9 +497,9 @@ app.post("/result", (req, res) => {
                     //총 학점이 140점이 되는지 여부 확인
                   
                     connection.query(sql9, [email],
-                        function (err, data) {
+                        function (err, data2) {
                             if (!err) {
-                                if (data[0].result >= 140) {
+                                if (data2[0].result >= 140) {
                                     console.log('총 학점 조건을 만족함')
                                 }
                                 else {
@@ -514,9 +514,9 @@ app.post("/result", (req, res) => {
                    
 
                     connection.query(sql7, [email, '전공'],
-                        function (err, data) {
+                        function (err, data2) {
                             if (!err) {
-                                if (data[0].result >= 72) {
+                                if (data2[0].result >= 72) {
                                     console.log('총 전공학점 조건을 만족함')
                                 }
                                 else {
@@ -534,9 +534,9 @@ app.post("/result", (req, res) => {
 
 
                     connection.query(sql8, [email, '전문'],
-                        function (err, data) {
+                        function (err, data2) {
                             if (!err) {
-                                if (data[0].result >= 36) {
+                                if (data2[0].result >= 36) {
                                     console.log('총 전문강의 수강 학점 조건을 만족함')
                                 }
                                 else {
@@ -552,9 +552,9 @@ app.post("/result", (req, res) => {
                     //총 학점이 130점이 되는지 여부 확인
                     sumOfCredit = 0;
                     connection.query(sql9, [email],
-                        function (err, data) {
+                        function (err, data2) {
                             if (!err) {
-                                if (data[0].result >= 130) {
+                                if (data2[0].result >= 130) {
                                     console.log('총 학점 조건을 만족함')
                                 }
                                 else {
