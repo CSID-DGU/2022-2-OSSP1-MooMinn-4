@@ -254,8 +254,8 @@ app.post("/result", (req, res) => {
     // 공통 교양 판별
     const necessary_common_class = ['RGC1074%', 'RGC0017%', 'RGC0018%', 'RGC0003%', 'RGC0005%']//공통 필수 과목
     const select_common_class = [email,'RGC1050%', 'RGC1051%', 'RGC1052%']//공통 선택 필수 과목
-    const EAS1_common_class = ['RGC1080%', 'RGC-1033%']//EAS1
-    const EAS2_common_class = ['RGC1081%', 'RGC-1034%']//EAS2
+    const EAS1_common_class = [email,'RGC1080%', 'RGC1033%']//EAS1
+    const EAS2_common_class = [email,'RGC1081%', 'RGC1034%']//EAS2
     const math_class = ['PRI4001%', 'PRI4023%', 'PRI4024%']//수학 필수 과목
     // 필수 공통 교양 판별
     for (var i = 0; i < necessary_common_class.length; i++) {
@@ -296,7 +296,7 @@ app.post("/result", (req, res) => {
             if (!err) {
                 if (data[0].result != 0) {
                     // EAS1 판별
-                    connection.query(sql3, [email, EAS1_common_class],
+                    connection.query(sql3, [EAS1_common_class],
                         function (err, data2) {
                             if (!err) {
                                 if (data2[0].result > 0) {//두 종류의 EAS1중 하나라도 이수한 경우
@@ -310,7 +310,7 @@ app.post("/result", (req, res) => {
                         }
                     )
                     //EAS2 판별
-                    connection.query(sql3, [email, EAS2_common_class],
+                    connection.query(sql3, [EAS2_common_class],
                         function (err, data2) {
                             if (!err) {
                                 if (data2[0].result > 0) {//두 종류의 EAS2중 하나라도 수강한 경우
