@@ -250,6 +250,7 @@ app.post("/result", (req, res) => {
     var sql12= 'select sum(EnglishClass) AS result from UserSelectList, Lecture where (CNumber=ClassNumber and TNumber=TermNumber) and UserID = ?' //영어 강의 수가 4개 이상인지 조건 확인
     var sql13= 'select Course AS result from UserInfo where ID = ?'//일반 심화 판별
     var sql14 = 'select StudentNumber As result from UserInfo where ID =?'//학번 판별
+    var sql15= 'select ClassScore,ClassCredit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and Curriculum=? and UserID = ?'//전공 평점 계산에 이용
 
     // 공통 교양 판별
     const necessary_common_class = ['RGC1074%', 'RGC0017%', 'RGC0018%', 'RGC0003%', 'RGC0005%']//공통 필수 과목
@@ -257,6 +258,7 @@ app.post("/result", (req, res) => {
     const EAS1_common_class = [email,'RGC1080%', 'RGC1033%']//EAS1
     const EAS2_common_class = [email,'RGC1081%', 'RGC1034%']//EAS2
     const math_class = ['PRI4001%', 'PRI4023%', 'PRI4024%']//수학 필수 과목
+    const major_classScore=[email,'전공']
     // 필수 공통 교양 판별
     for (var i = 0; i < necessary_common_class.length; i++) {
         var isNotClass = new Array()//수강하지 않은 강의를 담을 배열
@@ -512,10 +514,11 @@ app.post("/result", (req, res) => {
                     )
                 } else {//전공 학점 계산 72학점 이상
                    
-
+                    var SumofMajorCredit=0
                     connection.query(sql7, [email, '전공'],
                         function (err, data2) {
                             if (!err) {
+                                SumofMajorCredit=data2[0].result
                                 if (data2[0].result >= 72) {
                                     console.log('총 전공학점 조건을 만족함')
                                 }
@@ -590,6 +593,7 @@ app.post("/result", (req, res) => {
     
     var sumOfCredit =0
     var temp=0
+    var entireClassScore=0
     //평점 평균이 2.0을 넘는지 조건 확인
     connection.query(sql11, [email],
         function (err, rows, fields) {
@@ -607,7 +611,8 @@ app.post("/result", (req, res) => {
                         }
                     }
                 )
-                if (temp / sumOfCredit >= 2.0) {
+                entireClassScore=temp/sumOfCredit
+                if (entireClassScore>=2.0) {
                     console.log("총 평점 조건을 만족함")
                 }
                 else {
@@ -636,5 +641,39 @@ app.post("/result", (req, res) => {
             }
         }
     )
+    var temp2=0
+    var sumOfCredit=0
+    var majorClassScore=0
+    connection.query(sql15, major_classScore,
+        function (err, rows, fields) {
+            if (!err) {
+                for (var i = 0; i < rows.length; i++) {
+                    temp2 += rows[i].ClassScore * rows[i].ClassCredit
+                }
+                connection.query(sql9, [email],
+                    function (err, data) {
+                        if (!err) {
+                            sumOfCredit = data[0].result
+                        }
+                        else {
+                            console.log("총 전공 학점 수 계산 error")
+                        }
+                    }
+                )
+                majorClassScore=temp2/sumOfCredit
+                if (majorClassScore>=2.0) {
+                    console.log("총 전공평점 계산 완료")
+                }
+                else {
+                    console.log("총 전공평점 계산 실패")
+                }
+            } else {
+                console.log("전공 평점 계산 오류")
+            }
+        }
+    )
+
+
+
     res.end()
 })
