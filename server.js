@@ -601,6 +601,20 @@ app.post("/result", (req, res) => {
             }
         }
     )
+
+    connection.query(sql1, [email, 'DES3%'],
+                        function(err,data){
+                            if(!err){
+                                if(data[0].result>=2){
+                                    console.log('개별연구 수강 완료')
+                                } else {
+                                    console.log('개별연구를 2개이상 수강하지 않음')
+                                }
+                            } else{
+                                console.log('개별연구 err')
+                            }
+                        }
+                    )
     
     //외국어 성적이 700을 넘는지 조건 확인
     connection.query(sql10, [email],
