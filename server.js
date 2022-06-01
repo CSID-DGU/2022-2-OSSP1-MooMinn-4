@@ -296,7 +296,7 @@ app.post("/result", (req, res) => {
             if (!err) {
                 if (data[0].result != 0) {
                     // EAS1 판별
-                    connection.query(sql3, [EAS1_common_class],
+                    connection.query(sql3, EAS1_common_class,
                         function (err, data2) {
                             if (!err) {
                                 if (data2[0].result > 0) {//두 종류의 EAS1중 하나라도 이수한 경우
@@ -310,7 +310,7 @@ app.post("/result", (req, res) => {
                         }
                     )
                     //EAS2 판별
-                    connection.query(sql3, [EAS2_common_class],
+                    connection.query(sql3, EAS2_common_class,
                         function (err, data2) {
                             if (!err) {
                                 if (data2[0].result > 0) {//두 종류의 EAS2중 하나라도 수강한 경우
