@@ -253,12 +253,26 @@ app.post("/result", (req, res) => {
     var sql15= 'select ClassScore,ClassCredit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and Curriculum=? and UserID = ?'//전공 평점 계산에 이용
 
     // 공통 교양 판별
-    const necessary_common_class = ['RGC1074%', 'RGC0017%', 'RGC0018%', 'RGC0003%', 'RGC0005%']//공통 필수 과목
+    const necessary_common_class = ['RGC0017%', 'RGC0018%', 'RGC0003%', 'RGC0005%']//공통 필수 과목
     const select_common_class = [email,'RGC1050%', 'RGC1051%', 'RGC1052%']//공통 선택 필수 과목
     const EAS1_common_class = [email,'RGC1080%', 'RGC1033%']//EAS1
     const EAS2_common_class = [email,'RGC1081%', 'RGC1034%']//EAS2
     const math_class = ['PRI4001%', 'PRI4023%', 'PRI4024%']//수학 필수 과목
     const major_classScore=[email,'전공']
+    // 대학 탐구 판별
+    connection.query(sql3, [email, 'RGC1074%', 'RGC1001%'],
+                        function(err,data){
+                            if(!err){
+                                if (data[0].result>0){
+                                    console.log('대학 탐구 과목을 수강함')
+                                } else{
+                                    console.log('대학 탐구 과목을 수강하지 않음')
+                                }
+                            } else{
+                                console.log('대학 탐구 판별 error')
+                            }
+                        }
+                    )
     // 필수 공통 교양 판별
     for (var i = 0; i < necessary_common_class.length; i++) {
         var isNotClass = new Array()//수강하지 않은 강의를 담을 배열
@@ -422,8 +436,22 @@ app.post("/result", (req, res) => {
             }
         }
     )
+    //어드밴처 or 창공 이수 판별
+    connection.query(sql3, [email, 'CSE2028%', 'CSE2016'],
+                        function (err, data){
+                            if(!err) {
+                                if(data[0].result > 0){
+                                    console.log("어드밴처 디자인 or 창의적 공학설계를 이수하였습니다")
+                                } else{
+                                    console.log("어드밴처 디자인 or 창의적 공학설계를 이수하지 않았습니다")
+                                }
+                            } else {
+                                console.log("어드밴처, 창공 이수 판별 error")
+                            }
+                        }
+                    )
     //필수 전공과목 이수 판별
-    var necessary_major_class = ['CSE2017%', 'CSE2018%', 'CSE2025%', 'CSE2026%', 'CSE2028%', 'CSE4066%', 'CSE4067%', 'CSE4074%', 'CSE2013%']
+    var necessary_major_class = ['CSE2017%', 'CSE2018%', 'CSE2025%', 'CSE2026%', 'CSE4066%', 'CSE4067%', 'CSE4074%', 'CSE2013%']
     connection.query(sql14, [email],
         function (err, data) {
             if (!err) {
@@ -433,7 +461,7 @@ app.post("/result", (req, res) => {
                             if (!err) {
                                 if (data[0].result == '일반') {
                                     necessary_major_class.splice(2, 1)
-                                    necessary_major_class.splice(6, 1)
+                                    necessary_major_class.splice(5, 1)
                                 }
                             } else {
                                 console.log('필수 전공 배정 오류')
@@ -573,6 +601,20 @@ app.post("/result", (req, res) => {
             }
         }
     )
+
+    connection.query(sql1, [email, 'DES3%'],
+                        function(err,data){
+                            if(!err){
+                                if(data[0].result>=2){
+                                    console.log('개별연구 수강 완료')
+                                } else {
+                                    console.log('개별연구를 2개이상 수강하지 않음')
+                                }
+                            } else{
+                                console.log('개별연구 err')
+                            }
+                        }
+                    )
     
     //외국어 성적이 700을 넘는지 조건 확인
     connection.query(sql10, [email],
