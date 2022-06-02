@@ -9,6 +9,7 @@ import Stack from '@mui/material/Stack'
 import CheckIcon from '@mui/icons-material/Check';
 import "./css/UserInfo.css";
 import Header from '../components/Header';
+import ConversionTable from '../components/ConversionTable';
 
 const SignUp = () => {
     const [email, setEmail] = React.useState('')
@@ -160,7 +161,7 @@ const SignUp = () => {
             </Box>
             <Box className="text_area" component="form">
                 <span style={{ fontSize: '14px' }}>가입정보</span>
-                <Stack direction="row" alignItems="center" spacing={2}>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
                     <Stack className="helperStack">
                         <Stack direction="row" alignItems="center" spacing={1}>
                             <TextField // 이메일 입력
@@ -259,7 +260,6 @@ const SignUp = () => {
                         <Select // 이수학기수 선택
                             className="select"
                             error={emptySemester}
-                            required
                             labelId="semester"
                             value={semester}
                             name="semester"
@@ -315,7 +315,7 @@ const SignUp = () => {
                         <span className="helper" style={{ marginTop: '5px' }}>{emptyEnglish && '영어레벨을 선택하세요.'}</span>
                     </FormControl>
                 </Stack>
-                <Stack direction="row" spacing={2} mt={2}>
+                <Stack direction="row" alignItems="center" spacing={2} mt={2}>
                     <FormControl fullWidth size="small" sx={{ maxWidth: 130, minWidth: 80 }}>
                         <InputLabel id="category">외국어시험</InputLabel>
                         <Select // 외국어 시험 종류 선택
@@ -382,6 +382,26 @@ const SignUp = () => {
                             }
                         </Select>
                     </FormControl>
+                </Stack>
+                <Stack direction="row" justifyContent="space-between" mt={2}>
+                    <FormControl fullWidth size="small" sx={{ maxWidth:'45%', minWidth: 80 }}>
+                        <InputLabel id="score">외국어성적</InputLabel>
+                        <Select
+                            className="select"
+                            labelId="score"
+                            value={score}
+                            name="score"
+                            label="외국어성적"
+                            onChange={onChangeScore}
+                        >
+                            {
+                                SCORE_TOEIC.map((score, idx) => {
+                                    return <MenuItem key={idx} value={score}>{score}</MenuItem>
+                                })
+                            }
+                        </Select>
+                    </FormControl>
+                    <ConversionTable />
                 </Stack>
             </Box>
             <Box className="btn_area">
