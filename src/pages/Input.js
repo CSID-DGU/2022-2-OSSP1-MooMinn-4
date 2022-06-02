@@ -1,14 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import './css/Input.css';
 import Header from '../components/Header';
 import UploadFile from '../components/UploadFile';
+import AlertModal from '../components/AlertModal';
 
 const Input = () => {
     return (
         <div className="fade-in">
+            <AlertModal 
+                msg1="저장된 결과가 있습니다."
+                msg2="새로 입력하실건가요?"
+                move1="/result"
+                move2="/input"
+                op1="이전 결과 보기"
+                op2="새로 입력"
+                />
             <Header mypage signout />
             <Box className="sub_title">
                 파일업로드

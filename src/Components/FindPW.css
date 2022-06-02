@@ -4,6 +4,34 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 500px;
+    max-height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 50px rgb(70, 70, 70);
+    padding: 20px 30px 20px 30px;
+}
+
+.alertmodal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 50px rgb(70, 70, 70);
+    padding: 20px 30px 20px 30px;
+}
+
+.tablemodal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    max-height: 650px;
     background-color: white;
     border-radius: 20px;
     box-shadow: 0 10px 50px rgb(70, 70, 70);
@@ -35,6 +63,28 @@
 
 @media screen and (max-width: 700px) {
     .modal {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 50px rgb(70, 70, 70);
+        padding: 20px 30px 20px 30px;
+    }
+    .alertmodal {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 50px rgb(70, 70, 70);
+        padding: 20px 30px 20px 30px;
+    }    
+    .tablemodal {
         position: absolute;
         top: 50%;
         left: 50%;

@@ -8,6 +8,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './css/Result.css';
 import Header from '../components/Header';
+import AlertModal from '../components/AlertModal';
 
 const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -41,6 +42,13 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 const Result = () => {
+    const [expanded, setExpanded] = React.useState('panel1');
+    const [hasResult, setHasResult] = React.useState(false);
+    
+    const handleChange = (panel) => (event, newExpanded) => {
+        setExpanded(newExpanded ? panel : false);
+    };
+
     useEffect(() => {
         const data = {
             email: sessionStorage.getItem('userId')
@@ -52,16 +60,25 @@ const Result = () => {
             },
             body: JSON.stringify(data)
         })
+        .then((res) => res.json())
+        .then((json) => {
+            console.log(json)
+            setHasResult(json.result)
+        })
     })
-
-    const [expanded, setExpanded] = React.useState('panel1');
-
-    const handleChange = (panel) => (event, newExpanded) => {
-        setExpanded(newExpanded ? panel : false);
-    };
 
     return (
         <div className="fade-in">
+            {hasResult && 
+                <AlertModal 
+                    msg1="저장된 결과가 없습니다."
+                    msg2="성적 파일을 입력해주세요!"
+                    move1="/input"
+                    move2="/input" // 정상적으로 동작하면 move2="/" 로 수정
+                    op1="확인"
+                    op2="취소"
+                    />
+            }
             <Header mypage signout />
             <Stack className="result_stack" justifyContent="center" direction="row">
                 <span className="r0">졸업</span>
