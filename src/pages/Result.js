@@ -43,7 +43,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 const Result = () => {
     const [expanded, setExpanded] = React.useState('panel1');
-    const [hasResult, setHasResult] = React.useState(false);
+    const [hasResult, setHasResult] = React.useState();
     
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
@@ -69,7 +69,7 @@ const Result = () => {
 
     return (
         <div className="fade-in">
-            {hasResult && 
+            {!hasResult && 
                 <AlertModal 
                     msg1="저장된 결과가 없습니다."
                     msg2="성적 파일을 입력해주세요!"

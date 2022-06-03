@@ -91,6 +91,28 @@ app.post("/input", (req, res) => {
                 }
             })
     }
+    
+    const email = req.body.email
+    connection.query("SELECT COUNT(*) AS result FROM UserSelectList WHERE UserID = ?", [email],
+        function (err, data) {
+            var sendResult = {};
+            if (!err) {
+                if (data[0].result > 0) {
+                    console.log(data[0].result, true, ": 결과가 있음")
+                    sendResult = {result: true}
+                }
+                else {
+                    console.log(data[0].result, false, ": 결과가 없음")
+                    sendResult = {result: false}
+                    // res.send(sendResult)
+                }
+            }
+            else {
+                console.log("결과 존재여부 판별 error")
+            }
+            res.send(sendResult)
+        }
+    )
 })
 
 app.post("/signin", (req, res) => {
@@ -280,7 +302,7 @@ app.post("/result", (req, res) => {
             function (err, data) {
                 if (!err) {
                     if (data[0].result < 1) {//해당 강의를 수강하지 않은 경우
-                        console.log('해당 필수 과목을 수강하지 않음')
+                        console.log(necessary_common_class[i], ': 해당 필수 과목을 수강하지 않음')
                         isNotClass.push(necessary_common_class[i]);
                     } else {//해당 강의를 수강한 경우
                         console.log('해당 강의를 수강함')
@@ -352,9 +374,9 @@ app.post("/result", (req, res) => {
         function (err, data) {
             if (!err) {
                 if (data[0].result >= 9) {
-                    console.log('기본소양 학점을 만족합니다')
+                    console.log(data[0].result, ': 기본소양 학점을 만족합니다')
                 } else {
-                    console.log('기본소양 학점이 모자랍니다')
+                    console.log(data[0].result, ': 기본소양 학점이 모자랍니다')
                 }
             } else {
                 console.log('기본소양 err')
@@ -368,7 +390,7 @@ app.post("/result", (req, res) => {
             function (err, data) {
                 if (!err) {
                     if (data[0].result < 1) {//해당 강의를 수강하지 않은 경우
-                        console.log('해당 필수 과목을 수강하지 않음')
+                        console.log(math_class[i], ': 해당 필수 과목을 수강하지 않음')
                         isNotClass.push(math_class[i]);
                     } else {//해당 강의를 수강한 경우
                         console.log('해당 강의를 수강함')
@@ -385,9 +407,9 @@ app.post("/result", (req, res) => {
         function (err, data) {
             if (!err) {
                 if (data[0].result >= 12) {
-                    console.log('BSM수학 학점을 만족합니다')
+                    console.log(data[0].result, ': BSM수학 학점을 만족합니다')
                 } else {
-                    console.log('BSM수학 학점이 모자랍니다')
+                    console.log(data[0].result, ': BSM수학 학점이 모자랍니다')
                 }
             } else {
                 console.log('Bsm수학 학점 err')
@@ -399,9 +421,9 @@ app.post("/result", (req, res) => {
         function (err, data) {
             if (!err) {
                 if (data[0].result >= 3) {
-                    console.log('BSM과학 실험 학점을 만족합니다')
+                    console.log(data[0].result, ': BSM과학 실험 학점을 만족합니다')
                 } else {
-                    console.log('BSM과학 실험 학점이 모자랍니다')
+                    console.log(data[0].result, ': BSM과학 실험 학점이 모자랍니다')
                 }
             } else {
                 console.log('Bsm과학 실험 학점 err')
@@ -413,9 +435,9 @@ app.post("/result", (req, res) => {
         function (err, data) {
             if (!err) {
                 if (data[0].result >= 6) {
-                    console.log('BSM과학 학점을 만족합니다')
+                    console.log(data[0].result, ': BSM과학 학점을 만족합니다')
                 } else {
-                    console.log('BSM과학 학점이 모자랍니다')
+                    console.log(data[0].result, ': BSM과학 학점이 모자랍니다')
                 }
             } else {
                 console.log('Bsm과학 학점 err')
@@ -427,9 +449,9 @@ app.post("/result", (req, res) => {
         function (err, data) {
             if (!err) {
                 if (data[0].result >= 21) {
-                    console.log('BSM 학점을 만족합니다')
+                    console.log(data[0].result, ': BSM 학점을 만족합니다')
                 } else {
-                    console.log('BSM 학점이 모자랍니다')
+                    console.log(data[0].result, ': BSM 학점이 모자랍니다')
                 }
             } else {
                 console.log('Bsm 학점 err')
@@ -479,7 +501,7 @@ app.post("/result", (req, res) => {
             function (err, data) {
                 if (!err) {
                     if (data[0].result < 1) {
-                        console.log('해당 필수 전공을 수강하지 않음')
+                        console.log(necessary_major_class[i], ': 해당 필수 전공을 수강하지 않음')
                         isNotClass.push(necessary_major_class[i])
                     } else {
                         console.log('해당 강의를 수강함')
@@ -496,9 +518,9 @@ app.post("/result", (req, res) => {
                         function (err, data2) {
                             if (!err) {
                                 if (data2[0].result >= 84) {
-                                    console.log("전공학점을 만족합니다")
+                                    console.log(data2[0].result, ": 전공학점을 만족합니다")
                                 } else {
-                                    console.log("전공학점이 부족합니다")
+                                    console.log(data2[0].result, ": 전공학점이 부족합니다")
                                 }
                             }
                             else {
@@ -513,9 +535,9 @@ app.post("/result", (req, res) => {
                         function (err, data2) {
                             if (!err) {
                                 if (data2[0].result >= 42) {
-                                    console.log("전문 학점을 만족합니다")
+                                    console.log(data2[0].result, ": 전문 학점을 만족합니다")
                                 } else {
-                                    console.log("전문학점이 부족합니다")
+                                    console.log(data2[0].result, ": 전문학점이 부족합니다")
                                 }
                             }
                             else {
@@ -530,10 +552,10 @@ app.post("/result", (req, res) => {
                         function (err, data2) {
                             if (!err) {
                                 if (data2[0].result >= 140) {
-                                    console.log('총 학점 조건을 만족함')
+                                    console.log(data2[0].result, ': 총 학점 조건을 만족함')
                                 }
                                 else {
-                                    console.log('총 학점 조건을 만족하지 않음')
+                                    console.log(data2[0].result, ': 총 학점 조건을 만족하지 않음')
                                 }
                             } else {
                                 console.log('총 학점 계산 error')
@@ -548,10 +570,10 @@ app.post("/result", (req, res) => {
                             if (!err) {
                                 SumofMajorCredit=data2[0].result
                                 if (data2[0].result >= 72) {
-                                    console.log('총 전공학점 조건을 만족함')
+                                    console.log(data2[0].result,': 총 전공학점 조건을 만족함')
                                 }
                                 else {
-                                    console.log('총 전공학점 조건을 만족하지 않음')
+                                    console.log(data2[0].result,': 총 전공학점 조건을 만족하지 않음')
                                 }
                             }
                             else {
@@ -568,10 +590,10 @@ app.post("/result", (req, res) => {
                         function (err, data2) {
                             if (!err) {
                                 if (data2[0].result >= 36) {
-                                    console.log('총 전문강의 수강 학점 조건을 만족함')
+                                    console.log(data2[0].result, ': 총 전문강의 수강 학점 조건을 만족함')
                                 }
                                 else {
-                                    console.log('총 전문강의 수강 조건을 만족하지 않음')
+                                    console.log(data2[0].result, ': 총 전문강의 수강 조건을 만족하지 않음')
                                 }
                             }
                             else {
@@ -586,10 +608,10 @@ app.post("/result", (req, res) => {
                         function (err, data2) {
                             if (!err) {
                                 if (data2[0].result >= 130) {
-                                    console.log('총 학점 조건을 만족함')
+                                    console.log(data2[0].result, ': 총 학점 조건을 만족함')
                                 }
                                 else {
-                                    console.log('총 학점 조건을 만족하지 않음')
+                                    console.log(data2[0].result, ': 총 학점 조건을 만족하지 않음')
                                 }
                             }
                             else {
@@ -621,10 +643,10 @@ app.post("/result", (req, res) => {
         function (err, data) {
             if (!err) {
                 if (data[0].result >= 700) {
-                    console.log('외국어 성적 조건을 만족함')
+                    console.log(data[0].result, ': 외국어 성적 조건을 만족함')
                 }
                 else {
-                    console.log('외국어 성적 조건을 만족하지 않음')
+                    console.log(data[0].result, ': 외국어 성적 조건을 만족하지 않음')
                 }
             }
             else {
@@ -636,12 +658,14 @@ app.post("/result", (req, res) => {
     var sumOfCredit =0
     var temp=0
     var entireClassScore=0
+    var scores = {'A+':4.5, 'A0':4.0, 'B+':3.5, 'B0':3.0, 'C+':2.5, 'C0':2.0, 'D+':1.5, 'D0':1.0, 'F':0.0}
     //평점 평균이 2.0을 넘는지 조건 확인
     connection.query(sql11, [email],
         function (err, rows, fields) {
             if (!err) {
                 for (var i = 0; i < rows.length; i++) {
-                    temp += rows[i].ClassScore * rows[i].ClassCredit
+                    temp += scores[rows[i].ClassScore] * rows[i].ClassCredit
+                    console.log(scores[rows[i].ClassScore], rows[i].ClassCredit)
                 }
                 connection.query(sql9, [email],
                     function (err, data) {
@@ -655,10 +679,10 @@ app.post("/result", (req, res) => {
                 )
                 entireClassScore=temp/sumOfCredit
                 if (entireClassScore>=2.0) {
-                    console.log("총 평점 조건을 만족함")
+                    console.log(entireClassScore, ": 총 평점 조건을 만족함")
                 }
                 else {
-                    console.log("총 평점 조건을 만족하지 않음")
+                    console.log(entireClassScore, ": 총 평점 조건을 만족하지 않음")
                 }
             } else {
                 console.log("평점 계산 오류")
@@ -672,10 +696,10 @@ app.post("/result", (req, res) => {
             if (!err) {
 
                 if (data[0].result >= 4) {
-                    console.log('영어 강의 수 조건을 만족함')
+                    console.log(data[0].result, ': 영어 강의 수 조건을 만족함')
                 }
                 else {
-                    console.log('영어 강의 수 조건을 만족하지 않음')
+                    console.log(data[0].result, ': 영어 강의 수 조건을 만족하지 않음')
                 }
             }
             else {
@@ -690,7 +714,7 @@ app.post("/result", (req, res) => {
         function (err, rows, fields) {
             if (!err) {
                 for (var i = 0; i < rows.length; i++) {
-                    temp2 += rows[i].ClassScore * rows[i].ClassCredit
+                    temp2 += scores[rows[i].ClassScore] * rows[i].ClassCredit
                 }
                 connection.query(sql9, [email],
                     function (err, data) {
@@ -704,18 +728,35 @@ app.post("/result", (req, res) => {
                 )
                 majorClassScore=temp2/sumOfCredit
                 if (majorClassScore>=2.0) {
-                    console.log("총 전공평점 계산 완료")
+                    console.log(majorClassScore, ": 총 전공평점 계산 완료")
                 }
                 else {
-                    console.log("총 전공평점 계산 실패")
+                    console.log(majorClassScore, ": 총 전공평점 계산 실패")
                 }
             } else {
                 console.log("전공 평점 계산 오류")
             }
         }
     )
-
-
-
-    res.end()
+    
+    connection.query("SELECT COUNT(*) AS result FROM UserSelectList WHERE UserID = ?", [email],
+        function (err, data) {
+            var sendResult = {};
+            if (!err) {
+                if (data[0].result > 0) {
+                    console.log(data[0].result, true, ": 결과가 있음")
+                    sendResult = {result: true}
+                }
+                else {
+                    console.log(data[0].result, false, ": 결과가 없음")
+                    sendResult = {result: false}
+                    // res.send(sendResult)
+                }
+            }
+            else {
+                console.log("결과 존재여부 판별 error")
+            }
+            res.send(sendResult)
+        }
+    )
 })
