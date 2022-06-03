@@ -459,7 +459,7 @@ app.post("/result", (req, res) => {
         }
     )
     //어드밴처 or 창공 이수 판별
-    connection.query(sql3, [email, 'CSE2028%', 'CSE2016'],
+    connection.query(sql3, [email, 'CSE2028%', 'CSE2016%'],
                         function (err, data){
                             if(!err) {
                                 if(data[0].result > 0){
@@ -636,7 +636,7 @@ app.post("/result", (req, res) => {
                                 console.log('개별연구 err')
                             }
                         }
-                    )
+  )
     
     //외국어 성적이 700을 넘는지 조건 확인
     connection.query(sql10, [email],
