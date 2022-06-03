@@ -206,6 +206,285 @@ app.post('/mypage', (req, res) => {
         })
 })
 
+app.post('/semester', (req, res) => {
+    const email = req.body.email
+    var Semester = 0;
+    var TNumList = []
+    var data = {
+        email: email,
+        Semester: Semester,
+        TNumList: TNumList,
+    }
+
+    // 사용자의 학기 수를 구한 후 Semester에 저장
+    var sql = 'SELECT COUNT(c.TNumber) AS semester FROM (select TNumber, count(*) AS count from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? group by TNumber) AS c;'
+    connection.query(sql, [email],
+        function (err, result) {
+            if (!err) {
+                Semester = result[0].semester
+                data.Semester = Semester
+                // 사용자가 이수한 학기 목록을 TNumList에 저장
+                var sql = 'select TNumber, count(*) AS count from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? group by TNumber';
+                connection.query(sql, [email],
+                    function (err, result) {
+                        if (!err) {
+                            for (var i = 0; i < Semester; i++) {
+                                TNumList.push(result[i].TNumber)
+                            }
+                        }
+                        data.TNumList = TNumList
+                        console.log(TNumList)
+                        console.log(data.TNumList)
+                        console.log(data)
+                        res.json(data)
+                    })
+
+            }
+        })
+})
+
+app.post('/stats', (req, res) => {
+    const email = req.body.email
+    const Semester = req.body.Semester
+    const TNumList = req.body.TNumList
+    var data = []
+    var SemesterData = {
+        Semester: Semester,
+        Count: 0,
+        MajorCount: 0,
+        Credit: 0,
+        MajorCredit: 0,
+        ClassScore: 0.0,
+        MajorClassScore: 0,
+    }
+
+    /*
+    // 사용자의 학기 수를 구한 후 Semester에 저장
+    var sql = 'SELECT COUNT(c.TNumber) AS semester FROM (select TNumber, count(*) AS count from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ? group by TNumber) AS c;'
+    connection.query(sql, [email],
+        function (err, result) {
+            if (!err) {
+                Semester = result[0].semester
+                // 사용자가 이수한 학기 목록을 TNumList에 저장
+                var sql = 'select TNumber, count(*) AS count from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ? group by TNumber';
+                connection.query(sql, [email],
+                    function (err, result) {
+                        if (!err) {
+                            for (var i = 0; i < Semester; i++) {
+                                TNumList.push(result[i].TNumber)
+                            }
+                        }
+                    })
+            }
+        })
+    */
+
+
+
+    // 학기별 이수학점, 이수과목, 전체 평점을 구함
+    // 이수학점 Credit
+    var sql = ''
+    for (var i = Semester - 1; i < Semester; i++) {
+        sql = 'select sum(ClassCredit) AS credit from UserSelectList,Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ?'
+        if (i === 0) {
+            sql += (' and TNumber = \'' + TNumList[i] + '\'')
+            console.log(sql)
+        }
+        else {
+            for (var j = 0; j <= i; j++) {
+                if (j === 0) {
+                    sql = sql + ' and ( TNumber = \'' + TNumList[j] + '\''
+                }
+                else if (j === i) {
+                    sql = sql + ' or TNumber = \'' + TNumList[j] + '\')'
+                }
+                else {
+                    sql = sql + ' or TNumber = \'' + TNumList[j] + '\''
+                }
+                console.log(j + ' ' + i)
+                console.log(sql)
+
+            }
+        }
+        connection.query(sql, [email],
+            function (err, result) {
+                if (!err) {
+                    console.log(i + '학기 credit : ' + result[0].credit)
+                    SemesterData.Credit = result[0].credit
+                }
+
+            })
+        // 사용자의 이수과목 수를 구한 후 Count에 저장
+        var sql = 'select COUNT(*) AS count from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ?'
+        if (i === 0) {
+            sql += (' and TNumber = \'' + TNumList[i] + '\'')
+            console.log(sql)
+        }
+        else {
+            for (var j = 0; j <= i; j++) {
+                if (j === 0) {
+                    sql = sql + ' and ( TNumber = \'' + TNumList[j] + '\''
+                }
+                else if (j === i) {
+                    sql = sql + ' or TNumber = \'' + TNumList[j] + '\')'
+                }
+                else {
+                    sql = sql + ' or TNumber = \'' + TNumList[j] + '\''
+                }
+                console.log(j + ' ' + i)
+                console.log(sql)
+            }
+        }
+        connection.query(sql, [email],
+            function (err, result) {
+                if (!err) {
+                    console.log('count : ' + result[0].count)
+                    SemesterData.Count = result[0].count
+                }
+            })
+
+        // 사용자의 전체 평점을 구한 후 ClassScore에 저장
+        var sql = 'select ClassScore,ClassCredit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ?'
+        if (i === 0) {
+            sql += (' and TNumber = \'' + TNumList[i] + '\'')
+            console.log(sql)
+        }
+        else {
+            for (var j = 0; j <= i; j++) {
+                if (j === 0) {
+                    sql = sql + ' and ( TNumber = \'' + TNumList[j] + '\''
+                }
+                else if (j === i) {
+                    sql = sql + ' or TNumber = \'' + TNumList[j] + '\')'
+                }
+                else {
+                    sql = sql + ' or TNumber = \'' + TNumList[j] + '\''
+                }
+                console.log(j + ' ' + i)
+                console.log(sql)
+            }
+        }
+        connection.query(sql, [email],
+            function (err, result) {
+                if (!err) {
+                    for (var i = 0; i < SemesterData.Count; i++) {
+                        var grade = result[i].ClassScore
+                        var credit = result[i].ClassCredit
+                        if (grade === 'A+') { SemesterData.ClassScore += 4.5 * credit }
+                        else if (grade === 'A0') { SemesterData.ClassScore += 4.0 * credit }
+                        else if (grade === 'B+') { SemesterData.ClassScore += 3.5 * credit }
+                        else if (grade === 'B0') { SemesterData.ClassScore += 3.0 * credit }
+                        else if (grade === 'C+') { SemesterData.ClassScore += 2.5 * credit }
+                        else if (grade === 'C0') { SemesterData.ClassScore += 2.0 * credit }
+                        else if (grade === 'D+') { SemesterData.ClassScore += 1.5 * credit }
+                        else if (grade === 'D0') { SemesterData.ClassScore += 1.0 * credit }
+                        else if (grade === 'P') { SemesterData.Credit -= credit }
+                        else if (grade === 'F') { }
+                    }
+                    SemesterData.ClassScore /= SemesterData.Credit
+                    console.log('학점 평균 : ' + SemesterData.ClassScore)
+                    data.push(SemesterData)
+                    console.log(data)
+                    res.json(data)
+                }
+            })
+    }
+
+
+    /*
+    // 사용자의 이수학점을 구한 후 Credit에 저장
+    var sql = 'select sum(ClassCredit) AS credit from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ?'
+    connection.query(sql, [email],
+        function (err, result) {
+            if (!err) {
+                console.log('credit : ' + result[0].credit)
+                SemesterData.Credit = result[0].credit
+            }
+        })
+
+    // 사용자의 이수과목 수를 구한 후 Count에 저장
+    var sql = 'select COUNT(*) AS count from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ?'
+    connection.query(sql, [email],
+        function (err, result) {
+            if (!err) {
+                console.log('count : ' + result[0].count)
+                SemesterData.Count = result[0].count
+            }
+        })
+
+    // 사용자의 전체 평점을 구한 후 ClassScore에 저장
+    var sql = 'select ClassScore,ClassCredit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ?'
+    connection.query(sql, [email],
+        function (err, result) {
+            if (!err) {
+                for (var i = 0; i < SemesterData.Count; i++) {
+                    var grade = result[i].ClassScore
+                    var credit = result[i].ClassCredit
+                    if (grade === 'A+') { SemesterData.ClassScore += 4.5 * credit }
+                    else if (grade === 'A0') { SemesterData.ClassScore += 4.0 * credit }
+                    else if (grade === 'B+') { SemesterData.ClassScore += 3.5 * credit }
+                    else if (grade === 'B0') { SemesterData.ClassScore += 3.0 * credit }
+                    else if (grade === 'C+') { SemesterData.ClassScore += 2.5 * credit }
+                    else if (grade === 'C0') { SemesterData.ClassScore += 2.0 * credit }
+                    else if (grade === 'D+') { SemesterData.ClassScore += 1.5 * credit }
+                    else if (grade === 'D0') { SemesterData.ClassScore += 1.0 * credit }
+                    else if (grade === 'P') { SemesterData.Credit -= credit }
+                    else if (grade === 'F') { }
+                }
+                SemesterData.ClassScore /= SemesterData.Credit
+                console.log('학점 평균 : ' + SemesterData.ClassScore)
+            }
+        })
+
+    // 사용자의 전공이수학점을 구한 후 MajorCredit에 저장
+    var sql = 'select sum(ClassCredit) AS credit from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ? and Curriculum = ?'
+    connection.query(sql, [email, '전공'],
+        function (err, result) {
+            if (!err) {
+                console.log('MajorCredit : ' + result[0].credit)
+                SemesterData.MajorCredit = result[0].credit
+            }
+        })
+
+    // 사용자의 전공이수과목 수를 구한 후 MajorCount에 저장
+    var sql = 'select COUNT(*) AS count from UserSelectList,Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ? and Curriculum = ?'
+    connection.query(sql, [email, '전공'],
+        function (err, result) {
+            if (!err) {
+                console.log('MajorCount : ' + result[0].count)
+                SemesterData.MajorCount = result[0].count
+            }
+        })
+
+    // 사용자의 전공 평점을 구한 후 MajorClassScore에 저장
+    var sql = 'select ClassScore,ClassCredit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ? and Curriculum = ?'
+    connection.query(sql, [email, '전공'],
+        function (err, result) {
+            if (!err) {
+                for (var i = 0; i < SemesterData.MajorCount; i++) {
+                    var grade = result[i].ClassScore
+                    var credit = result[i].ClassCredit
+                    if (grade === 'A+') { SemesterData.MajorClassScore += 4.5 * credit }
+                    else if (grade === 'A0') { SemesterData.MajorClassScore += 4.0 * credit }
+                    else if (grade === 'B+') { SemesterData.MajorClassScore += 3.5 * credit }
+                    else if (grade === 'B0') { SemesterData.MajorClassScore += 3.0 * credit }
+                    else if (grade === 'C+') { SemesterData.MajorClassScore += 2.5 * credit }
+                    else if (grade === 'C0') { SemesterData.MajorClassScore += 2.0 * credit }
+                    else if (grade === 'D+') { SemesterData.MajorClassScore += 1.5 * credit }
+                    else if (grade === 'D0') { SemesterData.MajorClassScore += 1.0 * credit }
+                    else if (grade === 'P') { SemesterData.Credit -= credit }
+                    else if (grade === 'F') { }
+                }
+                SemesterData.MajorClassScore /= SemesterData.MajorCredit
+                console.log('전공 학점 평균 : ' + SemesterData.MajorClassScore)
+                console.log(SemesterData)
+                res.json(SemesterData)
+            }
+        })
+        */
+
+})
+
 app.post('/updateuserinfo', (req, res) => {
     const email = req.body.email
     const year = req.body.year
