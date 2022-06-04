@@ -91,6 +91,28 @@ app.post("/input", (req, res) => {
                 }
             })
     }
+    
+    const email = req.body.email
+    connection.query("SELECT COUNT(*) AS result FROM UserSelectList WHERE UserID = ?", [email],
+        function (err, data) {
+            var sendResult = {};
+            if (!err) {
+                if (data[0].result > 0) {
+                    console.log(data[0].result, true, ": 결과가 있음")
+                    sendResult = {result: true}
+                }
+                else {
+                    console.log(data[0].result, false, ": 결과가 없음")
+                    sendResult = {result: false}
+                    // res.send(sendResult)
+                }
+            }
+            else {
+                console.log("결과 존재여부 판별 error")
+            }
+            res.send(sendResult)
+        }
+    )
 })
 
 app.post("/signin", (req, res) => {
@@ -709,12 +731,14 @@ app.post("/result", (req, res) => {
     var sumOfCredit =0
     var temp=0
     var entireClassScore=0
+    var scores = {'A+':4.5, 'A0':4.0, 'B+':3.5, 'B0':3.0, 'C+':2.5, 'C0':2.0, 'D+':1.5, 'D0':1.0, 'F':0.0}
     //평점 평균이 2.0을 넘는지 조건 확인
     connection.query(sql11, [email],
         function (err, rows, fields) {
             if (!err) {
                 for (var i = 0; i < rows.length; i++) {
-                    temp += rows[i].ClassScore * rows[i].ClassCredit
+                    temp += scores[rows[i].ClassScore] * rows[i].ClassCredit
+                    console.log(scores[rows[i].ClassScore], rows[i].ClassCredit)
                 }
                 connection.query(sql9, [email],
                     function (err, data) {
@@ -728,10 +752,10 @@ app.post("/result", (req, res) => {
                 )
                 entireClassScore=temp/sumOfCredit
                 if (entireClassScore>=2.0) {
-                    console.log("총 평점 조건을 만족함")
+                    console.log(entireClassScore, ": 총 평점 조건을 만족함")
                 }
                 else {
-                    console.log("총 평점 조건을 만족하지 않음")
+                    console.log(entireClassScore, ": 총 평점 조건을 만족하지 않음")
                 }
             } else {
                 console.log("평점 계산 오류")
@@ -766,7 +790,7 @@ app.post("/result", (req, res) => {
         function (err, rows, fields) {
             if (!err) {
                 for (var i = 0; i < rows.length; i++) {
-                    temp2 += rows[i].ClassScore * rows[i].ClassCredit
+                    temp2 += scores[rows[i].ClassScore] * rows[i].ClassCredit
                 }
                 connection.query(sql9, [email],
                     function (err, data) {
@@ -780,10 +804,10 @@ app.post("/result", (req, res) => {
                 )
                 majorClassScore=temp2/sumOfCredit
                 if (majorClassScore>=2.0) {
-                    console.log("총 전공평점 계산 완료")
+                    console.log(majorClassScore, ": 총 전공평점 계산 완료")
                 }
                 else {
-                    console.log("총 전공평점 계산 실패")
+                    console.log(majorClassScore, ": 총 전공평점 계산 실패")
                 }
             } else {
                 console.log("전공 평점 계산 오류")
@@ -797,4 +821,28 @@ app.post("/result", (req, res) => {
 
 
     res.end()
+    
+    connection.query("SELECT COUNT(*) AS result FROM UserSelectList WHERE UserID = ?", [email],
+        function (err, data) {
+            var sendResult = {};
+            if (!err) {
+                if (data[0].result > 0) {
+                    console.log(data[0].result, true, ": 결과가 있음")
+                    sendResult = {result: true}
+                }
+                else {
+                    console.log(data[0].result, false, ": 결과가 없음")
+                    sendResult = {result: false}
+                    // res.send(sendResult)
+                }
+            }
+            else {
+                console.log("결과 존재여부 판별 error")
+            }
+            res.send(sendResult)
+        }
+    )
+
+    
+
 })

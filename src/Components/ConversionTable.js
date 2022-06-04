@@ -46,35 +46,35 @@ const ConversionTable = () => {
                     <TableContainer component={Paper} sx={{ maxHeight: 500 }} className="table">
                       <Table size="small">
                         <TableHead>
-                          <TableRow sx={{backgroundColor:'lightgray'}}>
-                            <TableCell align="center">TOEIC</TableCell>
-                            <TableCell align="center">TOEFL CBT</TableCell>
-                            <TableCell align="center">TOEFL IBT</TableCell>
-                            <TableCell align="center">TEPS</TableCell>
-                            <TableCell align="center">TOEIC Speaking</TableCell>
-                            <TableCell align="center">OPIc</TableCell>
-                            <TableCell align="center">Cambridge ESOL Examinations</TableCell>
-                            <TableCell align="center">IELTS Academic</TableCell>
-                            <TableCell align="center">G-TELP</TableCell>
+                          <TableRow key="header" sx={{backgroundColor:'lightgray'}}>
+                            <TableCell key="TOEIC" align="center">TOEIC</TableCell>
+                            <TableCell key="TOEFL_CBT" align="center">TOEFL CBT</TableCell>
+                            <TableCell key="TOEFL_IBT" align="center">TOEFL IBT</TableCell>
+                            <TableCell key="TEPS" align="center">TEPS</TableCell>
+                            <TableCell key="TOEIC_speaking" align="center">TOEIC Speaking</TableCell>
+                            <TableCell key="OPIc" align="center">OPIc</TableCell>
+                            <TableCell key="Cambridge_ESOL_Examinations" align="center">Cambridge ESOL Examinations</TableCell>
+                            <TableCell key="IELTS_Academic" align="center">IELTS Academic</TableCell>
+                            <TableCell key="G-TELP" align="center">G-TELP</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {rows.map((row) => (
+                          {rows.map((row, idx) => (
                             <TableRow
                               key={row.name}
                               sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
                             >
-                              <TableCell component="th" scope="row" align="center" sx={{backgroundColor:'#F2F2F2'}}>
+                              <TableCell key={idx} align="center" component="th" scope="row" sx={{backgroundColor:'#F2F2F2'}}>
                                 {row.toeic}
                               </TableCell>
-                              <TableCell align="center">{row.toeflCBT}</TableCell>
-                              <TableCell align="center">{row.toeflIBT}</TableCell>
-                              <TableCell align="center">{row.teps}</TableCell>
-                              <TableCell align="center">{row.toeicSpeaking}</TableCell>
-                              <TableCell align="center">{row.opic}</TableCell>
-                              <TableCell align="center">{row.esol}</TableCell>
-                              <TableCell align="center">{row.ielts}</TableCell>
-                              <TableCell align="center">{row.gtelp}</TableCell>
+                              <TableCell key={idx} align="center">{row.toeflCBT}</TableCell>
+                              <TableCell key={idx} align="center">{row.toeflIBT}</TableCell>
+                              <TableCell key={idx} align="center">{row.teps}</TableCell>
+                              <TableCell key={idx} align="center">{row.toeicSpeaking}</TableCell>
+                              <TableCell key={idx} align="center">{row.opic}</TableCell>
+                              <TableCell key={idx} align="center">{row.esol}</TableCell>
+                              <TableCell key={idx} align="center">{row.ielts}</TableCell>
+                              <TableCell key={idx} align="center">{row.gtelp}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import { AllScoreData } from '../data/AllScoreData';
@@ -9,33 +9,44 @@ import LChart from '../components/LChart';
 import BChart from '../components/BChart';
 import Header from '../components/Header';
 import './css/Stats.css';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Stats = () => {
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false)
+    }, [])
+
     return (
-        <div className="fade-in">
-            <Header mypage signout />
-            <Box className="sub_title">
-            통계
-            </Box>
-            <Stack 
-                style={{margin:'20px 80px 0 80px'}} 
-                direction={{xs:'column', sm:'row'}}
-                justifyContent="center"
-                alignItems="center"
-            >
-                <LChart data={AllScoreData} title="전체평점 비교" dataKey={'평점'} />
-                <LChart data={MajorScoreData} title="전공평점 비교" dataKey="평점" />
-                <LChart data={CreditData} title="이수학점 비교" dataKey="학점" />
-            </Stack>
-            <Stack style={{marginBottom:'80px'}}  justifyContent="center" alignItems="center">
-                <Box className="B_PC">
-                    <BChart data={BestLectureData}></BChart>
+        <>
+        {loading ? <LoadingSpinner /> : (
+            <div className="fade-in">
+                <Header mypage signout />
+                <Box className="sub_title">
+                통계
                 </Box>
-                <Box className="B_mobile">
-                    <BChart data={BestLectureData} isMobile></BChart>
-                </Box>
-            </Stack>
-        </div>
+                <Stack 
+                    style={{margin:'20px 80px 0 80px'}} 
+                    direction={{xs:'column', sm:'row'}}
+                    justifyContent="center"
+                    alignItems="center"
+                >
+                    <LChart data={AllScoreData} title="전체평점 비교" dataKey={'평점'} />
+                    <LChart data={MajorScoreData} title="전공평점 비교" dataKey="평점" />
+                    <LChart data={CreditData} title="이수학점 비교" dataKey="학점" />
+                </Stack>
+                <Stack style={{marginBottom:'80px'}}  justifyContent="center" alignItems="center">
+                    <Box className="B_PC">
+                        <BChart data={BestLectureData}></BChart>
+                    </Box>
+                    <Box className="B_mobile">
+                        <BChart data={BestLectureData} isMobile></BChart>
+                    </Box>
+                </Stack>
+            </div>
+        )}
+        </>
     );
 };
 
