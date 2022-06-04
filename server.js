@@ -732,6 +732,7 @@ app.post("/result", (req, res) => {
     var temp=0
     var entireClassScore=0
     var scores = {'A+':4.5, 'A0':4.0, 'B+':3.5, 'B0':3.0, 'C+':2.5, 'C0':2.0, 'D+':1.5, 'D0':1.0, 'F':0.0}
+    var score
     //평점 평균이 2.0을 넘는지 조건 확인
     connection.query(sql11, [email],
         function (err, rows, fields) {
@@ -753,9 +754,12 @@ app.post("/result", (req, res) => {
                 entireClassScore=temp/sumOfCredit
                 if (entireClassScore>=2.0) {
                     console.log(entireClassScore, ": 총 평점 조건을 만족함")
+                    score = "최소 평점을 만족함"
+                    
                 }
                 else {
                     console.log(entireClassScore, ": 총 평점 조건을 만족하지 않음")
+                    score = `평점이 ${entireClassScore}로 2.0미만입니다`
                 }
             } else {
                 console.log("평점 계산 오류")
@@ -815,7 +819,7 @@ app.post("/result", (req, res) => {
         }
     )
 //전달할 변수
-    var deliver = [isNotCommonClass, gibon_soyang, isNotMath,BSM_math, BSM_experiment, BSM_science,BSM,isNotmajor,major_credit,special_credit,all_credit,GB,English_exam,English_class]
+    var deliver = [isNotCommonClass, gibon_soyang, isNotMath,BSM_math, BSM_experiment, BSM_science,BSM,isNotmajor,major_credit,special_credit,all_credit,GB,English_exam,English_class,score]
 
 
 
