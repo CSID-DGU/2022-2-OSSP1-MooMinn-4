@@ -1,17 +1,18 @@
 import React from 'react';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const LoadingSpinner = () => {
     return (
         <div>
             <div
                 style={{
-                    position: "fixed",
+                    position: "absolute",
                     top: "50%",
                     left: "50%",
-                    trnasform: "translate(-50%, -50%)",
+                    transform: "translate(-50%, -50%)",
                 }}
             >
-                로딩중...
+                <PulseLoader color="#007FFF" size={12} margin={4} />
             </div>
         </div>
     );

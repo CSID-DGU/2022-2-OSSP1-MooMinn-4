@@ -27,7 +27,6 @@ const SignUp = () => {
     const [emptyCourse, setEmptyCourse] = React.useState(false)
     const [english, setEnglish] = React.useState('')
     const [emptyEnglish, setEmptyEnglish] = React.useState(false)
-    const [category, setCategory] = React.useState('')
     const [score, setScore] = React.useState('')
     const [passwordCheck, setPasswordCheck] = React.useState('')
     const [incorrectPW, setCorrectPW] = React.useState(false)
@@ -41,7 +40,6 @@ const SignUp = () => {
     const onChangeSemester = (e) => { setSemester(e.target.value) }
     const onChangeCourse = (e) => { setCourse(e.target.value) }
     const onChangeEnglish = (e) => { setEnglish(e.target.value) }
-    const onChangeCategory = (e) => { setCategory(e.target.value) }
     const onChangeScore = (e) => { setScore(e.target.value) }
     const onChangePasswordCheck = (e) => { setPasswordCheck(e.target.value) }
 
@@ -52,7 +50,6 @@ const SignUp = () => {
         semester: semester,
         course: course,
         english: english,
-        category: category,
         score: score,
     }
 
@@ -141,17 +138,7 @@ const SignUp = () => {
     const SEMESTER = [8, 7, 6, 5, 4, 3, 2, 1];
     const COURSE = ["심화", "일반"];
     const ENGLISH = [0, 1, 2, 3, 4];
-    const CATEGORY = ["토익", "토플CBT", "토플IBT", "텝스", "TOEIC Speaking", "OPIc", "Cambridge ESOL Examinations", "IELTS Academic", "G-TELP", "없음"];
     const SCORE_TOEIC = [550, 600, 620, 650, 680, 700, 750, 800];
-    const SCORE_CBT = [136, 177, 182, 192, 200, 207, 212, 227];
-    const SCORE_IBT = [57, 62, 64, 68, 72, 76, 82, 87];
-    const SCORE_TEPS = [436, 478, 494, 521, 551, 600, 633, 728];
-    const SCORE_TOEICS = [120, 130, 140, 150];
-    const SCORE_OPIC = ["IL", "IM 1", "IM 2", "IM 3"];
-    const SCORE_ESOL = ["PET", "FCE"];
-    const SCORE_IELTS = [4.5, 5, 5.5, 6];
-    const SCORE_GTELP = ["LEVEL3 63", "LEVEL3 71", "LEVEL2 50", "LEVEL3 73", "LEVEL2 53", "LEVEL3 78", "LEVEL2 57",
-        "LEVEL3 82", "LEVEL2 61", "LEVEL3 85", "LEVEL2 64", "LEVEL3 92", "LEVEL2 69", "LEVEL3 99", "LEVEL2 76"];
 
     return (
         <div className="fade-in">
@@ -315,76 +302,8 @@ const SignUp = () => {
                         <span className="helper" style={{ marginTop: '5px' }}>{emptyEnglish && '영어레벨을 선택하세요.'}</span>
                     </FormControl>
                 </Stack>
-                <Stack direction="row" alignItems="center" spacing={2} mt={2}>
-                    <FormControl fullWidth size="small" sx={{ maxWidth: 130, minWidth: 80 }}>
-                        <InputLabel id="category">외국어시험</InputLabel>
-                        <Select // 외국어 시험 종류 선택
-                            className="select"
-                            labelId="category"
-                            value={category}
-                            name="category"
-                            label="외국어시험"
-                            onChange={onChangeCategory}
-                        >
-                            {
-                                CATEGORY.map((category, idx) => {
-                                    return <MenuItem key={idx} value={category}>{category}</MenuItem>
-                                })
-                            }
-                        </Select>
-                    </FormControl>
-                    <FormControl fullWidth size="small">
-                        <InputLabel id="score">외국어성적</InputLabel>
-                        <Select // 외국어 성적 선택
-                            className="select"
-                            labelId="score"
-                            value={score}
-                            name="score"
-                            label="외국어성적"
-                            onChange={onChangeScore}
-                        >
-                            {
-                                category === "토익" ?
-                                    SCORE_TOEIC.map((score, idx) => {
-                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                    }) :
-                                    category === "토플CBT" ?
-                                        SCORE_CBT.map((score, idx) => {
-                                            return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                        }) :
-                                        category === "토플IBT" ?
-                                            SCORE_IBT.map((score, idx) => {
-                                                return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                            }) :
-                                            category === "텝스" ?
-                                                SCORE_TEPS.map((score, idx) => {
-                                                    return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                                }) :
-                                                category === "TOEIC Speaking" ?
-                                                    SCORE_TOEICS.map((score, idx) => {
-                                                        return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                                    }) :
-                                                    category === "OPIc" ?
-                                                        SCORE_OPIC.map((score, idx) => {
-                                                            return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                                        }) :
-                                                        category === "Cambridge ESOL Examinations" ?
-                                                            SCORE_ESOL.map((score, idx) => {
-                                                                return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                                            }) :
-                                                            category === "IELTS Academic" ?
-                                                                SCORE_IELTS.map((score, idx) => {
-                                                                    return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                                                }) :
-                                                                SCORE_GTELP.map((score, idx) => {
-                                                                    return <MenuItem key={idx} value={score}>{score}</MenuItem>
-                                                                })
-                            }
-                        </Select>
-                    </FormControl>
-                </Stack>
                 <Stack direction="row" justifyContent="space-between" mt={2}>
-                    <FormControl fullWidth size="small" sx={{ maxWidth:'45%', minWidth: 80 }}>
+                    <FormControl fullWidth size="small" sx={{ maxWidth:'40%', minWidth: 80 }}>
                         <InputLabel id="score">외국어성적</InputLabel>
                         <Select
                             className="select"
