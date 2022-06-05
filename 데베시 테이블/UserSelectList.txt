@@ -1,0 +1,8 @@
+create table UserSelectList(
+	UserID VARCHAR(200) NOT NULL,
+	TNumber VARCHAR(200) NOT NULL,
+	CNumber VARCHAR(200) NOT NULL,
+	ClassScore VARCHAR(200) NOT NULL,
+	FOREIGN KEY(UserID) REFERENCES  UserInfo(ID),
+	FOREIGN KEY(TNumber,CNumber) REFERENCES LECTURE(TermNumber,ClassNumber),
+	PRIMARY KEY (UserID,TNumber,CNumber));
