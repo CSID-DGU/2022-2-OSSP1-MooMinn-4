@@ -1,0 +1,12 @@
+create table UserInfo(
+	ID varchar(200) not null,
+	Pincode varchar(200) not null,
+	Semester varchar(200) not null,
+	StudentNumber varchar(200) not null,
+	Major varchar(200) not null,
+	Course varchar(200) not null,
+	IsTransfer int not null,
+	IsDouble int not null,
+	Score float not null,
+	EnglishGrade varchar(200) not null,
+	PRIMARY KEY (ID,Pincode));

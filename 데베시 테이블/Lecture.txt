@@ -1,0 +1,11 @@
+create table Lecture(
+	TermNumber VARCHAR(200) NOT NULL,
+	ClassNumber VARCHAR(200) NOT NULL,
+	LectureNick VARCHAR(200) NOT NULL,
+	Curriculum VARCHAR(200) NOT NULL,
+	ClassArea VARCHAR(200),
+	ProfessorName VARCHAR(200),
+	ClassCredit INT NOT NULL,
+	DesignCredit FLOAT,
+	EnglishClass INT,
+	PRIMARY KEY (TermNumber,ClassNumber));
