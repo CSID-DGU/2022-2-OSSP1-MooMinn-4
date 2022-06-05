@@ -66,7 +66,7 @@ const Result = () => {
         .then((json) => {
             console.log(json)
             setLoading(false)
-            setHasResult(json.result)
+            setHasResult(json.hasResult)
         })
     }, [])
 

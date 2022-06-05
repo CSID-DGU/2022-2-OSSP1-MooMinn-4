@@ -11,19 +11,19 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import './FindPW.css';
 
-function createData(toeic, toeflCBT, toeflIBT, teps, toeicSpeaking, opic, esol, ielts, gtelp) {
-    return { toeic, toeflCBT, toeflIBT, teps, toeicSpeaking, opic, esol, ielts, gtelp };
+function createData(toeic, toeflCBT, toeflIBT, newTeps, toeicSpeaking, opic, esol, ielts, gtelp) {
+    return { toeic, toeflCBT, toeflIBT, newTeps, toeicSpeaking, opic, esol, ielts, gtelp };
 }
 
 const rows = [
-    createData(550, 136, 57, 436, 120, 'IL', 'PET', 4.5, 'LEVEL3 63'),
-    createData(600, 177, 62, 478, 120, 'IL', 'PET', 5, 'LEVEL3 71\nLEVEL2 50'),
-    createData(620, 182, 64, 494, 130, 'IM 1', 'PET', 5, 'LEVEL3 73\nLEVEL2 53'),
-    createData(650, 192, 68, 521, 130, 'IM 1', 'PET', 5, 'LEVEL3 78\nLEVEL2 57'),
-    createData(680, 200, 72, 551, 140, 'IM 2', 'FCE', 5.5, 'LEVEL3 82\nLEVEL2 61'),
-    createData(700, 207, 76, 600, 140, 'IM 2', 'FCE', 5.5, 'LEVEL3 85\nLEVEL2 64'),
-    createData(750, 212, 82, 633, 140, 'IM 2', 'FCE', 5.5, 'LEVEL3 92\nLEVEL2 69'),
-    createData(800, 227, 87, 728, 150, 'IM 3', 'FCE', 6, 'LEVEL3 99\nLEVEL2 76'),
+    createData(550, 136, 57, 233, 120, 'IL', 'PET', 4.5, 'LEVEL3 63'),
+    createData(600, 177, 62, 256, 120, 'IL', 'PET', 5, 'LEVEL3 71\nLEVEL2 50'),
+    createData(620, 182, 64, 265, 130, 'IM 1', 'PET', 5, 'LEVEL3 73\nLEVEL2 53'),
+    createData(650, 192, 68, 281, 130, 'IM 1', 'PET', 5, 'LEVEL3 78\nLEVEL2 57'),
+    createData(680, 200, 72, 298, 140, 'IM 2', 'FCE', 5.5, 'LEVEL3 82\nLEVEL2 61'),
+    createData(700, 207, 76, 327, 140, 'IM 2', 'FCE', 5.5, 'LEVEL3 85\nLEVEL2 64'),
+    createData(750, 212, 82, 345, 140, 'IM 2', 'FCE', 5.5, 'LEVEL3 92\nLEVEL2 69'),
+    createData(800, 227, 87, 404, 150, 'IM 3', 'FCE', 6, 'LEVEL3 99\nLEVEL2 76'),
 ];
 
 const ConversionTable = () => {
@@ -48,13 +48,13 @@ const ConversionTable = () => {
                         <TableHead>
                           <TableRow key="header" sx={{backgroundColor:'lightgray'}}>
                             <TableCell key="TOEIC" align="center">TOEIC</TableCell>
-                            <TableCell key="TOEFL_CBT" align="center">TOEFL CBT</TableCell>
-                            <TableCell key="TOEFL_IBT" align="center">TOEFL IBT</TableCell>
-                            <TableCell key="TEPS" align="center">TEPS</TableCell>
-                            <TableCell key="TOEIC_speaking" align="center">TOEIC Speaking</TableCell>
+                            <TableCell key="TOEFL_CBT" align="center">TOEFL<br/>CBT</TableCell>
+                            <TableCell key="TOEFL_IBT" align="center">TOEFL<br/>IBT</TableCell>
+                            <TableCell key="New_TEPS" align="center">New<br/>TEPS</TableCell>
+                            <TableCell key="TOEIC_speaking" align="center">TOEIC<br/>Speaking</TableCell>
                             <TableCell key="OPIc" align="center">OPIc</TableCell>
                             <TableCell key="Cambridge_ESOL_Examinations" align="center">Cambridge ESOL Examinations</TableCell>
-                            <TableCell key="IELTS_Academic" align="center">IELTS Academic</TableCell>
+                            <TableCell key="IELTS_Academic" align="center">IELTS<br/>Academic</TableCell>
                             <TableCell key="G-TELP" align="center">G-TELP</TableCell>
                           </TableRow>
                         </TableHead>
@@ -69,7 +69,7 @@ const ConversionTable = () => {
                               </TableCell>
                               <TableCell key={idx} align="center">{row.toeflCBT}</TableCell>
                               <TableCell key={idx} align="center">{row.toeflIBT}</TableCell>
-                              <TableCell key={idx} align="center">{row.teps}</TableCell>
+                              <TableCell key={idx} align="center">{row.newTeps}</TableCell>
                               <TableCell key={idx} align="center">{row.toeicSpeaking}</TableCell>
                               <TableCell key={idx} align="center">{row.opic}</TableCell>
                               <TableCell key={idx} align="center">{row.esol}</TableCell>
