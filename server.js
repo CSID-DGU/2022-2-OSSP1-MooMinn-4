@@ -489,7 +489,7 @@ app.post("/result", (req, res) => {
                     BSM = 'BSM 최저 학점을 만족합니다'
                 } else {
                     console.log('BSM 학점이 모자랍니다')
-                    BSM = `BSM 최저 학점이 ${data[0].result}점 부족합니다`
+                    BSM = `BSM 최저 학점이 ${21 - data[0].result}점 부족합니다`
                 }
             } else {
                 console.log('Bsm 학점 err')
@@ -700,7 +700,7 @@ app.post("/result", (req, res) => {
                                     GB = '개별연구를 2개이상 이수했습니다'
                                 } else {
                                     console.log('개별연구를 2개이상 수강하지 않음')
-                                    GB = `개별 연구를 ${2-data[0].result}개 더 이수하싶이오`
+                                    GB = `개별 연구를 ${2-data[0].result}개 더 이수해야 합니다`
                                 }
                             } else{
                                 console.log('개별연구 err')
@@ -779,7 +779,7 @@ app.post("/result", (req, res) => {
                 else {
                     console.log('영어 강의 수 조건을 만족하지 않음')
                     var tmp = 4-data[0].result
-                    English_class = `영어강의를 ${tmp}개 더 이수해야 합니다` 
+                    English_class = `영어강의를 ${4-tmp}개 더 이수해야 합니다` 
                 }
             }
             else {
