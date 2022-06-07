@@ -18,7 +18,7 @@ const Home = () => {
             // 로그인 되었다면
             setIsSignIn(true)
         }
-    })
+    }, [])
 
     const [isSignIn, setIsSignIn] = useState(false)
     const onClickLogout = () => {

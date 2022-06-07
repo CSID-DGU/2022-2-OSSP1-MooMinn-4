@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import { AllScoreData } from '../data/AllScoreData';
@@ -9,17 +9,9 @@ import LChart from '../components/LChart';
 import BChart from '../components/BChart';
 import Header from '../components/Header';
 import './css/Stats.css';
+import { CompressOutlined } from '@mui/icons-material';
 
 const Stats = () => {
-    let state = {
-        Semester: 0,
-        Count: 0,
-        MajorCount: 0,
-        Credit: 0,
-        MajorCredit: 0,
-        ClassScore: 0.0,
-        MajorClassScore: 0,
-    }
 
     useEffect(() => {
         console.log('useeffect')
@@ -36,26 +28,38 @@ const Stats = () => {
             .then((res) => res.json())
             .then((json) => {
                 console.log(json)
-                const s = json.Semester
-                fetch("/stats", {
-                    method: 'post',
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(json)
-                })
-                    .then((res) => res.json())
-                    .then((json) => {
-                        state = json
-                        console.log(json)
-                        AllScoreData.at(3).나 = json.ClassScore
-                        console.log(AllScoreData)
+                for (var i = 0; i < json.Semester; i++) {
+                    const data = {
+                        email: json.email,
+                        TNumber: json.TNumList[i],
+                        semester: i
+                    }
+                    fetch("/stats", {
+                        method: 'post',
+                        headers: {
+                            "content-type": "application/json",
+                        },
+                        body: JSON.stringify(data)
                     })
-
-
+                        .then((res) => res.json())
+                        .then((json) => {
+                            console.log(json)
+                            fetch("/updatestat", {
+                                method: 'post',
+                                headers: {
+                                    "content-type": "application/json",
+                                },
+                                body: JSON.stringify(json)
+                            })
+                                .then((res) => res.json())
+                                .then((json) => {
+                                })
+                        })
+                }
             })
+    }, [])
 
-    })
+
 
     return (
         <div className="fade-in">
