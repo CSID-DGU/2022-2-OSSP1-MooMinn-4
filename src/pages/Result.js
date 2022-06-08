@@ -62,11 +62,7 @@ const Result = () => {
     const [specialMajorCredit, setSpecialMajorCredit] = useState();
     const [engClassCount, setEngClassCount] = useState();
     const [totalScore, setTotalScore] = useState();
-    const [notTakingNC, setNotTakingNC] = useState();
-    const [notTakingBSM_GS, setNotTakingBSM_GS] = useState();
-    const [notTakingMJ, setNotTakingMJ] = useState();
 
-    const [isTakingNecessaryClass,setIsTakingNecessaryClass]
     const [isGraduate, setIsGraduate] = useState();
     const [isRegister, setIsRegister] = useState();
     const [isEngScore, setIsEngScore] = useState();
@@ -111,9 +107,6 @@ const Result = () => {
             setSpecialMajorCredit(json.SpecialMajorCredit)
             setEngClassCount(json.EngClassCount)
             setTotalScore(json.TotalScore)
-            setNotTakingNC(json.NotTakingNC)
-            setNotTakingBSM_GS(json.NotTakingBSM_GS)
-            setNotTakingMJ(json.NotTakingMJ)
             if (register >= 8) setIsRegister(true)
             else setIsRegister(false)
             if (engScore >= 700) setIsEngScore(true)
@@ -130,31 +123,8 @@ const Result = () => {
             else setIsTotalScore(false)
             if (engClassCount >= 4) setIsEngClassCount(true)
             else setIsEngClassCount(false)
-            if (notTakingNC.length() > 0) setIsTakingNecessaryClass(false)
-            else if (notTakingBSM_GS.length() > 0) setIsTakingNecessaryClass(false)
-            else if (notTakingMJ.length() > 0)
-            {
-                if (notTakingMJ.length() == 1 && notTakingMJ[0] == "계산적 사고법" && course == "일반" && studentNumber >= 2020) {
-                    notTakingMJ.pop()
-                }
-                    
-                else
-                    setIsTakingNecessaryClass(false)
-            }
-            else setIsTakingNecessaryClass(true)
-            tempString = ""
-            for (var i = 0; i < notTakingNC.length(); i++){
-            tempString +=' '+notTakingNC[i]
-        }
-        for (var i = 0; i < notTakingBSM_GS.length(); i++){
-        tempString += notTakingBSM_GS[i]
-    }
-    for (var i=0; i < notTakingMJ.length(); i++) {
-        tempString + notTakingMJ
-    }
             if (isRegister && isEngScore && isTotalCredit && isCommonClassCredit && isBsmCredit && isMajorCredit && isEngClassCount && isTotalScore) setIsGraduate(true)
             else setIsGraduate(false)
-            console.log(isRegister, isEngScore, isTotalCredit, isCommonClassCredit, isBsmCredit, isMajorCredit, isEngClassCount, isTotalScore,isTakingNecessaryClass)
         })
         setTimeout(()=> {
             setLoading(false)
@@ -244,36 +214,36 @@ const Result = () => {
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
                                         <span className="category_title">공통교양</span>
-                                        <span className="category_content">{commonClassCredit} / 14</span>
+                                        <span className="category_content">{commonClassCredit}학점 / 14학점</span>
                                     </Stack> :
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">공통교양</span>
-                                        <span className="category_content"><b style={{ color: 'crimson' }}>{commonClassCredit}</b> / 14</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{commonClassCredit}학점</b> / 14학점</span>
                                     </Stack>
                                 }
                                 {isBsmCredit ?
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
                                         <span className="category_title">학문기초</span>
-                                        <span className="category_content">{bsmCredit} / 21</span>
+                                        <span className="category_content">{bsmCredit}학점 / 21학점</span>
                                     </Stack> :
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">학문기초</span>
-                                        <span className="category_content"><b style={{ color: 'crimson' }}>{bsmCredit}</b> / 21</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{bsmCredit}학점</b> / 21학점</span>
                                     </Stack>
                                 }
                                 {isMajorCredit ?
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
                                         <span className="category_title">전공</span>
-                                        <span className="category_content">{majorCredit} / 84</span>
+                                        <span className="category_content">{majorCredit}학점 / 84학점</span>
                                     </Stack> :
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">전공</span>
-                                        <span className="category_content"><b style={{ color: 'crimson' }}>{majorCredit}</b> / 84</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{majorCredit}학점</b> / 84학점</span>
                                     </Stack>
                                 }
                             </AccordionDetails>
@@ -294,25 +264,7 @@ const Result = () => {
                             </div>
                             <span className="detail_content"><u>{totalScore}점</u>으로 2.0점 <b style={{ color: 'crimson' }}>미만</b>입니다.</span>
                         </Box>
-                        }
-                        {isTakingNecessaryClass ?
-                            <Box className="detail_box" >
-                                <div className="stack">
-                                    <img className="check_img0" alt="check_img" src="img/yeah.png"></img>
-                                    <span className="detail_title">필수강의</span>
-                                </div>
-                                <span className="detail_content">필수강의를 모두 이수하였습니다.</span>
-                            </Box> :
-                            <Box className="detail_box">
-                                <div className="stack">
-                                    <img className="check_img0" alt="check_img" src="img/nope.png"></img>
-                                    <span className="detail_title">필수강의</span>
-                                </div>
-                                <span className="detail_content">
-                                    <b style={{ color: 'crimson' }}>{tempString}</b>을 이수하지 않았습니다. </span>
-                            </Box>
-                        }
-                            
+                    }
                     <EssLectures />
                     {isEngClassCount ?
                         <Box className="detail_box">

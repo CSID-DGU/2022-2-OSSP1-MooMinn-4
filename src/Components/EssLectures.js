@@ -7,6 +7,7 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import '../pages/css/Result.css';
+import EssLecturesModal from '../components/EssLecturesModal';
 
 const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -41,6 +42,15 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 const EssLectures = () => {
     const [expanded, setExpanded] = useState('panel1');
+    const [course, setCourse] = useState();
+    const [studentNumber, setStudentNumber] = useState();
+    const [engLevel, setEngLevel] = useState();
+    const [notTakingNC, setNotTakingNC] = useState([]);
+    const [notTakingBSM_GS, setNotTakingBSM_GS] = useState([]);
+    const [notTakingMJ, setNotTakingMJ] = useState(["전공1"]);
+
+    const [isTakingNecessaryClass, setIsTakingNecessaryClass] = useState();
+    //const [tempString, setTempString] = useState("");
     
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
@@ -59,14 +69,40 @@ const EssLectures = () => {
         })
         .then((res) => res.json())
         .then((json) => {
-            // 받아온 json파일 변수에 저장
+            setCourse(json.Course)
+            setStudentNumber(json.StudentNumber)
+            setEngLevel(json.EngLevel)
+            setNotTakingNC(json.NotTakingNC)
+            setNotTakingBSM_GS(json.NotTakingBSM_GS)
+            setNotTakingMJ(json.NotTakingMJ)
+            if (notTakingNC.length) setIsTakingNecessaryClass(false)
+            else if (notTakingBSM_GS.length) setIsTakingNecessaryClass(false)
+            else if (notTakingMJ.length)
+            {
+                if (notTakingMJ.length === 1 && notTakingMJ[0] === "계산적 사고법" && course === "일반" && studentNumber >= 2020) {
+                    notTakingMJ.pop()
+                }
+                else
+                    setIsTakingNecessaryClass(false)
+            }
+            else setIsTakingNecessaryClass(true)
+            // for (var i = 0; i < notTakingNC.length; i++){
+            //     setTempString(tempString+' '+notTakingNC[i])
+            // }
+            // for (var i = 0; i < notTakingBSM_GS.length; i++){
+            //     setTempString(tempString+notTakingBSM_GS[i])
+            // }
+            // for (var i=0; i < notTakingMJ.length; i++) {
+            //     setTempString(tempString + notTakingMJ)
+            // }
+            console.log(isTakingNecessaryClass)
         })
     })
 
     return (
         <Box className="detail_box">
             <Accordion className="acc" onChange={handleChange('panel1')}>
-                {true ?
+                {isTakingNecessaryClass ?
                     <AccordionSummary aria-controls="panel1d-content">
                         <div>
                             <img className="check_img0" alt="check_img" src="img/yeah.png"></img>
@@ -83,18 +119,57 @@ const EssLectures = () => {
                     </AccordionSummary>
                 }
                 <AccordionDetails>
-                    {/* {true ?
-                        <Stack className="category" direction="row" spacing={1}>
-                            <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
-                            <span className="category_title">공통교양</span>
-                            <span className="category_content">0 / 14</span>
-                        </Stack> :
-                        <Stack className="category" direction="row" spacing={1}>
-                            <img className="check_img2" alt="check_img" src="img/nope.png"></img>
-                            <span className="category_title">공통교양</span>
-                            <span className="category_content"><b style={{ color: 'crimson' }}>0</b> / 14</span>
-                        </Stack>
-                    } */}
+                    <Stack direction="row" spacing={2} alignItems="center">
+                        {!notTakingNC.length ?
+                            <Stack className="category" direction="row" spacing={1}>
+                                <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                <span className="category_title">공통교양</span>
+                                <span className="category_content">모두 이수</span>
+                            </Stack> :
+                            <>
+                            <Stack className="category" direction="row" spacing={1}>
+                                <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                <span className="category_title">공통교양</span>
+                                <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingNC.length}개</b> 미이수</span>
+                            </Stack>
+                            <EssLecturesModal category={"공통교양"} notTakingList={notTakingNC} />
+                            </>
+                        }
+                    </Stack>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                        {!notTakingBSM_GS.length ?
+                            <Stack className="category" direction="row" spacing={1}>
+                                <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                <span className="category_title">학문기초</span>
+                                <span className="category_content">모두 이수</span>
+                            </Stack> :
+                            <>
+                            <Stack className="category" direction="row" spacing={1}>
+                                <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                <span className="category_title">학문기초</span>
+                                <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingBSM_GS.length}개</b> 미이수</span>
+                            </Stack>
+                            <EssLecturesModal category={"학문기초"} notTakingList={notTakingBSM_GS} />
+                            </>
+                        }
+                    </Stack>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                        {!notTakingMJ.length ?
+                            <Stack className="category" direction="row" spacing={1}>
+                                <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                <span className="category_title">전공</span>
+                                <span className="category_content">모두 이수</span>
+                            </Stack> :
+                            <>
+                            <Stack className="category" direction="row" spacing={1}>
+                                <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                <span className="category_title">전공</span>
+                                <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingMJ.length}개</b> 미이수</span>
+                            </Stack>
+                            <EssLecturesModal category={"전공"} notTakingList={notTakingMJ} />
+                            </>
+                        }
+                    </Stack>
                 </AccordionDetails>
             </Accordion>
         </Box>
