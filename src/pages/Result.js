@@ -132,7 +132,15 @@ const Result = () => {
             else setIsEngClassCount(false)
             if (notTakingNC.length() > 0) setIsTakingNecessaryClass(false)
             else if (notTakingBSM_GS.length() > 0) setIsTakingNecessaryClass(false)
-            else if (notTakingMJ.length() > 0) setIsTakingNecessaryClass(false)
+            else if (notTakingMJ.length() > 0)
+            {
+                if (notTakingMJ.length() == 1 && notTakingMJ[0] == "계산적 사고법" && course == "일반" && studentNumber >= 2020) {
+                    notTakingMJ.pop()
+                }
+                    
+                else
+                    setIsTakingNecessaryClass(false)
+            }
             else setIsTakingNecessaryClass(true)
             tempString = ""
             for (var i = 0; i < notTakingNC.length(); i++){
