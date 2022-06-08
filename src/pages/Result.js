@@ -62,7 +62,11 @@ const Result = () => {
     const [specialMajorCredit, setSpecialMajorCredit] = useState();
     const [engClassCount, setEngClassCount] = useState();
     const [totalScore, setTotalScore] = useState();
+    const [notTakingNC, setNotTakingNC] = useState();
+    const [notTakingBSM_GS, setNotTakingBSM_GS] = useState();
+    const [notTakingMJ, setNotTakingMJ] = useState();
 
+    const [isTakingNecessaryClass,setIsTakingNecessaryClass]
     const [isGraduate, setIsGraduate] = useState();
     const [isRegister, setIsRegister] = useState();
     const [isEngScore, setIsEngScore] = useState();
@@ -107,6 +111,9 @@ const Result = () => {
             setSpecialMajorCredit(json.SpecialMajorCredit)
             setEngClassCount(json.EngClassCount)
             setTotalScore(json.TotalScore)
+            setNotTakingNC(json.NotTakingNC)
+            setNotTakingBSM_GS(json.NotTakingBSM_GS)
+            setNotTakingMJ(json.NotTakingMJ)
             if (register >= 8) setIsRegister(true)
             else setIsRegister(false)
             if (engScore >= 700) setIsEngScore(true)
@@ -123,9 +130,23 @@ const Result = () => {
             else setIsTotalScore(false)
             if (engClassCount >= 4) setIsEngClassCount(true)
             else setIsEngClassCount(false)
+            if (notTakingNC.length() > 0) setIsTakingNecessaryClass(false)
+            else if (notTakingBSM_GS.length() > 0) setIsTakingNecessaryClass(false)
+            else if (notTakingMJ.length() > 0) setIsTakingNecessaryClass(false)
+            else setIsTakingNecessaryClass(true)
+            tempString = ""
+            for (var i = 0; i < notTakingNC.length(); i++){
+            tempString +=' '+notTakingNC[i]
+        }
+        for (var i = 0; i < notTakingBSM_GS.length(); i++){
+        tempString += notTakingBSM_GS[i]
+    }
+    for (var i=0; i < notTakingMJ.length(); i++) {
+        tempString + notTakingMJ
+    }
             if (isRegister && isEngScore && isTotalCredit && isCommonClassCredit && isBsmCredit && isMajorCredit && isEngClassCount && isTotalScore) setIsGraduate(true)
             else setIsGraduate(false)
-            console.log(isRegister, isEngScore, isTotalCredit, isCommonClassCredit, isBsmCredit, isMajorCredit, isEngClassCount, isTotalScore)
+            console.log(isRegister, isEngScore, isTotalCredit, isCommonClassCredit, isBsmCredit, isMajorCredit, isEngClassCount, isTotalScore,isTakingNecessaryClass)
         })
         setTimeout(()=> {
             setLoading(false)
@@ -265,7 +286,25 @@ const Result = () => {
                             </div>
                             <span className="detail_content"><u>{totalScore}점</u>으로 2.0점 <b style={{ color: 'crimson' }}>미만</b>입니다.</span>
                         </Box>
-                    }
+                        }
+                        {isTakingNecessaryClass ?
+                            <Box className="detail_box" >
+                                <div className="stack">
+                                    <img className="check_img0" alt="check_img" src="img/yeah.png"></img>
+                                    <span className="detail_title">필수강의</span>
+                                </div>
+                                <span className="detail_content">필수강의를 모두 이수하였습니다.</span>
+                            </Box> :
+                            <Box className="detail_box">
+                                <div className="stack">
+                                    <img className="check_img0" alt="check_img" src="img/nope.png"></img>
+                                    <span className="detail_title">필수강의</span>
+                                </div>
+                                <span className="detail_content">
+                                    <b style={{ color: 'crimson' }}>{tempString}</b>을 이수하지 않았습니다. </span>
+                            </Box>
+                        }
+                            
                     <EssLectures />
                     {isEngClassCount ?
                         <Box className="detail_box">
