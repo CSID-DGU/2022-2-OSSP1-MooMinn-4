@@ -61,6 +61,24 @@ const EssLectures = () => {
         setExpanded(newExpanded ? panel : false);
     };
 
+    const calcCredit = (leadershipCredit, GSCredit, bsmExperimentCredit) => {
+        if (leadershipCredit < 2) {
+            setNotTakingNC(notTakingNC => [...notTakingNC, "리더십 과목 중 택 1"])
+        }
+        if (GSCredit < 3) {
+            setNotTakingBSM_GS(notTakingBSM_GS => [...notTakingBSM_GS, "기본소양 과목 중 택 3"])
+        }
+        else if (GSCredit < 6) {
+            setNotTakingBSM_GS(notTakingBSM_GS => [...notTakingBSM_GS, "기본소양 과목 중 택 2"])
+        }
+        else if (GSCredit < 9) {
+            setNotTakingBSM_GS(notTakingBSM_GS => [...notTakingBSM_GS, "기본소양 과목 중 택 1"])
+        }
+        if (bsmExperimentCredit < 3) {
+            setNotTakingBSM_GS(notTakingMJ => [...notTakingMJ, "과학실험 과목 중 택 1"])
+        }
+    }
+
     useEffect(() => {
         const data = {
             email: sessionStorage.getItem('userId')
@@ -83,6 +101,7 @@ const EssLectures = () => {
             setleadershipCredit(json.leadershipCredit)
             setGSCredit(json.GSCredit)
             setbsmExperimentCredit(json.bsmExperimentCredit)
+            calcCredit(leadershipCredit, GSCredit, bsmExperimentCredit)
             if (notTakingNC.length) setIsTakingNecessaryClass(false)
             else if (notTakingBSM_GS.length) setIsTakingNecessaryClass(false)
             else if (notTakingMJ.length)
@@ -93,19 +112,7 @@ const EssLectures = () => {
                 else
                     setIsTakingNecessaryClass(false)
             }
-            else if (leadershipCredit < 2) setIsTakingNecessaryClass(false)
-            else if (GSCredit < 9) setIsTakingNecessaryClass(false)
-            else if (bsmExperimentCredit <3)  setIsTakingNecessaryClass(false)
             else setIsTakingNecessaryClass(true)
-            // for (var i = 0; i < notTakingNC.length; i++){
-            //     setTempString(tempString+' '+notTakingNC[i])
-            // }
-            // for (var i = 0; i < notTakingBSM_GS.length; i++){
-            //     setTempString(tempString+notTakingBSM_GS[i])
-            // }
-            // for (var i=0; i < notTakingMJ.length; i++) {
-            //     setTempString(tempString + notTakingMJ)
-            // }
             console.log({"notTakingNC": notTakingNC, "notTakingBSM_GS": notTakingBSM_GS, "notTakingMJ": notTakingMJ})
             console.log(isTakingNecessaryClass)
         })
@@ -143,14 +150,18 @@ const EssLectures = () => {
                                     <span className="category_title">공통교양</span>
                                     <span className="category_content">모두 이수</span>
                                 </Stack> :
-                                <>
-                                <Stack className="category" direction="row" spacing={1}>
-                                    <img className="check_img2" alt="check_img" src="img/nope.png"></img>
-                                    <span className="category_title">공통교양</span>
-                                    <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingNC.length}개</b> 미이수</span>
+                                <Stack direction={{ xs: 'column', sm: 'row' }}>
+                                    <Stack className="category" direction="row" spacing={1}>
+                                        <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                        <span className="category_title">공통교양</span>
+                                        <span className="category_content" style={{width:80}}><b style={{ color: 'crimson' }}>{notTakingNC.length}개</b> 미이수</span>
+                                    </Stack>
+                                    <div className="badge_box">
+                                        {
+                                            notTakingNC.map((names, idx) => (<div style={{display:"inline"}} key={idx}><span className="badge">{names}</span></div>))
+                                        }
+                                    </div>
                                 </Stack>
-                                <EssLecturesModal category={"공통교양"} notTakingList={notTakingNC} />
-                                </>
                             }
                         </Stack>
                         <Stack direction="row" spacing={2} alignItems="center">
@@ -160,14 +171,18 @@ const EssLectures = () => {
                                     <span className="category_title">학문기초</span>
                                     <span className="category_content">모두 이수</span>
                                 </Stack> :
-                                <>
-                                <Stack className="category" direction="row" spacing={1}>
-                                    <img className="check_img2" alt="check_img" src="img/nope.png"></img>
-                                    <span className="category_title">학문기초</span>
-                                    <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingBSM_GS.length}개</b> 미이수</span>
+                                <Stack direction={{ xs: 'column', sm: 'row' }}>
+                                    <Stack className="category" direction="row" spacing={1}>
+                                        <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                        <span className="category_title">학문기초</span>
+                                        <span className="category_content" style={{width:80}}><b style={{ color: 'crimson' }}>{notTakingBSM_GS.length}개</b> 미이수</span>
+                                    </Stack>
+                                    <div className="badge_box">
+                                        {
+                                            notTakingBSM_GS.map((names, idx) => (<div style={{display:"inline"}} key={idx}><span className="badge">{names}</span></div>))
+                                        }
+                                    </div>                                
                                 </Stack>
-                                <EssLecturesModal category={"학문기초"} notTakingList={notTakingBSM_GS} />
-                                </>
                             }
                         </Stack>
                         <Stack direction="row" spacing={2} alignItems="center">
@@ -177,14 +192,18 @@ const EssLectures = () => {
                                     <span className="category_title">전공</span>
                                     <span className="category_content">모두 이수</span>
                                 </Stack> :
-                                <>
-                                <Stack className="category" direction="row" spacing={1}>
-                                    <img className="check_img2" alt="check_img" src="img/nope.png"></img>
-                                    <span className="category_title">전공</span>
-                                    <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingMJ.length}개</b> 미이수</span>
+                                <Stack direction={{ xs: 'column', sm: 'row' }}>
+                                    <Stack className="category" direction="row" spacing={1}>
+                                        <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                        <span className="category_title">전공</span>
+                                        <span className="category_content" style={{width:80}}><b style={{ color: 'crimson' }}>{notTakingMJ.length}개</b> 미이수</span>
+                                    </Stack>
+                                    <div className="badge_box">
+                                        {
+                                            notTakingMJ.map((names, idx) => (<div style={{display:"inline"}} key={idx}><span className="badge">{names}</span></div>))
+                                        }
+                                    </div>                                
                                 </Stack>
-                                <EssLecturesModal category={"전공"} notTakingList={notTakingMJ} />
-                                </>
                             }
                         </Stack>
                         {/* <Stack direction="row" spacing={2} alignItems="center">

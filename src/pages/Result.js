@@ -261,7 +261,7 @@ const Result = () => {
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">공통교양</span>
-                                        <span className="category_content"><b style={{ color: 'crimson' }}>{commonClassCredit}학점</b> / 14학점</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{commonClassCredit ? commonClassCredit : 0}학점</b> / 14학점</span>
                                     </Stack>
                                 }
                                 {isBsmCredit ?
@@ -273,7 +273,7 @@ const Result = () => {
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">학문기초</span>
-                                        <span className="category_content"><b style={{ color: 'crimson' }}>{bsmCredit}학점</b> / 21학점</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{bsmCredit ? bsmCredit : 0}학점</b> / 21학점</span>
                                     </Stack>
                                 }
                                 {isMajorCredit ?
@@ -285,7 +285,7 @@ const Result = () => {
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">전공</span>
-                                        <span className="category_content"><b style={{ color: 'crimson' }}>{majorCredit}학점</b> / {major_Credit}학점</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{majorCredit ? majorCredit : 0}학점</b> / {major_Credit}학점</span>
                                     </Stack>
                                 }
                             </AccordionDetails>
@@ -309,14 +309,14 @@ const Result = () => {
                     }
                     <EssLectures />
                     {isEngClassCount ?
-                        <Box className="detail_box">
+                        <Box className="final_detail_box">
                             <div className="stack">
                                 <img className="check_img" alt="check_img" src="img/yeah.png"></img>
                                 <span className="detail_title">영어강의</span>
                             </div>
                             <span className="detail_content"><u>{engClassCount}강의</u>를 이수하였습니다.</span>
                         </Box> :
-                        <Box className="detail_box">
+                        <Box className="final_detail_box">
                             <div className="stack">
                                 <img className="check_img" alt="check_img" src="img/nope.png"></img>
                                 <span className="detail_title">영어강의</span>
@@ -324,13 +324,6 @@ const Result = () => {
                             <span className="detail_content"><u>{engClassCount}강의</u>를 이수하였습니다. <b style={{ color: 'crimson' }}>{4-engClassCount}강의</b>가 부족합니다.</span>
                         </Box>
                     }
-                    <Box className="final_detail_box">
-                        <div className="stack">
-                            <img className="check_img" alt="check_img" src="img/yeah.png"></img>
-                            <span className="detail_title">졸업논문</span>
-                        </div>
-                        <span className="detail_content">컴퓨터공학종합설계 1,2를 모두 이수하였습니다.</span>
-                    </Box>
                 </Box>
             </div>
         )}

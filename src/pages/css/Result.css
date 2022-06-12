@@ -171,9 +171,26 @@ u {
         color: dimgray;
         line-height: 35px;
     }
+    .badge_box {
+        /* background-color: rgba(30, 162, 223, 0.555); */
+        position: relative;
+        left: 10px;
+        margin-right: 20px;
+        line-height: 40px;
+    }
+    .badge {
+        display: inline-block;
+        font-size: 12px;
+        border: 1px solid crimson;
+        color: crimson;
+        margin: 0 3px 0 3px;
+        padding: 3px 5px 3px 5px;
+        border-radius: 5px;
+        line-height: 15px;
+    }
 }
 
-@media screen and (min-width: 1300px) {
+@media screen and (min-width: 1500px) {
     .result_detail {
         background-color: white;
         padding: 10px;
@@ -331,7 +348,9 @@ u {
         margin-left: 45px;
     }
     .category {
-        /* background-color: bisque; */
+        /* background-color: rgb(225, 174, 171); */
+        position: relative;
+        left: 0;
         padding-top: 5px;
         padding-bottom: 5px;
     }
@@ -339,7 +358,7 @@ u {
         /* background-color: cadetblue; */
         width: 25px;
         height: 25px;
-        margin-left: 40px
+        margin-left: 20px
     }
     .category_title {
         /* background-color: dimgray; */
@@ -355,5 +374,20 @@ u {
         font-size: 0.7em;
         color: dimgray;
         line-height: 25px;
+    }
+    .badge_box {
+        /* background-color: rgba(255, 204, 127, 0.555); */
+        position: relative;
+        left: 20px;
+        margin: 3px 20px 3px 0;
+    }
+    .badge {
+        display: inline-block;
+        font-size: 12px;
+        border: 1px solid crimson;
+        color: crimson;
+        margin: 2px 3px 2px 3px;
+        padding: 3px 5px 3px 5px;
+        border-radius: 5px;
     }
 }

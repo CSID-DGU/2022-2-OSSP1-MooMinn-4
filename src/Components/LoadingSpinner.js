@@ -1,4 +1,3 @@
-import { pink } from '@mui/material/colors';
 import React from 'react';
 import PulseLoader from 'react-spinners/PulseLoader';
 
