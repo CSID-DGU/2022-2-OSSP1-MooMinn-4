@@ -72,6 +72,9 @@ const Result = () => {
     const [isMajorCredit, setIsMajorCredit] = useState();
     const [isEngClassCount, setIsEngClassCount] = useState();
     const [isTotalScore, setIsTotalScore] = useState();
+
+    var total_Credit
+    var major_Credit
     
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
@@ -107,18 +110,57 @@ const Result = () => {
             setSpecialMajorCredit(json.SpecialMajorCredit)
             setEngClassCount(json.EngClassCount)
             setTotalScore(json.TotalScore)
+        
             if (register >= 8) setIsRegister(true)
             else setIsRegister(false)
             if (engScore >= 700) setIsEngScore(true)
             else setIsEngScore(false)
-            if (totalCredit >= 140) setIsTotalCredit(true)
-            else setIsTotalCredit(false)
+            if (course === '심화'){
+                if (totalCredit >= 140) {
+                    setIsTotalCredit(true)
+                    total_Credit = totalCredit
+                }
+                else{
+                    setIsTotalCredit(false)
+                    total_Credit = 140 - totalCredit
+                } 
+            }
+            else {
+                if (totalCredit >= 130) {
+                    setIsTotalCredit(true)
+                    total_Credit = totalCredit
+                }
+                else {
+                    setIsTotalCredit(false)
+                    total_Credit = 130 - totalCredit
+                }
+            }
+
             if (commonClassCredit >= 14) setIsCommonClassCredit(true)
             else setIsCommonClassCredit(false)
             if (bsmCredit >= 21) setIsBsmCredit(true)
             else setIsBsmCredit(false)
-            if (majorCredit >= 84) setIsMajorCredit(true)
-            else setIsMajorCredit(false)
+            if (course === '심화'){
+                if (majorCredit >= 84) {
+                    setIsMajorCredit(true)
+                    major_Credit = 84
+                    
+                }
+                else{
+                    setIsMajorCredit(false)
+                    major_Credit = 84
+                } 
+            }
+            else {
+                if (majorCredit >= 72) {
+                    setIsMajorCredit(true)
+                    major_Credit = 72
+                }
+                else {
+                    setIsMajorCredit(false)
+                    major_Credit = 72
+                }
+            }
             if (totalScore >= 2.0) setIsTotalScore(true)
             else setIsTotalScore(false)
             if (engClassCount >= 4) setIsEngClassCount(true)
@@ -206,7 +248,7 @@ const Result = () => {
                                     <img className="check_img0" alt="check_img" src="img/nope.png"></img>
                                     <span className="detail_title2">취득학점</span>
                                 </div>
-                                <span className="detail_content2">총 <u>{totalCredit}학점</u>으로 <b style={{ color: 'crimson' }}>{140-totalCredit}학점</b>이 부족합니다.</span>
+                                <span className="detail_content2">총 <u>{totalCredit}학점</u>으로 <b style={{ color: 'crimson' }}>{total_Credit}학점</b>이 부족합니다.</span>
                                 </AccordionSummary>
                             }
                             <AccordionDetails>
@@ -243,7 +285,7 @@ const Result = () => {
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">전공</span>
-                                        <span className="category_content"><b style={{ color: 'crimson' }}>{majorCredit}학점</b> / 84학점</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{majorCredit}학점</b> / {major_Credit}학점</span>
                                     </Stack>
                                 }
                             </AccordionDetails>
