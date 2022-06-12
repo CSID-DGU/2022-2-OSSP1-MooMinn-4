@@ -133,7 +133,7 @@ const Result = () => {
 
     return (
         <>
-        {loading ? <LoadingSpinner /> : (
+        {loading ? <LoadingSpinner op={true} /> : (
             <div className="fade-in">
                 {!hasResult && 
                     <AlertModal 

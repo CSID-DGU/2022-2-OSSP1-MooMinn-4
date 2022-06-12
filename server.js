@@ -676,23 +676,6 @@ app.post('/result/essLectures', (req, res) => {
                 }
             }
         })
-    connection.query(sql, [email, 'PRI4043%'],
-        function (err, result) {
-            if (!err) {
-                if (result[0].ClassArea === '기본소양')
-                    GSCredit += 3
-            }
-            data = {
-                notTakingNC: notTakingNC,
-                notTakingBSM: notTakingBSM,
-                notTakingMJ: notTakingMJ,
-                leadershipCredit: leadershipCredit,
-                GSCredit: GSCredit,
-                bsmExperimentCredit: bsmExperimentCredit
-            }
-            console.log(data)
-            res.json(data)
-        })
 })
 
 app.post('/semester', (req, res) => {

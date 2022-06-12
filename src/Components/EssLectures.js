@@ -8,6 +8,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import '../pages/css/Result.css';
 import EssLecturesModal from '../components/EssLecturesModal';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -42,12 +43,14 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 const EssLectures = () => {
     const [expanded, setExpanded] = useState('panel1');
+    const [loading, setLoading] = useState(true);
+
     const [course, setCourse] = useState();
     const [studentNumber, setStudentNumber] = useState();
     const [engLevel, setEngLevel] = useState();
-    const [notTakingNC, setNotTakingNC] = useState([]);
-    const [notTakingBSM_GS, setNotTakingBSM_GS] = useState([]);
-    const [notTakingMJ, setNotTakingMJ] = useState(["전공1"]);
+    const [notTakingNC, setNotTakingNC] = useState(["NULL"]);
+    const [notTakingBSM_GS, setNotTakingBSM_GS] = useState(["NULL"]);
+    const [notTakingMJ, setNotTakingMJ] = useState(["NULL"]);
     const [leadershipCredit, setleadershipCredit] = useState();
     const [GSCredit, setGSCredit] = useState();
     const [bsmExperimentCredit, setbsmExperimentCredit] = useState();
@@ -74,9 +77,9 @@ const EssLectures = () => {
             setCourse(json.Course)
             setStudentNumber(json.StudentNumber)
             setEngLevel(json.EngLevel)
-            setNotTakingNC(json.NotTakingNC)
-            setNotTakingBSM_GS(json.NotTakingBSM)
-            setNotTakingMJ(json.NotTakingMJ)
+            setNotTakingNC(json.notTakingNC)
+            setNotTakingBSM_GS(json.notTakingBSM)
+            setNotTakingMJ(json.notTakingMJ)
             setleadershipCredit(json.leadershipCredit)
             setGSCredit(json.GSCredit)
             setbsmExperimentCredit(json.bsmExperimentCredit)
@@ -103,132 +106,140 @@ const EssLectures = () => {
             // for (var i=0; i < notTakingMJ.length; i++) {
             //     setTempString(tempString + notTakingMJ)
             // }
+            console.log({"notTakingNC": notTakingNC, "notTakingBSM_GS": notTakingBSM_GS, "notTakingMJ": notTakingMJ})
             console.log(isTakingNecessaryClass)
         })
+        setTimeout(()=> {
+            setLoading(false)
+            console.log("로딩종료") }, 5000)
     })
 
     return (
-        <Box className="detail_box">
-            <Accordion className="acc" onChange={handleChange('panel1')}>
-                {isTakingNecessaryClass ?
-                    <AccordionSummary aria-controls="panel1d-content">
-                        <div>
-                            <img className="check_img0" alt="check_img" src="img/yeah.png"></img>
-                            <span className="detail_title2">필수강의</span>
-                        </div>
-                        <span className="detail_content2">필수강의를 모두 이수하였습니다.</span>
-                    </AccordionSummary> :
-                    <AccordionSummary aria-controls="panel1d-content">
-                        <div>
-                            <img className="check_img0" alt="check_img" src="img/nope.png"></img>
-                            <span className="detail_title2">필수강의</span>
-                        </div>
-                        <span className="detail_content2"><b style={{ color: 'crimson' }}>미이수</b>한 필수강의가 있습니다.</span>
-                    </AccordionSummary>
-                }
-                <AccordionDetails>
-                    <Stack direction="row" spacing={2} alignItems="center">
-                        {!notTakingNC.length ?
-                            <Stack className="category" direction="row" spacing={1}>
-                                <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
-                                <span className="category_title">공통교양</span>
-                                <span className="category_content">모두 이수</span>
-                            </Stack> :
-                            <>
-                            <Stack className="category" direction="row" spacing={1}>
-                                <img className="check_img2" alt="check_img" src="img/nope.png"></img>
-                                <span className="category_title">공통교양</span>
-                                <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingNC.length}개</b> 미이수</span>
-                            </Stack>
-                            <EssLecturesModal category={"공통교양"} notTakingList={notTakingNC} />
-                            </>
-                        }
-                    </Stack>
-                    <Stack direction="row" spacing={2} alignItems="center">
-                        {!notTakingBSM_GS.length ?
-                            <Stack className="category" direction="row" spacing={1}>
-                                <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
-                                <span className="category_title">학문기초</span>
-                                <span className="category_content">모두 이수</span>
-                            </Stack> :
-                            <>
-                            <Stack className="category" direction="row" spacing={1}>
-                                <img className="check_img2" alt="check_img" src="img/nope.png"></img>
-                                <span className="category_title">학문기초</span>
-                                <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingBSM_GS.length}개</b> 미이수</span>
-                            </Stack>
-                            <EssLecturesModal category={"학문기초"} notTakingList={notTakingBSM_GS} />
-                            </>
-                        }
-                    </Stack>
-                    <Stack direction="row" spacing={2} alignItems="center">
-                        {!notTakingMJ.length ?
-                            <Stack className="category" direction="row" spacing={1}>
-                                <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
-                                <span className="category_title">전공</span>
-                                <span className="category_content">모두 이수</span>
-                            </Stack> :
-                            <>
-                            <Stack className="category" direction="row" spacing={1}>
-                                <img className="check_img2" alt="check_img" src="img/nope.png"></img>
-                                <span className="category_title">전공</span>
-                                <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingMJ.length}개</b> 미이수</span>
-                            </Stack>
-                            <EssLecturesModal category={"전공"} notTakingList={notTakingMJ} />
-                            </>
-                        }
-                    </Stack>
-                    <Stack direction="row" spacing={2} alignItems="center">
-                        {leadershipCredit >= 2 ?
-                            <Stack className="category" direction="row" spacing={1}>
-                                <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
-                                <span className="category_title">리더쉽</span>
-                                <span className="category_content">모두 이수</span>
-                            </Stack> :
-                            <>
-                            <Stack className="category" direction="row" spacing={1}>
-                                <img className="check_img2" alt="check_img" src="img/nope.png"></img>
-                                <span className="category_title">리더쉽</span>
-                                <span className="category_content">소셜앙트레프러너십과리더십, 글로벌앙트레프러너십과리더십, 테크노앙트레프러너십과리더십 중 하나 이수해야 함</span>
-                            </Stack>
-                            </>
-                        }
-                    </Stack>
-                    <Stack direction="row" spacing={2} alignItems="center">
-                        {GSCredit >= 9 ?
-                            <Stack className="category" direction="row" spacing={1}>
-                                <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
-                                <span className="category_title">기본소양</span>
-                                <span className="category_content">모두 이수</span>
-                            </Stack> :
-                            <>
-                            <Stack className="category" direction="row" spacing={1}>
-                                <img className="check_img2" alt="check_img" src="img/nope.png"></img>
-                                <span className="category_title">기본소양</span>
-                                <span className="category_content">기술창조와특허, 공학경제, 공학윤리를 이수해야 합니다.</span>
-                            </Stack>
-                            </>
-                        }
-                    </Stack>
-                    <Stack direction="row" spacing={2} alignItems="center">
-                        {bsmExperimentCredit >= 3 ?
-                            <Stack className="category" direction="row" spacing={1}>
-                                <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
-                                <span className="category_title">BSM 실험</span>
-                                <span className="category_content">모두 이수</span>
-                            </Stack> :
-                            <>
-                            <Stack className="category" direction="row" spacing={1}>
-                                <img className="check_img2" alt="check_img" src="img/nope.png"></img>
-                                <span className="category_title">BSM 실험</span>
-                                <span className="category_content">BSM 실험과목 중 하나를 이수해야 합니다</span>
-                            </Stack>
-                            </>
-                        }
-                    </Stack>
-                </AccordionDetails>
-            </Accordion>
-        </Box>
+        <>
+        {loading ? <LoadingSpinner op={false} /> : (
+            <Box className="detail_box">
+                <Accordion className="acc" onChange={handleChange('panel1')}>
+                    {isTakingNecessaryClass ?
+                        <AccordionSummary aria-controls="panel1d-content">
+                            <div>
+                                <img className="check_img0" alt="check_img" src="img/yeah.png"></img>
+                                <span className="detail_title2">필수강의</span>
+                            </div>
+                            <span className="detail_content2">필수강의를 모두 이수하였습니다.</span>
+                        </AccordionSummary> :
+                        <AccordionSummary aria-controls="panel1d-content">
+                            <div>
+                                <img className="check_img0" alt="check_img" src="img/nope.png"></img>
+                                <span className="detail_title2">필수강의</span>
+                            </div>
+                            <span className="detail_content2"><b style={{ color: 'crimson' }}>미이수</b>한 필수강의가 있습니다.</span>
+                        </AccordionSummary>
+                    }
+                    <AccordionDetails>
+                        <Stack direction="row" spacing={2} alignItems="center">
+                            {!notTakingNC.length ?
+                                <Stack className="category" direction="row" spacing={1}>
+                                    <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                    <span className="category_title">공통교양</span>
+                                    <span className="category_content">모두 이수</span>
+                                </Stack> :
+                                <>
+                                <Stack className="category" direction="row" spacing={1}>
+                                    <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                    <span className="category_title">공통교양</span>
+                                    <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingNC.length}개</b> 미이수</span>
+                                </Stack>
+                                <EssLecturesModal category={"공통교양"} notTakingList={notTakingNC} />
+                                </>
+                            }
+                        </Stack>
+                        <Stack direction="row" spacing={2} alignItems="center">
+                            {!notTakingBSM_GS.length ?
+                                <Stack className="category" direction="row" spacing={1}>
+                                    <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                    <span className="category_title">학문기초</span>
+                                    <span className="category_content">모두 이수</span>
+                                </Stack> :
+                                <>
+                                <Stack className="category" direction="row" spacing={1}>
+                                    <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                    <span className="category_title">학문기초</span>
+                                    <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingBSM_GS.length}개</b> 미이수</span>
+                                </Stack>
+                                <EssLecturesModal category={"학문기초"} notTakingList={notTakingBSM_GS} />
+                                </>
+                            }
+                        </Stack>
+                        <Stack direction="row" spacing={2} alignItems="center">
+                            {!notTakingMJ.length ?
+                                <Stack className="category" direction="row" spacing={1}>
+                                    <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                    <span className="category_title">전공</span>
+                                    <span className="category_content">모두 이수</span>
+                                </Stack> :
+                                <>
+                                <Stack className="category" direction="row" spacing={1}>
+                                    <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                    <span className="category_title">전공</span>
+                                    <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingMJ.length}개</b> 미이수</span>
+                                </Stack>
+                                <EssLecturesModal category={"전공"} notTakingList={notTakingMJ} />
+                                </>
+                            }
+                        </Stack>
+                        {/* <Stack direction="row" spacing={2} alignItems="center">
+                            {leadershipCredit >= 2 ?
+                                <Stack className="category" direction="row" spacing={1}>
+                                    <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                    <span className="category_title">리더쉽</span>
+                                    <span className="category_content">모두 이수</span>
+                                </Stack> :
+                                <>
+                                <Stack className="category" direction="row" spacing={1}>
+                                    <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                    <span className="category_title">리더쉽</span>
+                                    <span className="category_content">소셜앙트레프러너십과리더십, 글로벌앙트레프러너십과리더십, 테크노앙트레프러너십과리더십 중 하나 이수해야 함</span>
+                                </Stack>
+                                </>
+                            }
+                        </Stack>
+                        <Stack direction="row" spacing={2} alignItems="center">
+                            {GSCredit >= 9 ?
+                                <Stack className="category" direction="row" spacing={1}>
+                                    <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                    <span className="category_title">기본소양</span>
+                                    <span className="category_content">모두 이수</span>
+                                </Stack> :
+                                <>
+                                <Stack className="category" direction="row" spacing={1}>
+                                    <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                    <span className="category_title">기본소양</span>
+                                    <span className="category_content">기술창조와특허, 공학경제, 공학윤리를 이수해야 합니다.</span>
+                                </Stack>
+                                </>
+                            }
+                        </Stack>
+                        <Stack direction="row" spacing={2} alignItems="center">
+                            {bsmExperimentCredit >= 3 ?
+                                <Stack className="category" direction="row" spacing={1}>
+                                    <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                    <span className="category_title">BSM 실험</span>
+                                    <span className="category_content">모두 이수</span>
+                                </Stack> :
+                                <>
+                                <Stack className="category" direction="row" spacing={1}>
+                                    <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                    <span className="category_title">BSM 실험</span>
+                                    <span className="category_content">BSM 실험과목 중 하나를 이수해야 합니다</span>
+                                </Stack>
+                                </>
+                            }
+                        </Stack> */}
+                    </AccordionDetails>
+                </Accordion>
+            </Box>
+        )}
+        </>
     );
 };
 

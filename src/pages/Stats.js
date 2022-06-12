@@ -65,7 +65,7 @@ const Stats = () => {
 
     return (
         <>
-        {loading ? <LoadingSpinner /> : (
+        {loading ? <LoadingSpinner op={true} /> : (
             <div className="fade-in">
                 <Header mypage signout />
                 <Box className="sub_title">

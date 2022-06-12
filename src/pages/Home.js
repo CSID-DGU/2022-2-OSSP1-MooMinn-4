@@ -32,7 +32,7 @@ const Home = () => {
 
     return (
         <>
-            {loading ? <LoadingSpinner /> : (
+            {loading ? <LoadingSpinner op={true} /> : (
                 <div>
                     <div className="title_area">
                         <div className="logo">
