@@ -87,7 +87,7 @@ const UploadFile = () => {
                     }}
                 />
             </Stack>
-            <Box className="btn_area">
+            <Box className="btn_area" style={{marginBottom:50}}>
                 <Link to='/result'>
                     <button className="btn" onClick={onClickInput}>계산</button>
                 </Link>

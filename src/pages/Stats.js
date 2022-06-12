@@ -72,7 +72,7 @@ const Stats = () => {
                 통계
                 </Box>
                 <Stack 
-                    style={{margin:'20px 80px 0 80px'}} 
+                    style={{margin:'20px 80px 80px 80px'}} 
                     direction={{xs:'column', sm:'row'}}
                     justifyContent="center"
                     alignItems="center"
@@ -81,14 +81,14 @@ const Stats = () => {
                     <LChart data={MajorScoreData} title="전공평점 비교" dataKey="평점" />
                     <LChart data={CreditData} title="이수학점 비교" dataKey="학점" />
                 </Stack>
-                <Stack style={{marginBottom:'80px'}}  justifyContent="center" alignItems="center">
+                {/* <Stack style={{marginBottom:'80px'}}  justifyContent="center" alignItems="center">
                     <Box className="B_PC">
                         <BChart data={BestLectureData}></BChart>
                     </Box>
                     <Box className="B_mobile">
                         <BChart data={BestLectureData} isMobile></BChart>
                     </Box>
-                </Stack>
+                </Stack> */}
             </div>
         )}
         </>
