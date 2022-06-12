@@ -48,7 +48,9 @@ const EssLectures = () => {
     const [notTakingNC, setNotTakingNC] = useState([]);
     const [notTakingBSM_GS, setNotTakingBSM_GS] = useState([]);
     const [notTakingMJ, setNotTakingMJ] = useState(["전공1"]);
-
+    const [leadershipCredit, setleadershipCredit] = useState();
+    const [GSCredit, setGSCredit] = useState();
+    const [bsmExperimentCredit, setbsmExperimentCredit] = useState();
     const [isTakingNecessaryClass, setIsTakingNecessaryClass] = useState();
     //const [tempString, setTempString] = useState("");
     
@@ -73,18 +75,24 @@ const EssLectures = () => {
             setStudentNumber(json.StudentNumber)
             setEngLevel(json.EngLevel)
             setNotTakingNC(json.NotTakingNC)
-            setNotTakingBSM_GS(json.NotTakingBSM_GS)
+            setNotTakingBSM_GS(json.NotTakingBSM)
             setNotTakingMJ(json.NotTakingMJ)
+            setleadershipCredit(json.leadershipCredit)
+            setGSCredit(json.GSCredit)
+            setbsmExperimentCredit(json.bsmExperimentCredit)
             if (notTakingNC.length) setIsTakingNecessaryClass(false)
             else if (notTakingBSM_GS.length) setIsTakingNecessaryClass(false)
             else if (notTakingMJ.length)
             {
-                if (notTakingMJ.length === 1 && notTakingMJ[0] === "계산적 사고법" && course === "일반" && studentNumber >= 2020) {
+                if (notTakingMJ.length === 1 && notTakingMJ[0] === "계산적사고법" && course === "일반" && studentNumber >= 2020) {
                     notTakingMJ.pop()
                 }
                 else
                     setIsTakingNecessaryClass(false)
             }
+            else if (leadershipCredit < 2) setIsTakingNecessaryClass(false)
+            else if (GSCredit < 9) setIsTakingNecessaryClass(false)
+            else if (bsmExperimentCredit <3)  setIsTakingNecessaryClass(false)
             else setIsTakingNecessaryClass(true)
             // for (var i = 0; i < notTakingNC.length; i++){
             //     setTempString(tempString+' '+notTakingNC[i])
@@ -167,6 +175,54 @@ const EssLectures = () => {
                                 <span className="category_content"><b style={{ color: 'crimson' }}>{notTakingMJ.length}개</b> 미이수</span>
                             </Stack>
                             <EssLecturesModal category={"전공"} notTakingList={notTakingMJ} />
+                            </>
+                        }
+                    </Stack>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                        {leadershipCredit >= 2 ?
+                            <Stack className="category" direction="row" spacing={1}>
+                                <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                <span className="category_title">리더쉽</span>
+                                <span className="category_content">모두 이수</span>
+                            </Stack> :
+                            <>
+                            <Stack className="category" direction="row" spacing={1}>
+                                <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                <span className="category_title">리더쉽</span>
+                                <span className="category_content">소셜앙트레프러너십과리더십, 글로벌앙트레프러너십과리더십, 테크노앙트레프러너십과리더십 중 하나 이수해야 함</span>
+                            </Stack>
+                            </>
+                        }
+                    </Stack>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                        {GSCredit >= 9 ?
+                            <Stack className="category" direction="row" spacing={1}>
+                                <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                <span className="category_title">기본소양</span>
+                                <span className="category_content">모두 이수</span>
+                            </Stack> :
+                            <>
+                            <Stack className="category" direction="row" spacing={1}>
+                                <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                <span className="category_title">기본소양</span>
+                                <span className="category_content">기술창조와특허, 공학경제, 공학윤리를 이수해야 합니다.</span>
+                            </Stack>
+                            </>
+                        }
+                    </Stack>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                        {bsmExperimentCredit >= 3 ?
+                            <Stack className="category" direction="row" spacing={1}>
+                                <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                <span className="category_title">BSM 실험</span>
+                                <span className="category_content">모두 이수</span>
+                            </Stack> :
+                            <>
+                            <Stack className="category" direction="row" spacing={1}>
+                                <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                <span className="category_title">BSM 실험</span>
+                                <span className="category_content">BSM 실험과목 중 하나를 이수해야 합니다</span>
+                            </Stack>
                             </>
                         }
                     </Stack>
