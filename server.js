@@ -5,12 +5,8 @@ const port = 3001;
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const mysql = require('mysql')
-const { default: axios } = require('axios');
-const { ConnectingAirportsOutlined } = require('@mui/icons-material');
-const { BOOLEAN } = require('sequelize');
 const http = require('http').createServer(app)
 let nodemailer = require('nodemailer');
-const { fileURLToPath } = require('url');
 
 
 const connection = mysql.createConnection({
@@ -55,7 +51,6 @@ app.post("/signup", (req, res) => {
     const semester = req.body.semester
     const course = req.body.course
     const english = req.body.english
-    const category = req.body.category
     const score = req.body.score
 
     var sql = 'INSERT INTO UserInfo (`ID`, `Pincode`, `Semester`, `StudentNumber`, `Course`, `Score`, `EnglishGrade`) VALUES (?, ?, ?, ?, ?, ?, ?)'
@@ -83,7 +78,7 @@ app.post("/input", (req, res) => {
         var params = [UserID, TNumber, CNumber, ClassScore]
         console.log(sql + params)
         connection.query(sql, params,
-            function (err, rows) {
+            function (err) {
                 if (!err) {
                     console.log("성공")
                 } else {
@@ -894,7 +889,6 @@ app.post('/updateuserinfo', (req, res) => {
     const register = req.body.register
     const course = req.body.course
     const english = req.body.english
-    const category = req.body.category
     const score = req.body.score
 
     var sql = 'UPDATE UserInfo SET `StudentNumber` = ?, `Semester` = ?, `Course` = ?, `EnglishGrade` = ?, `Score` = ? WHERE `ID` = ?'
@@ -917,6 +911,7 @@ http.listen(port, () => {
 
 app.post("/result", (req, res) => {
     const email = req.body.email
+<<<<<<< HEAD
 
     var sql1 = 'select count(*) AS result From UserSelectList where UserID = ? and CNumber like ?'// 필수과목 판별시 사용
     var sql2 = 'select count(*) AS result from UserSelectList where UserID = ? and (CNumber like ? or CNumber like ? or CNumber like ?)'//선택과목 판별시 사용(3과목)
@@ -945,15 +940,16 @@ app.post("/result", (req, res) => {
     var isNotCommonClass = new Array()//수강하지 않은 공통교양을 담는 배열
     connection.query(sql3, [email, 'RGC1074%', 'RGC1001%'],
         function (err, data) {
+=======
+    
+    var sql1 = "CREATE VIEW tempView (ClassScore, S) AS SELECT ClassScore, SUM(ClassCredit) AS S FROM UserSelectList, Lecture WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? GROUP BY ClassScore;"
+    connection.query(sql1, [email],
+        function (err) {
+>>>>>>> 3dbb5fc21548a6409491032684238659152570a1
             if (!err) {
-                if (data[0].result > 0) {
-                    console.log('대학 탐구 과목을 수강함')
-                } else {
-                    console.log('대학 탐구 과목을 수강하지 않음')
-                }
-            } else {
-                console.log('대학 탐구 판별 error')
+                console.log("성적 뷰 만들기 성공")
             }
+<<<<<<< HEAD
         }
     )
     // 필수 공통 교양 판별
@@ -1374,10 +1370,69 @@ app.post("/result", (req, res) => {
                     console.log('외국어 성적 조건을 만족하지 않음')
                     English_exam = '외국어 성적이 부족합니다'
                 }
+=======
+            else {
+                console.log("성적 뷰 만들기 실패")
+            }
+        })
+
+    var sql2 = "SELECT (SELECT COUNT(*) \
+        	FROM UserSelectList WHERE UserID=?) AS Result, \
+        	Course, StudentNumber, EnglishGrade AS EngLevel, Semester AS Register, Score AS EngScore, SUM(ClassCredit) AS TotalCredit, \
+        	(SELECT SUM(ClassCredit) \
+        	FROM UserSelectList, Lecture \
+        	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND Curriculum='공통교양') AS CommonClassCredit, \
+        	(SELECT SUM(ClassCredit) \
+        	FROM UserSelectList, Lecture \
+        	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND ClassArea='기본소양') AS GibonSoyangCredit, \
+        	(SELECT SUM(ClassCredit) \
+        	FROM UserSelectList, Lecture \
+        	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE 'bsm%') AS BSMCredit, \
+        	(SELECT SUM(ClassCredit) \
+        	FROM UserSelectList, Lecture \
+        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE 'bsm_수학%') AS BSMMathCredit, \
+        	(SELECT SUM(ClassCredit) \
+        	FROM UserSelectList, Lecture \
+        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE 'bsm_과학%') AS BSMSciCredit, \
+        	(SELECT SUM(ClassCredit) \
+        	FROM UserSelectList, Lecture \
+        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND Curriculum='전공') AS MajorCredit, \
+        	(SELECT SUM(ClassCredit) \
+        	FROM UserSelectList, Lecture \
+        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND Curriculum='전공' AND ClassArea='전문') AS SpecialMajorCredit, \
+        	(SELECT COUNT(*) \
+        	FROM UserSelectList, Lecture \
+        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND EnglishClass=1) AS EngClassCount, \
+        	ROUND((SELECT SUM(CASE \
+        	WHEN ClassScore='A+' THEN S*4.5 \
+        	WHEN ClassScore='A0' THEN S*4.0 \
+        	WHEN ClassScore='B+' THEN S*3.5 \
+        	WHEN ClassScore='B0' THEN S*3.0 \
+        	WHEN ClassScore='C+' THEN S*2.5 \
+        	WHEN ClassScore='C0' THEN S*2.0 \
+        	WHEN ClassScore='D+' THEN S*1.5 \
+        	WHEN ClassScore='D0' THEN S*1.0 \
+        	WHEN ClassScore='F' THEN S*0.0 \
+        	WHEN ClassScore='P' THEN S*0.0 \
+        	END) / \
+        	(SELECT SUM(ClassCredit) \
+        	FROM UserSelectList, Lecture \
+        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? \
+        	AND ClassScore IN ('A+','A0','B+','B0','C+','C0','D+','D0','F')) AS result \
+        	FROM tempView),2) AS TotalScore \
+        FROM UserInfo, UserSelectList, Lecture \
+        WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=ID AND ID=?;"
+    connection.query(sql2, [email,email,email,email,email,email,email,email,email,email,email],
+        function (err, data) {
+            if (!err) {
+                console.log(data[0], "판정 성공")
+                res.send(data[0])
+>>>>>>> 3dbb5fc21548a6409491032684238659152570a1
             }
             else {
-                console.log('외국어 성적 계산 error')
+                console.log("판정 error")
             }
+<<<<<<< HEAD
         }
     )
 
@@ -1434,10 +1489,20 @@ app.post("/result", (req, res) => {
                     var tmp = 4 - data[0].result
                     English_class = `영어강의를 ${4 - tmp}개 더 이수해야 합니다`
                 }
+=======
+        })
+
+    var sql3 = "DROP VIEW tempView CASCADE;"
+    connection.query(sql3,
+        function (err) {
+            if (!err) {
+                console.log("성적 뷰 삭제 성공")
+>>>>>>> 3dbb5fc21548a6409491032684238659152570a1
             }
             else {
-                console.log('영어 강의 판별 error')
+                console.log("성적 뷰 삭제 실패")
             }
+<<<<<<< HEAD
         }
     )
     var temp2 = 0
@@ -1502,4 +1567,7 @@ app.post("/result", (req, res) => {
 
 
 
+=======
+        })
+>>>>>>> 3dbb5fc21548a6409491032684238659152570a1
 })

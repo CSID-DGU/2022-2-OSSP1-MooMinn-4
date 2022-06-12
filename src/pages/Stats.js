@@ -9,12 +9,13 @@ import LChart from '../components/LChart';
 import BChart from '../components/BChart';
 import Header from '../components/Header';
 import './css/Stats.css';
-import { CompressOutlined } from '@mui/icons-material';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Stats = () => {
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log('useeffect')
+        console.log('useEffect')
         const data = {
             email: sessionStorage.getItem('userId')
         }
@@ -57,33 +58,22 @@ const Stats = () => {
                         })
                 }
             })
+            setTimeout(()=> {
+                setLoading(false)
+                console.log("로딩종료") }, 5000)
     }, [])
 
-
-
     return (
-        <div className="fade-in">
-            <Header mypage signout />
-            <Box className="sub_title">
+        <>
+        {loading ? <LoadingSpinner /> : (
+            <div className="fade-in">
+                <Header mypage signout />
+                <Box className="sub_title">
                 통계
-            </Box>
-            <Stack
-                style={{ margin: '20px 80px 0 80px' }}
-                direction={{ xs: 'column', sm: 'row' }}
-                justifyContent="center"
-                alignItems="center"
-            >
-                <LChart data={AllScoreData} title="전체평점 비교" dataKey={'평점'} />
-                <LChart data={MajorScoreData} title="전공평점 비교" dataKey="평점" />
-                <LChart data={CreditData} title="이수학점 비교" dataKey="학점" />
-            </Stack>
-            <Stack style={{ marginBottom: '80px' }} justifyContent="center" alignItems="center">
-                <Box className="B_PC">
-                    <BChart data={BestLectureData}></BChart>
                 </Box>
-                <Stack
-                    style={{ margin: '20px 80px 0 80px' }}
-                    direction={{ xs: 'column', sm: 'row' }}
+                <Stack 
+                    style={{margin:'20px 80px 0 80px'}} 
+                    direction={{xs:'column', sm:'row'}}
                     justifyContent="center"
                     alignItems="center"
                 >
@@ -91,7 +81,7 @@ const Stats = () => {
                     <LChart data={MajorScoreData} title="전공평점 비교" dataKey="평점" />
                     <LChart data={CreditData} title="이수학점 비교" dataKey="학점" />
                 </Stack>
-                <Stack style={{ marginBottom: '80px' }} justifyContent="center" alignItems="center">
+                <Stack style={{marginBottom:'80px'}}  justifyContent="center" alignItems="center">
                     <Box className="B_PC">
                         <BChart data={BestLectureData}></BChart>
                     </Box>
@@ -99,8 +89,9 @@ const Stats = () => {
                         <BChart data={BestLectureData} isMobile></BChart>
                     </Box>
                 </Stack>
-            </Stack>
-        </div>
+            </div>
+        )}
+        </>
     )
 }
 

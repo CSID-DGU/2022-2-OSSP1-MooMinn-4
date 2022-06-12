@@ -28,7 +28,15 @@ const UploadFile = () => {
                 const userData = {};
                 userData['CNumber'] = data[i]['학수강좌번호']+'-'+data[i][''];
                 userData['ClassScore'] = data[i]['등급'];
-                userData['TNumber'] = data[i]['년도']+'_'+data[i]['학기'][0];
+                if (data[i]['학기'] === "여름학기") {
+                    userData['TNumber'] = data[i]['년도']+'_ss';
+                }
+                else if (data[i]['학기'] == "겨울학기") {
+                    userData['TNumber'] = data[i]['년도']+'_ws';
+                }
+                else {
+                    userData['TNumber'] = data[i]['년도']+'_'+data[i]['학기'][0];
+                }
                 userDatas.push(userData)
             }
             setUserDatas(userDatas)

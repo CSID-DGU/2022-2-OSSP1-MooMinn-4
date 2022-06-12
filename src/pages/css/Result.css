@@ -205,12 +205,12 @@ u {
         margin-left: 80px
     }
     .detail_content2 {
-        /* background-color: rgb(55, 139, 204); */
+        /* background-color: rgb(55, 139, 204);  */
         position: absolute;
         font-family: Nanumsquare, sans-serif;
         font-size: 1em;
         color: dimgray;
-        margin-top: 10px;
+        top: 15px;
         margin-left: 300px;
     }
     .category {
