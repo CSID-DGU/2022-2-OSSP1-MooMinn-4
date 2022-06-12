@@ -26,6 +26,16 @@ const Home = () => {
         else {
             // 로그인 되었다면
             setIsSignIn(true)
+            const data = {
+                email: sessionStorage.getItem('userId')
+            }
+            fetch("/test", {
+                method: 'post',
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(data)
+            })
         }
     }, [])
 

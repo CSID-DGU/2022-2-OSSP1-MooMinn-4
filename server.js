@@ -91,7 +91,7 @@ app.post("/input", (req, res) => {
                 }
             })
     }
-    
+
     const email = req.body.email
     connection.query("SELECT COUNT(*) AS result FROM UserSelectList WHERE UserID = ?", [email],
         function (err, data) {
@@ -99,11 +99,11 @@ app.post("/input", (req, res) => {
             if (!err) {
                 if (data[0].result > 0) {
                     console.log(data[0].result, true, ": 결과가 있음")
-                    sendResult = {result: true}
+                    sendResult = { result: true }
                 }
                 else {
                     console.log(data[0].result, false, ": 결과가 없음")
-                    sendResult = {result: false}
+                    sendResult = { result: false }
                     // res.send(sendResult)
                 }
             }
@@ -228,8 +228,436 @@ app.post('/mypage', (req, res) => {
         })
 })
 
+app.post('/result/essLectures', (req, res) => {
+    const email = req.body.email
+
+    // basic, eas1, eas2, 자명1, 자명2, 불인, 기보작, 커디
+    var notTakingNC = ['RGC1030', 'RGC1033', 'RGC1034', 'RGC0017', 'RGC0018', 'RGC0003', 'RGC0005', 'RGC1074']
+    // 리더십 2학점
+    var leadershipCredit = 0;
+    // 미적1, 확통, 공선대
+    var notTakingBSM = ['PRI4001', 'PRI4023', 'PRI4024']
+    // 기본 소양 9학점
+    var GSCredit = 0;
+    // 실험 과목 4학점
+    var bsmExperimentCredit = 0;
+    // 계사, 공소, 어벤디, 자구, 컴구, 이산, 종설1, 종설2, 시소프
+    var notTakingMJ = ['CSE2025', 'CSE4074', 'CSE2028', 'CSE2017', 'CSE2018', 'CSE2026', 'CSE4066', 'CSE4067', 'CSE2013']
+    var data = {
+        notTakingNC: notTakingNC,
+        notTakingBSM: notTakingBSM,
+        notTakingMJ: notTakingMJ,
+        leadershipCredit: leadershipCredit,
+        GSCredit: GSCredit,
+        bsmExperimentCredit: bsmExperimentCredit
+    }
+
+    var sql = ''
+    var index = 0
+
+    // 영어등급에 따라 EAS 수강 여부 결정
+    sql = 'SELECT EnglishGrade FROM UserInfo WHERE ID = ?'
+    connection.query(sql, [email],
+        function (err, result) {
+            if (!err) {
+                if (result[0].EnglishGrade === '0') {
+                    // S0일 경우 basic EAS부터 세 개(BASIC EAS1 EAS2를 지움
+                    notTakingNC.splice(notTakingNC.findIndex(function (value) { return value === 'RGC1030' }), 3)
+                }
+                else if (result[0].EnglishGrade !== '4') {
+                    notTakingNC.splice(notTakingNC.findIndex(function (value) { return value === 'RGC1030' }), 1)
+                }
+            }
+        })
+
+    // 일반과정이고 20학번 이후로는 계사, 공소 제외
+
+    sql = 'select COUNT(*) AS count from UserSelectList where UserID = ? AND CNumber LIKE ?'
+    // Basic EAS
+    connection.query(sql, [email, 'RGC1030%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingNC.findIndex(function (value) { return value === 'RGC1030' })
+                    if (index > -1)
+                        notTakingNC.splice(index, 1)
+                }
+            }
+        })
+    // EAS1
+    connection.query(sql, [email, 'RGC1033%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingNC.findIndex(function (value) { return value === 'RGC1033' })
+                    if (index > -1)
+                        notTakingNC.splice(index, 1)
+                }
+            }
+        })
+    // EAS2
+    connection.query(sql, [email, 'RGC1034%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingNC.findIndex(function (value) { return value === 'RGC1034' })
+                    if (index > -1)
+                        notTakingNC.splice(index, 1)
+                }
+            }
+        })
+    // 자명1
+    connection.query(sql, [email, 'RGC0017%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingNC.findIndex(function (value) { return value === 'RGC0017' })
+                    if (index > -1)
+                        notTakingNC.splice(index, 1)
+                }
+            }
+        })
+    // 자명2
+    connection.query(sql, [email, 'RGC0018%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingNC.findIndex(function (value) { return value === 'RGC0018' })
+                    if (index > -1)
+                        notTakingNC.splice(index, 1)
+                }
+            }
+        })
+    // 불인
+    connection.query(sql, [email, 'RGC0003%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingNC.findIndex(function (value) { return value === 'RGC0003' })
+                    if (index > -1)
+                        notTakingNC.splice(index, 1)
+                }
+            }
+        })
+    // 기보작 RGC0005
+    connection.query(sql, [email, 'RGC0005%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingNC.findIndex(function (value) { return value === 'RGC0005' })
+                    if (index > -1)
+                        notTakingNC.splice(index, 1)
+                }
+            }
+        })
+    // 커디 RGC1074
+    connection.query(sql, [email, 'RGC1074%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingNC.findIndex(function (value) { return value === 'RGC1074' })
+                    if (index > -1)
+                        notTakingNC.splice(index, 1)
+                }
+            }
+        })
+    // 나삶나비 RGC1001
+    connection.query(sql, [email, 'RGC1001%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingNC.findIndex(function (value) { return value === 'RGC1074' })
+                    if (index > -1)
+                        notTakingNC.splice(index, 1)
+                }
+            }
+        })
+    // 미적1 PRI4001
+    connection.query(sql, [email, 'PRI4001%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingBSM.findIndex(function (value) { return value === 'PRI4001' })
+                    if (index > -1)
+                        notTakingBSM.splice(index, 1)
+                }
+            }
+        })
+    // 확통 PRI4023
+    connection.query(sql, [email, 'PRI4023%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingBSM.findIndex(function (value) { return value === 'PRI4023' })
+                    if (index > -1)
+                        notTakingBSM.splice(index, 1)
+                }
+            }
+        })
+    // 공선대 PRI4024
+    connection.query(sql, [email, 'PRI4024%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingBSM.findIndex(function (value) { return value === 'PRI4024' })
+                    if (index > -1)
+                        notTakingBSM.splice(index, 1)
+                }
+            }
+        })
+    // 계사 CSE2025
+    connection.query(sql, [email, 'CSE2025%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === 'CSE2025' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 공소 CSE4074
+    connection.query(sql, [email, 'CSE4074%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === 'CSE4074' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 어벤디 CSE2028
+    connection.query(sql, [email, 'CSE2028%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === 'CSE2028' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 창공 CSE2016
+    connection.query(sql, [email, 'CSE2016%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === 'CSE2028' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 자구 CSE2017
+    connection.query(sql, [email, 'CSE2017%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === 'CSE2017' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 컴구 CSE2018
+    connection.query(sql, [email, 'CSE2018%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === 'CSE2018' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 이산 CSE2026
+    connection.query(sql, [email, 'CSE2026%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === 'CSE2026' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 종설1 CSE4066
+    connection.query(sql, [email, 'CSE4066%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === 'CSE4066' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 종설2 CSE4067
+    connection.query(sql, [email, 'CSE4067%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === 'CSE4067' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 시소프 CSE2013
+    connection.query(sql, [email, 'CSE2013%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === 'CSE2013' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 소셜리더십 RGC1050
+    connection.query(sql, [email, 'RGC1050%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    leadershipCredit += 2;
+                }
+            }
+        })
+    // 글로벌리더십 RGC1051
+    connection.query(sql, [email, 'RGC1051%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    leadershipCredit += 2;
+                }
+            }
+        })
+    // 테크노리더십 RGC1052
+    connection.query(sql, [email, 'RGC1052%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    leadershipCredit += 2;
+                }
+            }
+        })
+    // 물실1 PRI4002
+    connection.query(sql, [email, 'PRI4002%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    bsmExperimentCredit += 4;
+                }
+            }
+        })
+    // 화실1 PRI4003
+    connection.query(sql, [email, 'PRI4003%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    bsmExperimentCredit += 4;
+                }
+            }
+        })
+    // 생실 PRI4004
+    connection.query(sql, [email, 'PRI4004%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    bsmExperimentCredit += 4;
+                }
+            }
+        })
+    // 물실2 PRI4013
+    connection.query(sql, [email, 'PRI4013%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    bsmExperimentCredit += 4;
+                }
+            }
+        })
+    // 화실2 PRI4014
+    connection.query(sql, [email, 'PRI4014%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    bsmExperimentCredit += 4;
+                }
+            }
+        })
+    // 생실1 PRI4015
+    connection.query(sql, [email, 'PRI4015%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    bsmExperimentCredit += 4;
+                }
+            }
+        })
+    // 공경 PRI4041
+    connection.query(sql, [email, 'PRI4041%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    GSCredit += 3;
+                }
+            }
+        })
+    // 공윤 EGC4039
+    connection.query(sql, [email, 'EGC4039%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    GSCredit += 3;
+                }
+            }
+        })
+    // 기창특 EGC7026
+    connection.query(sql, [email, 'EGC7026%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    GSCredit += 3;
+                }
+            }
+        })
+
+    sql = 'SELECT ClassArea from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? AND CNumber LIKE ?'
+    // 기사 PRI4040
+    connection.query(sql, [email, 'PRI4040%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].ClassArea === '기본소양')
+                    GSCredit += 3
+            }
+        })
+    // 공법 PRI4043
+    connection.query(sql, [email, 'PRI4043%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].ClassArea === '기본소양')
+                    GSCredit += 3
+            }
+            data = {
+                notTakingNC: notTakingNC,
+                notTakingBSM: notTakingBSM,
+                notTakingMJ: notTakingMJ,
+                leadershipCredit: leadershipCredit,
+                GSCredit: GSCredit,
+                bsmExperimentCredit: bsmExperimentCredit
+            }
+            console.log(data)
+            res.json(data)
+        })
+})
+
 app.post('/semester', (req, res) => {
     const email = req.body.email
+    var Credit = 0;
+    var Count = 0;
+    var ClassScore = 0;
     var Semester = 0;
     var TNumList = []
     var data = {
@@ -245,6 +673,58 @@ app.post('/semester', (req, res) => {
 
             }
         })
+
+    // 전체 총 이수학점을 구한 후 DB와 credit에 저장
+    sql = 'select sum(ClassCredit) AS credit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ?'
+    connection.query(sql, [email],
+        function (err, result) {
+            if (!err) {
+                Credit = result[0].credit
+                sql = 'UPDATE ScoreStat SET EntireCredit = ? WHERE UID = ?'
+                connection.query(sql, [result[0].credit, email],
+                    function (err) {
+
+                    })
+            }
+        })
+
+    // 전체 총 이수과목 수를 구한 후 count에 저장
+    var sql = 'select COUNT(*) AS count from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ?'
+    connection.query(sql, [email],
+        function (err, result) {
+            if (!err) {
+                Count = result[0].count
+            }
+        })
+
+    // 사용자의 전체 평점을 구한 후 ClassScore에 저장
+    var sql = 'select ClassScore,ClassCredit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ?'
+    connection.query(sql, [email],
+        function (err, result) {
+            if (!err) {
+                for (var i = 0; i < Count; i++) {
+                    var grade = result[i].ClassScore
+                    var credit = result[i].ClassCredit
+                    if (grade === 'A+') { ClassScore += 4.5 * credit }
+                    else if (grade === 'A0') { ClassScore += 4.0 * credit }
+                    else if (grade === 'B+') { ClassScore += 3.5 * credit }
+                    else if (grade === 'B0') { ClassScore += 3.0 * credit }
+                    else if (grade === 'C+') { ClassScore += 2.5 * credit }
+                    else if (grade === 'C0') { ClassScore += 2.0 * credit }
+                    else if (grade === 'D+') { ClassScore += 1.5 * credit }
+                    else if (grade === 'D0') { ClassScore += 1.0 * credit }
+                    else if (grade === 'P') { Credit -= credit }
+                    else if (grade === 'F') { }
+                }
+                ClassScore /= Credit
+                sql = 'UPDATE ScoreStat SET EntireScore = ? WHERE UID = ?'
+                connection.query(sql, [ClassScore, email],
+                    function (err) {
+
+                    })
+            }
+        })
+
     // 사용자의 학기 수를 구한 후 Semester에 저장
     sql = 'SELECT COUNT(c.TNumber) AS semester FROM (select TNumber, count(*) AS count from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? group by TNumber) AS c;'
     connection.query(sql, [email],
@@ -285,22 +765,8 @@ app.post('/stats', (req, res) => {
         ClassScore: 0.0,
         MajorClassScore: 0.0,
     }
-
-    // 학기별 전체 과목과 전공 과목의 이수학점, 이수과목, 평점을 구함
-
     var sql = ''
-    sql = 'select sum(ClassCredit) AS credit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ?'
-    connection.query(sql, [email],
-        function (err, result) {
-            if (!err) {
-                sql = 'UPDATE ScoreStat SET EntireCredit = ? WHERE UID = ?'
-                connection.query(sql, [result[0].credit, email],
-                    function (err) {
 
-                    })
-                result[0].credit
-            }
-        })
 
     // 사용자의 이수학점을 구한 후  Credit에 저장
     sql = 'select sum(ClassCredit) AS credit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? and TNumber = ?'
@@ -313,7 +779,7 @@ app.post('/stats', (req, res) => {
 
         })
     // 사용자의 이수과목 수를 구한 후 Count에 저장
-    var sql = 'select COUNT(*) AS count from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ? and TNumber = ?'
+    var sql = 'select COUNT(*) AS count from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? and TNumber = ?'
     connection.query(sql, [email, TNumber],
         function (err, result) {
             if (!err) {
@@ -323,7 +789,7 @@ app.post('/stats', (req, res) => {
         })
 
     // 사용자의 전체 평점을 구한 후 ClassScore에 저장
-    var sql = 'select ClassScore,ClassCredit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ? and TNumber = ?'
+    var sql = 'select ClassScore,ClassCredit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? and TNumber = ?'
     connection.query(sql, [email, TNumber],
         function (err, result) {
             if (!err) {
@@ -347,7 +813,7 @@ app.post('/stats', (req, res) => {
         })
 
     // 사용자의 전공이수학점을 구한 후 MajorCredit에 저장
-    var sql = 'select sum(ClassCredit) AS credit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ? and TNumber = ? and Curriculum = ?'
+    var sql = 'select sum(ClassCredit) AS credit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? and TNumber = ? and Curriculum = ?'
     connection.query(sql, [email, TNumber, '전공'],
         function (err, result) {
             if (!err) {
@@ -357,7 +823,7 @@ app.post('/stats', (req, res) => {
         })
 
     // 사용자의 전공이수과목 수를 구한 후 MajorCount에 저장
-    var sql = 'select COUNT(*) AS count from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ? and TNumber = ? and Curriculum = ?'
+    var sql = 'select COUNT(*) AS count from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? and TNumber = ? and Curriculum = ?'
     connection.query(sql, [email, TNumber, '전공'],
         function (err, result) {
             if (!err) {
@@ -367,7 +833,7 @@ app.post('/stats', (req, res) => {
         })
 
     // 사용자의 전공 평점을 구한 후 MajorClassScore에 저장
-    var sql = 'select ClassScore,ClassCredit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber=ClassNumber) and UserID = ? and TNumber = ? and Curriculum = ?'
+    var sql = 'select ClassScore,ClassCredit from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? and TNumber = ? and Curriculum = ?'
     connection.query(sql, [email, TNumber, '전공'],
         function (err, result) {
             if (!err) {
@@ -387,7 +853,6 @@ app.post('/stats', (req, res) => {
                 }
                 SemesterData.MajorClassScore /= SemesterData.MajorCredit
                 console.log('전공 학점 평균 : ' + SemesterData.MajorClassScore)
-                console.log(SemesterData)
                 res.json(SemesterData)
             }
         })
@@ -475,17 +940,10 @@ app.post("/result", (req, res) => {
     const EAS1_common_class = [email, 'RGC1080%', 'RGC1033%']//EAS1
     const EAS2_common_class = [email, 'RGC1081%', 'RGC1034%']//EAS2
     const math_class = ['PRI4001%', 'PRI4023%', 'PRI4024%']//수학 필수 과목
-<<<<<<< HEAD
     const major_classScore = [email, '전공']
-=======
-    const major_classScore=[email,'전공']
-    
-    
->>>>>>> aaca1c176dfbde29aba9fde5a362723884838506
     // 대학 탐구 판별
     var isNotCommonClass = new Array()//수강하지 않은 공통교양을 담는 배열
     connection.query(sql3, [email, 'RGC1074%', 'RGC1001%'],
-<<<<<<< HEAD
         function (err, data) {
             if (!err) {
                 if (data[0].result > 0) {
@@ -497,20 +955,6 @@ app.post("/result", (req, res) => {
                 console.log('대학 탐구 판별 error')
             }
         }
-=======
-                        function(err,data){
-                            if(!err){
-                                if (data[0].result>0){
-                                    console.log('대학 탐구 과목을 수강함')
-                                } else{
-                                    console.log('대학 탐구 과목을 수강하지 않음')
-                                    isNotCommonClass.push('커리어디자인')
-                                }
-                            } else{
-                                console.log('대학 탐구 판별 error')
-                            }
-                        }
->>>>>>> aaca1c176dfbde29aba9fde5a362723884838506
     )
     // 필수 공통 교양 판별
     for (var i = 0; i < necessary_common_class.length; i++) {
@@ -519,13 +963,13 @@ app.post("/result", (req, res) => {
                 if (!err) {
                     if (data[0].result < 1) {//해당 강의를 수강하지 않은 경우
                         console.log('해당 필수 과목을 수강하지 않음')
-                        if(necessary_common_class[i] == 'RGC0017%'){
+                        if (necessary_common_class[i] == 'RGC0017%') {
                             isNotCommonClass.push('자아와명상1');
-                        } else if(necessary_common_class[i] == 'RGC0018%'){
+                        } else if (necessary_common_class[i] == 'RGC0018%') {
                             isNotCommonClass.push('자아와명상2');
-                        } else if(necessary_common_class[i] == 'RGC0003%'){
+                        } else if (necessary_common_class[i] == 'RGC0003%') {
                             isNotCommonClass.push('불교와인간');
-                        } else if(necessary_common_class[i] == 'RGC0005%'){
+                        } else if (necessary_common_class[i] == 'RGC0005%') {
                             isNotCommonClass.push('기술보고서작성및발표');
                         }
                     } else {//해당 강의를 수강한 경우
@@ -615,7 +1059,7 @@ app.post("/result", (req, res) => {
             }
         }
     )
-//Bsm 수학 필수 과목
+    //Bsm 수학 필수 과목
     var isNotMath = new Array();
     for (var i = 0; i < math_class.length; i++) {
         var isNotClass = new Array()//수강하지 않은 강의를 담을 배열
@@ -624,11 +1068,11 @@ app.post("/result", (req, res) => {
                 if (!err) {
                     if (data[0].result < 1) {//해당 강의를 수강하지 않은 경우
                         console.log('해당 필수 과목을 수강하지 않음')
-                        if (math_class[i] == 'PRI4001%'){
+                        if (math_class[i] == 'PRI4001%') {
                             isNotMath.push('미적분학및연습1');
-                        } else if(math_class[i] == 'PRI4023%'){
+                        } else if (math_class[i] == 'PRI4023%') {
                             isNotMath.push('확률및통계학');
-                        } else if(math_class[i] == 'PRI4024%'){
+                        } else if (math_class[i] == 'PRI4024%') {
                             isNotMath.push('공학선형대수학')
                         }
                     } else {//해당 강의를 수강한 경우
@@ -710,7 +1154,6 @@ app.post("/result", (req, res) => {
         }
     )
     //어드밴처 or 창공 이수 판별
-<<<<<<< HEAD
     connection.query(sql3, [email, 'CSE2028%', 'CSE2016%'],
         function (err, data) {
             if (!err) {
@@ -724,24 +1167,6 @@ app.post("/result", (req, res) => {
             }
         }
     )
-=======
-    var isNotmajor = new Array()//수강하지않은 전공과목
-    connection.query(sql3, [email, 'CSE2028%', 'CSE2016%'],
-                        function (err, data){
-                            if(!err) {
-                                if(data[0].result > 0){
-                                    console.log("어드밴처 디자인 or 창의적 공학설계를 이수하였습니다")
-                              
-                                } else{
-                                    console.log("어드밴처 디자인 or 창의적 공학설계를 이수하지 않았습니다")
-                                    isNotmajor.push('어드밴처디자인')
-                                }
-                            } else {
-                                console.log("어드밴처, 창공 이수 판별 error")
-                            }
-                        }
-                    )
->>>>>>> aaca1c176dfbde29aba9fde5a362723884838506
     //필수 전공과목 이수 판별
     var necessary_major_class = ['CSE2017%', 'CSE2018%', 'CSE2025%', 'CSE2026%', 'CSE4066%', 'CSE4067%', 'CSE4074%', 'CSE2013%']
 
@@ -772,21 +1197,21 @@ app.post("/result", (req, res) => {
                 if (!err) {
                     if (data[0].result < 1) {
                         console.log('해당 필수 전공을 수강하지 않음')
-                        if(necessary_major_class[i] == 'CSE2017%'){
+                        if (necessary_major_class[i] == 'CSE2017%') {
                             isNotmajor.push('자료구조와실습')
-                        } else if(necessary_major_class[i] == 'CSE2018%'){
+                        } else if (necessary_major_class[i] == 'CSE2018%') {
                             isNotmajor.push('컴퓨터구성')
-                        } else if(necessary_major_class[i] == 'CSE2025%'){
+                        } else if (necessary_major_class[i] == 'CSE2025%') {
                             isNotmajor.push('계산적사고법')
-                        } else if(necessary_major_class[i] == 'CSE2026%'){
+                        } else if (necessary_major_class[i] == 'CSE2026%') {
                             isNotmajor.push('이산구조')
-                        } else if(necessary_major_class[i] == 'CSE4066%'){
+                        } else if (necessary_major_class[i] == 'CSE4066%') {
                             isNotmajor.push('컴퓨터공학종합설계1')
-                        } else if(necessary_major_class[i] == 'CSE4067%'){
+                        } else if (necessary_major_class[i] == 'CSE4067%') {
                             isNotmajor.push('컴퓨터공학종합설계2')
-                        } else if(necessary_major_class[i] == 'CSE4074%'){
+                        } else if (necessary_major_class[i] == 'CSE4074%') {
                             isNotmajor.push('공개SW프로젝트')
-                        } else if(necessary_major_class[i] == 'CSE2013%'){
+                        } else if (necessary_major_class[i] == 'CSE2013%') {
                             isNotmajor.push('시스템소프트웨어와실습')
                         }
                     } else {
@@ -808,10 +1233,10 @@ app.post("/result", (req, res) => {
                             if (!err) {
                                 if (data2[0].result >= 84) {
                                     console.log("전공학점을 만족합니다")
-                                    major_credit = '전공학점을 만족합니다' 
+                                    major_credit = '전공학점을 만족합니다'
                                 } else {
                                     console.log("전공학점이 부족합니다")
-                                    major_credit = `전공학점이 ${84-data2[0].result}점 부족합니다`
+                                    major_credit = `전공학점이 ${84 - data2[0].result}점 부족합니다`
                                 }
                             }
                             else {
@@ -830,7 +1255,7 @@ app.post("/result", (req, res) => {
                                     special_credit = '전문학점을 만족합니다'
                                 } else {
                                     console.log("전문학점이 부족합니다")
-                                    special_credit = `전문학점이 ${42-data2[0].result}점 부족합니다`
+                                    special_credit = `전문학점이 ${42 - data2[0].result}점 부족합니다`
                                 }
                             }
                             else {
@@ -850,14 +1275,13 @@ app.post("/result", (req, res) => {
                                 }
                                 else {
                                     console.log('총 학점 조건을 만족하지 않음')
-                                    all_credit = `총 학점이 ${140-data2[0].result}점 부족합니다`
+                                    all_credit = `총 학점이 ${140 - data2[0].result}점 부족합니다`
                                 }
                             } else {
                                 console.log('총 학점 계산 error')
                             }
                         }
                     )
-<<<<<<< HEAD
                 } else {//전공 학점 계산 72학점 이상
 
                     var SumofMajorCredit = 0
@@ -865,21 +1289,13 @@ app.post("/result", (req, res) => {
                         function (err, data2) {
                             if (!err) {
                                 SumofMajorCredit = data2[0].result
-=======
-                } else {
-                    //전공 학점 계산 72학점 이상
-                    connection.query(sql7, [email, '전공'],
-                        function (err, data2) {
-                            if (!err) {
-                                
->>>>>>> aaca1c176dfbde29aba9fde5a362723884838506
                                 if (data2[0].result >= 72) {
                                     console.log('총 전공학점 조건을 만족함')
-                                    major_credit = '전공학점을 만족합니다' 
+                                    major_credit = '전공학점을 만족합니다'
                                 }
                                 else {
                                     console.log('총 전공학점 조건을 만족하지 않음')
-                                    major_credit = `전공학점이 ${72-data2[0].result}점 부족합니다`
+                                    major_credit = `전공학점이 ${72 - data2[0].result}점 부족합니다`
                                 }
                             }
                             else {
@@ -898,7 +1314,7 @@ app.post("/result", (req, res) => {
                                 }
                                 else {
                                     console.log('총 전문강의 수강 조건을 만족하지 않음')
-                                    special_credit = `전문 학점이 ${36-data2[0].result}점 부족합니다`
+                                    special_credit = `전문 학점이 ${36 - data2[0].result}점 부족합니다`
                                 }
                             }
                             else {
@@ -908,7 +1324,7 @@ app.post("/result", (req, res) => {
                     )
 
                     //총 학점이 130점이 되는지 여부 확인
-                   
+
                     connection.query(sql9, [email],
                         function (err, data2) {
                             if (!err) {
@@ -918,7 +1334,7 @@ app.post("/result", (req, res) => {
                                 }
                                 else {
                                     console.log('총 학점 조건을 만족하지 않음')
-                                    all_credit = `총 학점이 ${130-data2[0].result}점 부족합니다`
+                                    all_credit = `총 학점이 ${130 - data2[0].result}점 부족합니다`
                                 }
                             }
                             else {
@@ -932,7 +1348,6 @@ app.post("/result", (req, res) => {
     )
     var GB
     connection.query(sql1, [email, 'DES3%'],
-<<<<<<< HEAD
         function (err, data) {
             if (!err) {
                 if (data[0].result >= 2) {
@@ -946,23 +1361,6 @@ app.post("/result", (req, res) => {
         }
     )
 
-=======
-                        function(err,data){
-                            if(!err){
-                                if(data[0].result>=2){
-                                    console.log('개별연구 수강 완료')
-                                    GB = '개별연구를 2개이상 이수했습니다'
-                                } else {
-                                    console.log('개별연구를 2개이상 수강하지 않음')
-                                    GB = `개별 연구를 ${2-data[0].result}개 더 이수해야 합니다`
-                                }
-                            } else{
-                                console.log('개별연구 err')
-                            }
-                        }
-  )
-    
->>>>>>> aaca1c176dfbde29aba9fde5a362723884838506
     //외국어 성적이 700을 넘는지 조건 확인
     var English_exam
     connection.query(sql10, [email],
@@ -982,19 +1380,12 @@ app.post("/result", (req, res) => {
             }
         }
     )
-<<<<<<< HEAD
 
     var sumOfCredit = 0
     var temp = 0
     var entireClassScore = 0
-=======
-    
-    var sumOfCredit =0
-    var temp=0
-    var entireClassScore=0
-    var scores = {'A+':4.5, 'A0':4.0, 'B+':3.5, 'B0':3.0, 'C+':2.5, 'C0':2.0, 'D+':1.5, 'D0':1.0, 'F':0.0}
+    var scores = { 'A+': 4.5, 'A0': 4.0, 'B+': 3.5, 'B0': 3.0, 'C+': 2.5, 'C0': 2.0, 'D+': 1.5, 'D0': 1.0, 'F': 0.0 }
     var score
->>>>>>> aaca1c176dfbde29aba9fde5a362723884838506
     //평점 평균이 2.0을 넘는지 조건 확인
     connection.query(sql11, [email],
         function (err, rows, fields) {
@@ -1013,17 +1404,11 @@ app.post("/result", (req, res) => {
                         }
                     }
                 )
-<<<<<<< HEAD
                 entireClassScore = temp / sumOfCredit
                 if (entireClassScore >= 2.0) {
-                    console.log("총 평점 조건을 만족함")
-=======
-                entireClassScore=temp/sumOfCredit
-                if (entireClassScore>=2.0) {
                     console.log(entireClassScore, ": 총 평점 조건을 만족함")
                     score = "최소 평점을 만족함"
-                    
->>>>>>> aaca1c176dfbde29aba9fde5a362723884838506
+
                 }
                 else {
                     console.log(entireClassScore, ": 총 평점 조건을 만족하지 않음")
@@ -1046,8 +1431,8 @@ app.post("/result", (req, res) => {
                 }
                 else {
                     console.log('영어 강의 수 조건을 만족하지 않음')
-                    var tmp = 4-data[0].result
-                    English_class = `영어강의를 ${4-tmp}개 더 이수해야 합니다` 
+                    var tmp = 4 - data[0].result
+                    English_class = `영어강의를 ${4 - tmp}개 더 이수해야 합니다`
                 }
             }
             else {
@@ -1074,15 +1459,9 @@ app.post("/result", (req, res) => {
                         }
                     }
                 )
-<<<<<<< HEAD
                 majorClassScore = temp2 / sumOfCredit
                 if (majorClassScore >= 2.0) {
-                    console.log("총 전공평점 계산 완료")
-=======
-                majorClassScore=temp2/sumOfCredit
-                if (majorClassScore>=2.0) {
                     console.log(majorClassScore, ": 총 전공평점 계산 완료")
->>>>>>> aaca1c176dfbde29aba9fde5a362723884838506
                 }
                 else {
                     console.log(majorClassScore, ": 총 전공평점 계산 실패")
@@ -1092,25 +1471,25 @@ app.post("/result", (req, res) => {
             }
         }
     )
-//전달할 변수
-    var deliver = [isNotCommonClass, gibon_soyang, isNotMath,BSM_math, BSM_experiment, BSM_science,BSM,isNotmajor,major_credit,special_credit,all_credit,GB,English_exam,English_class,score]
+    //전달할 변수
+    var deliver = [isNotCommonClass, gibon_soyang, isNotMath, BSM_math, BSM_experiment, BSM_science, BSM, isNotmajor, major_credit, special_credit, all_credit, GB, English_exam, English_class, score]
 
 
 
 
     res.end()
-    
+
     connection.query("SELECT COUNT(*) AS result FROM UserSelectList WHERE UserID = ?", [email],
         function (err, data) {
             var sendResult = {};
             if (!err) {
                 if (data[0].result > 0) {
                     console.log(data[0].result, true, ": 결과가 있음")
-                    sendResult = {result: true}
+                    sendResult = { result: true }
                 }
                 else {
                     console.log(data[0].result, false, ": 결과가 없음")
-                    sendResult = {result: false}
+                    sendResult = { result: false }
                     // res.send(sendResult)
                 }
             }
@@ -1121,6 +1500,6 @@ app.post("/result", (req, res) => {
         }
     )
 
-    
+
 
 })
