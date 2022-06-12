@@ -75,7 +75,7 @@ u {
         margin: 0 auto;
         border-radius: 20px;
         box-shadow: 0 0 10px lightgray;
-        margin-bottom: 100px;
+        margin-bottom: 50px;
     }
     .detail_box {
         border-bottom: 1px dashed lightgray;
@@ -198,7 +198,7 @@ u {
         margin: 0 auto;
         border-radius: 20px;
         box-shadow: 0 0 10px lightgray;
-        margin-bottom: 100px;
+        margin-bottom: 50px;
     }
     .check_img {
         /* background-color: cadetblue; */
@@ -283,7 +283,7 @@ u {
         margin: 0 auto;
         border-radius: 20px;
         box-shadow: 0 0 10px lightgray;
-        margin-bottom: 100px;
+        margin-bottom: 50px;
     }
     .detail_box {
         border-bottom: 1px dashed lightgray;

@@ -230,12 +230,15 @@ app.post('/result/essLectures', (req, res) => {
     var notTakingNC = ['basicEAS', 'EAS1', 'EAS2', '자아와명상1', '자아와명상2', '불교와인간', '기술보고서작성', '커리어디자인']
     // 리더십 2학점
     var leadershipCredit = 0;
+    var leadership = "리더십 과목 중 택 1";
     // 미적1, 확통, 공선대
     var notTakingBSM = ['미적분학및연습1', '확률및통계학', '공학선형대수학']
     // 기본 소양 9학점
     var GSCredit = 0;
+    var GS = "기본소양 과목 중 택 ";
     // 실험 과목 4학점
     var bsmExperimentCredit = 0;
+    var bsmExperiment = "과학실험 과목 중 택 1";
     // 계사, 공소, 어벤디, 자구, 컴구, 이산, 종설1, 종설2, 시소프
     var notTakingMJ = ['계산적사고법', '공개SW프로젝트', '어드벤처디자인', '자료구조와실습', '컴퓨터구성', '이산구조', '컴퓨터종합설계1', '컴퓨터종합설계2', '시스템소프트웨어와실습']
     var data = {
@@ -650,26 +653,32 @@ app.post('/result/essLectures', (req, res) => {
                                 if (result[0].ClassArea === '기본소양')
                                     GSCredit += 3
                             }
+                            if (leadershipCredit < 2) notTakingNC.push(leadership)
+                            if (GSCredit < 3) notTakingBSM.push(GS+"3")
+                            else if (GSCredit < 6) notTakingBSM.push(GS+"2")
+                            else if (GSCredit < 9) notTakingBSM.push(GS+"1")
+                            if (bsmExperimentCredit < 3) notTakingBSM.push(bsmExperiment)        
                             data = {
+                                name: 0,
                                 notTakingNC: notTakingNC,
                                 notTakingBSM: notTakingBSM,
                                 notTakingMJ: notTakingMJ,
-                                leadershipCredit: leadershipCredit,
-                                GSCredit: GSCredit,
-                                bsmExperimentCredit: bsmExperimentCredit
                             }
                             console.log(data)
                             res.json(data)
                         })
                 }
                 else {
+                    if (leadershipCredit < 2) notTakingNC.push(leadership)
+                    if (GSCredit < 3) notTakingBSM.push(GS+"3")
+                    else if (GSCredit < 6) notTakingBSM.push(GS+"2")
+                    else if (GSCredit < 9) notTakingBSM.push(GS+"1")
+                    if (bsmExperimentCredit < 3) notTakingBSM.push(bsmExperiment)
                     data = {
+                        name: 1,
                         notTakingNC: notTakingNC,
                         notTakingBSM: notTakingBSM,
                         notTakingMJ: notTakingMJ,
-                        leadershipCredit: leadershipCredit,
-                        GSCredit: GSCredit,
-                        bsmExperimentCredit: bsmExperimentCredit
                     }
                     console.log(data)
                     res.json(data)

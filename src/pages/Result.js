@@ -307,16 +307,15 @@ const Result = () => {
                             <span className="detail_content"><u>{totalScore}점</u>으로 2.0점 <b style={{ color: 'crimson' }}>미만</b>입니다.</span>
                         </Box>
                     }
-                    <EssLectures />
                     {isEngClassCount ?
-                        <Box className="final_detail_box">
+                        <Box className="detail_box">
                             <div className="stack">
                                 <img className="check_img" alt="check_img" src="img/yeah.png"></img>
                                 <span className="detail_title">영어강의</span>
                             </div>
                             <span className="detail_content"><u>{engClassCount}강의</u>를 이수하였습니다.</span>
                         </Box> :
-                        <Box className="final_detail_box">
+                        <Box className="detail_box">
                             <div className="stack">
                                 <img className="check_img" alt="check_img" src="img/nope.png"></img>
                                 <span className="detail_title">영어강의</span>
@@ -324,6 +323,7 @@ const Result = () => {
                             <span className="detail_content"><u>{engClassCount}강의</u>를 이수하였습니다. <b style={{ color: 'crimson' }}>{4-engClassCount}강의</b>가 부족합니다.</span>
                         </Box>
                     }
+                    <EssLectures />
                 </Box>
             </div>
         )}
