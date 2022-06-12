@@ -619,16 +619,63 @@ app.post('/result/essLectures', (req, res) => {
             }
         })
 
-    sql = 'SELECT ClassArea from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? AND CNumber LIKE ?'
     // 기사 PRI4040
+    sql = 'SELECT count(ClassArea) AS count from UserSelectList,Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? AND CNumber LIKE ?'
     connection.query(sql, [email, 'PRI4040%'],
         function (err, result) {
             if (!err) {
-                if (result[0].ClassArea === '기본소양')
-                    GSCredit += 3
+                if (result[0].count > 0) {
+                    sql = 'SELECT ClassArea from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? AND CNumber LIKE ?'
+                    connection.query(sql, [email, 'PRI4040%'],
+                        function (err, result) {
+                            if (!err) {
+                                if (result[0].ClassArea === '기본소양')
+                                    GSCredit += 3
+                            }
+                        })
+                }
             }
         })
+
     // 공법 PRI4043
+    sql = 'SELECT count(ClassArea) AS count from UserSelectList,Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? AND CNumber LIKE ?'
+    connection.query(sql, [email, 'PRI4043%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    sql = 'SELECT ClassArea from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? AND CNumber LIKE ?'
+                    connection.query(sql, [email, 'PRI4043%'],
+                        function (err, result) {
+                            if (!err) {
+                                if (result[0].ClassArea === '기본소양')
+                                    GSCredit += 3
+                            }
+                            data = {
+                                notTakingNC: notTakingNC,
+                                notTakingBSM: notTakingBSM,
+                                notTakingMJ: notTakingMJ,
+                                leadershipCredit: leadershipCredit,
+                                GSCredit: GSCredit,
+                                bsmExperimentCredit: bsmExperimentCredit
+                            }
+                            console.log(data)
+                            res.json(data)
+                        })
+                }
+                else {
+                    data = {
+                        notTakingNC: notTakingNC,
+                        notTakingBSM: notTakingBSM,
+                        notTakingMJ: notTakingMJ,
+                        leadershipCredit: leadershipCredit,
+                        GSCredit: GSCredit,
+                        bsmExperimentCredit: bsmExperimentCredit
+                    }
+                    console.log(data)
+                    res.json(data)
+                }
+            }
+        })
     connection.query(sql, [email, 'PRI4043%'],
         function (err, result) {
             if (!err) {
