@@ -73,8 +73,8 @@ const Result = () => {
     const [isEngClassCount, setIsEngClassCount] = useState();
     const [isTotalScore, setIsTotalScore] = useState();
 
-    var total_Credit
-    var major_Credit
+    const [major_Credit, setmajor_Credit] = useState();
+    const [total_Credit, settotal_Credit] = useState();
     
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
@@ -118,21 +118,21 @@ const Result = () => {
             if (course === '심화'){
                 if (totalCredit >= 140) {
                     setIsTotalCredit(true)
-                    total_Credit = totalCredit
+                    settotal_Credit(totalCredit)
                 }
                 else{
                     setIsTotalCredit(false)
-                    total_Credit = 140 - totalCredit
+                    settotal_Credit(140 - totalCredit)
                 } 
             }
             else {
                 if (totalCredit >= 130) {
                     setIsTotalCredit(true)
-                    total_Credit = totalCredit
+                    settotal_Credit(totalCredit)
                 }
                 else {
                     setIsTotalCredit(false)
-                    total_Credit = 130 - totalCredit
+                    settotal_Credit(130 - totalCredit)
                 }
             }
 
@@ -143,22 +143,22 @@ const Result = () => {
             if (course === '심화'){
                 if (majorCredit >= 84) {
                     setIsMajorCredit(true)
-                    major_Credit = 84
+                    setmajor_Credit(84)
                     
                 }
                 else{
                     setIsMajorCredit(false)
-                    major_Credit = 84
+                    setmajor_Credit(84)
                 } 
             }
             else {
                 if (majorCredit >= 72) {
                     setIsMajorCredit(true)
-                    major_Credit = 72
+                    setmajor_Credit(72)
                 }
                 else {
                     setIsMajorCredit(false)
-                    major_Credit = 72
+                    setmajor_Credit(72)
                 }
             }
             if (totalScore >= 2.0) setIsTotalScore(true)
@@ -250,7 +250,7 @@ const Result = () => {
                                 </div>
                                 <span className="detail_content2">총 <u>{totalCredit}학점</u>으로 <b style={{ color: 'crimson' }}>{total_Credit}학점</b>이 부족합니다.</span>
                                 </AccordionSummary>
-                            }
+                            } 
                             <AccordionDetails>
                                 {isCommonClassCredit ?
                                     <Stack className="category" direction="row" spacing={1}>
