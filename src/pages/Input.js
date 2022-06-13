@@ -32,7 +32,7 @@ const Input = () => {
 
     return (
         <>
-        {loading ? <LoadingSpinner /> : (
+        {loading ? <LoadingSpinner op={true} /> : (
             <div className="fade-in">
                 {hasInput && 
                     <AlertModal 

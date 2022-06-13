@@ -155,6 +155,7 @@ const Stats = () => {
 
     return (
         <>
+<<<<<<< HEAD
             {loading ? <LoadingSpinner /> : (
                 <div className="fade-in">
                     <Header mypage signout />
@@ -181,6 +182,34 @@ const Stats = () => {
                     </Stack>
                 </div>
             )}
+=======
+        {loading ? <LoadingSpinner op={true} /> : (
+            <div className="fade-in">
+                <Header mypage signout />
+                <Box className="sub_title">
+                통계
+                </Box>
+                <Stack 
+                    style={{margin:'20px 80px 80px 80px'}} 
+                    direction={{xs:'column', sm:'row'}}
+                    justifyContent="center"
+                    alignItems="center"
+                >
+                    <LChart data={AllScoreData} title="전체평점 비교" dataKey={'평점'} />
+                    <LChart data={MajorScoreData} title="전공평점 비교" dataKey="평점" />
+                    <LChart data={CreditData} title="이수학점 비교" dataKey="학점" />
+                </Stack>
+                {/* <Stack style={{marginBottom:'80px'}}  justifyContent="center" alignItems="center">
+                    <Box className="B_PC">
+                        <BChart data={BestLectureData}></BChart>
+                    </Box>
+                    <Box className="B_mobile">
+                        <BChart data={BestLectureData} isMobile></BChart>
+                    </Box>
+                </Stack> */}
+            </div>
+        )}
+>>>>>>> 463b9881b17d82c0d5581fae6d8e2b83b5ed1a6f
         </>
     )
 }

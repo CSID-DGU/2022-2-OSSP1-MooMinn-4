@@ -32,8 +32,9 @@ const Home = () => {
 
     return (
         <>
-            {loading ? <LoadingSpinner /> : (
-                <div>
+            {loading ? <LoadingSpinner op={true} /> : (
+                <>
+                <div className="home_box">
                     <div className="title_area">
                         <div className="logo">
                             <img className="logo_img" alt="YouCanGraduate" src="img/logo.png"></img>
@@ -60,24 +61,29 @@ const Home = () => {
                                 <Link to='/stats'>
                                     <button className="btn">통계</button>
                                 </Link>
-                                <Box className="signout_home" title="로그아웃">
-                                    <Link to="/" style={{ color: 'black', textDecoration: 'none' }}>
-                                        <Stack direction="row" onClick={onClickLogout}>
-                                            <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
-                                        </Stack>
-                                    </Link>
-                                </Box>
-                                <Box className="mypage_home" title="마이페이지">
-                                    <Link to="/mypage" style={{ color: 'black', textDecoration: 'none' }}>
-                                        <Stack direction="row">
-                                            <AccountCircleRoundedIcon /><div className="tool_title">마이페이지</div>
-                                        </Stack>
-                                    </Link>
-                                </Box>
                             </>
                         }
                     </Stack>
                 </div>
+                {isSignIn &&
+                    <>
+                    <Box className="signout_home" title="로그아웃">
+                        <Link to="/" style={{ color: 'black', textDecoration: 'none' }}>
+                            <Stack direction="row" onClick={onClickLogout}>
+                                <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
+                            </Stack>
+                        </Link>
+                    </Box>
+                    <Box className="mypage_home" title="마이페이지">
+                        <Link to="/mypage" style={{ color: 'black', textDecoration: 'none' }}>
+                            <Stack direction="row">
+                                <AccountCircleRoundedIcon /><div className="tool_title">마이페이지</div>
+                            </Stack>
+                        </Link>
+                    </Box>
+                    </>
+                }
+                </>
             )}
         </>
     );
