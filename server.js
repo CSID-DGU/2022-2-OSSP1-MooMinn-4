@@ -676,23 +676,6 @@ app.post('/result/essLectures', (req, res) => {
                 }
             }
         })
-    connection.query(sql, [email, 'PRI4043%'],
-        function (err, result) {
-            if (!err) {
-                if (result[0].ClassArea === '기본소양')
-                    GSCredit += 3
-            }
-            data = {
-                notTakingNC: notTakingNC,
-                notTakingBSM: notTakingBSM,
-                notTakingMJ: notTakingMJ,
-                leadershipCredit: leadershipCredit,
-                GSCredit: GSCredit,
-                bsmExperimentCredit: bsmExperimentCredit
-            }
-            console.log(data)
-            res.json(data)
-        })
 })
 
 app.post('/semester', (req, res) => {
@@ -784,7 +767,6 @@ app.post('/semester', (req, res) => {
                             }
                         }
                         data.TNumList = TNumList
-                        console.log(data)
                         res.json(data)
                     })
 
@@ -793,10 +775,10 @@ app.post('/semester', (req, res) => {
 })
 
 app.post('/stats', (req, res) => {
-    console.log(req.body)
     const email = req.body.email
     const TNumber = req.body.TNumber
     const semester = req.body.semester
+    const semesters = ['Semester_1', 'Semester_2', 'Semester_3', 'Semester_4', 'Semester_5', 'Semester_6', 'Semester_7', 'Semester_8']
     var SemesterData = {
         email: email,
         semester: semester,
@@ -815,17 +797,24 @@ app.post('/stats', (req, res) => {
     connection.query(sql, [email, TNumber],
         function (err, result) {
             if (!err) {
-                console.log(TNumber + '학기 credit : ' + result[0].credit)
                 SemesterData.Credit = result[0].credit
-            }
+                /*sql = 'UPDATE ScoreStat SET '
+                sql += semesters[semester]
+                sql += ' = ? WHERE UID = ?'
+                connection.query(sql, [SemesterData.Credit, email],
+                    function (err) {
+                        if (!err) {
 
+                        }
+                    })
+                */
+            }
         })
     // 사용자의 이수과목 수를 구한 후 Count에 저장
     var sql = 'select COUNT(*) AS count from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? and TNumber = ?'
     connection.query(sql, [email, TNumber],
         function (err, result) {
             if (!err) {
-                console.log(TNumber + '학기 count : ' + result[0].count)
                 SemesterData.Count = result[0].count
             }
         })
@@ -835,6 +824,7 @@ app.post('/stats', (req, res) => {
     connection.query(sql, [email, TNumber],
         function (err, result) {
             if (!err) {
+                var tmpCredit = SemesterData.Credit
                 for (var i = 0; i < SemesterData.Count; i++) {
                     var grade = result[i].ClassScore
                     var credit = result[i].ClassCredit
@@ -846,11 +836,10 @@ app.post('/stats', (req, res) => {
                     else if (grade === 'C0') { SemesterData.ClassScore += 2.0 * credit }
                     else if (grade === 'D+') { SemesterData.ClassScore += 1.5 * credit }
                     else if (grade === 'D0') { SemesterData.ClassScore += 1.0 * credit }
-                    else if (grade === 'P') { SemesterData.Credit -= credit }
+                    else if (grade === 'P') { tmpCredit -= credit }
                     else if (grade === 'F') { }
                 }
-                SemesterData.ClassScore /= SemesterData.Credit
-                console.log(TNumber + '학기 학점 평균 : ' + SemesterData.ClassScore)
+                SemesterData.ClassScore /= tmpCredit
             }
         })
 
@@ -859,7 +848,6 @@ app.post('/stats', (req, res) => {
     connection.query(sql, [email, TNumber, '전공'],
         function (err, result) {
             if (!err) {
-                console.log('MajorCredit : ' + result[0].credit)
                 SemesterData.MajorCredit = result[0].credit
             }
         })
@@ -869,7 +857,6 @@ app.post('/stats', (req, res) => {
     connection.query(sql, [email, TNumber, '전공'],
         function (err, result) {
             if (!err) {
-                console.log('MajorCount : ' + result[0].count)
                 SemesterData.MajorCount = result[0].count
             }
         })
@@ -894,7 +881,6 @@ app.post('/stats', (req, res) => {
                     else if (grade === 'F') { }
                 }
                 SemesterData.MajorClassScore /= SemesterData.MajorCredit
-                console.log('전공 학점 평균 : ' + SemesterData.MajorClassScore)
                 res.json(SemesterData)
             }
         })
@@ -903,10 +889,12 @@ app.post('/stats', (req, res) => {
 app.post('/updatestat', (req, res) => {
     const ent = ['FirEnt', 'SecEnt', 'TrdEnt', 'FthEnt', 'FifEnt', 'SixEnt', 'SevEnt', 'EigEnt']
     const maj = ['FirMaj', 'SecMaj', 'TrdMaj', 'FthMaj', 'FifMaj', 'SixMaj', 'SevMaj', 'EigMaj']
+    const semesters = ['Semester_1', 'Semester_2', 'Semester_3', 'Semester_4', 'Semester_5', 'Semester_6', 'Semester_7', 'Semester_8']
     const email = req.body.email
     const semester = req.body.semester
     const EntScore = req.body.ClassScore
     const MajScore = req.body.MajorClassScore
+    var Credit = req.body.Credit
 
     var sql = ''
     sql = 'UPDATE ScoreStat SET '
@@ -927,6 +915,428 @@ app.post('/updatestat', (req, res) => {
             if (!err) {
 
             }
+        })
+
+
+    sql = 'UPDATE ScoreStat SET '
+    sql += semesters[semester]
+    sql += ' = ? WHERE UID = ?'
+    connection.query(sql, [Credit, email],
+        function (err) {
+            if (!err) {
+
+            }
+        })
+
+})
+
+app.post('/getstats', (req, res) => {
+    const email = req.body.email
+    var data = {
+        user_ent_1: 0,
+        user_ent_2: 0,
+        user_ent_3: 0,
+        user_ent_4: 0,
+        user_ent_5: 0,
+        user_ent_6: 0,
+        user_ent_7: 0,
+        user_ent_8: 0,
+        user_maj_1: 0,
+        user_maj_2: 0,
+        user_maj_3: 0,
+        user_maj_4: 0,
+        user_maj_5: 0,
+        user_maj_6: 0,
+        user_maj_7: 0,
+        user_maj_8: 0,
+        user_sem_1: 0,
+        user_sem_2: 0,
+        user_sem_3: 0,
+        user_sem_4: 0,
+        user_sem_5: 0,
+        user_sem_6: 0,
+        user_sem_7: 0,
+        user_sem_8: 0,
+        ent_1: 0,
+        ent_2: 0,
+        ent_3: 0,
+        ent_4: 0,
+        ent_5: 0,
+        ent_6: 0,
+        ent_7: 0,
+        ent_8: 0,
+        maj_1: 0,
+        maj_2: 0,
+        maj_3: 0,
+        maj_4: 0,
+        maj_5: 0,
+        maj_6: 0,
+        maj_7: 0,
+        maj_8: 0,
+        sem_1: 0,
+        sem_2: 0,
+        sem_3: 0,
+        sem_4: 0,
+        sem_5: 0,
+        sem_6: 0,
+        sem_7: 0,
+        sem_8: 0
+    }
+    var sql = '';
+
+    // user_ent, user_maj, user_sem
+    sql = 'SELECT * FROM ScoreStat WHERE UID = ?'
+    connection.query(sql, [email],
+        function (err, result) {
+            if (!err) {
+                data.user_ent_1 = result[0].FirEnt
+                data.user_ent_2 = result[0].SecEnt
+                data.user_ent_3 = result[0].TrdEnt
+                data.user_ent_4 = result[0].FthEnt
+                data.user_ent_5 = result[0].FifEnt
+                data.user_ent_6 = result[0].SixEnt
+                data.user_ent_7 = result[0].SevEnt
+                data.user_ent_8 = result[0].EigEnt
+                data.user_maj_1 = result[0].FirMaj
+                data.user_maj_2 = result[0].SecMaj
+                data.user_maj_3 = result[0].TrdMaj
+                data.user_maj_4 = result[0].FthMaj
+                data.user_maj_5 = result[0].FifMaj
+                data.user_maj_6 = result[0].SixMaj
+                data.user_maj_7 = result[0].SevMaj
+                data.user_maj_8 = result[0].EigMaj
+                data.user_sem_1 = result[0].Semester_1
+                data.user_sem_2 = result[0].Semester_2 + data.user_sem_1
+                data.user_sem_3 = result[0].Semester_3 + data.user_sem_2
+                data.user_sem_4 = result[0].Semester_4 + data.user_sem_3
+                data.user_sem_5 = result[0].Semester_5 + data.user_sem_4
+                data.user_sem_6 = result[0].Semester_6 + data.user_sem_5
+                data.user_sem_7 = result[0].Semester_7 + data.user_sem_6
+                data.user_sem_8 = result[0].Semester_8 + data.user_sem_7
+            }
+        })
+
+    // ent_1 - ent_8
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE FirEnt is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE FirEnt is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.ent_1 += result[i].FirEnt
+                    }
+                    data.ent_1 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE SecEnt is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE SecEnt is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.ent_2 += result[i].SecEnt
+                    }
+                    data.ent_2 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE TrdEnt is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE TrdEnt is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.ent_3 += result[i].TrdEnt
+                    }
+                    data.ent_3 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE FthEnt is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE FthEnt is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.ent_4 += result[i].FthEnt
+                    }
+                    data.ent_4 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE FifEnt is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE FifEnt is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.ent_5 += result[i].FifEnt
+                    }
+                    data.ent_5 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE SixEnt is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE SixEnt is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.ent_6 += result[i].SixEnt
+                    }
+                    data.ent_6 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE SevEnt is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE SevEnt is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.ent_7 += result[i].SevEnt
+                    }
+                    data.ent_7 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE EigEnt is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE EigEnt is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.ent_8 += result[i].EigEnt
+                    }
+                    data.ent_8 /= count[0].count
+                })
+        })
+
+    // maj_1 - maj_8
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE FirMaj is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE FirMaj is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.maj_1 += result[i].FirMaj
+                    }
+                    data.maj_1 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE SecMaj is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE SecMaj is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.maj_2 += result[i].SecMaj
+                    }
+                    data.maj_2 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE TrdMaj is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE TrdMaj is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.maj_3 += result[i].TrdMaj
+                    }
+                    data.maj_3 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE FthMaj is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE FthMaj is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.maj_4 += result[i].FthMaj
+                    }
+                    data.maj_4 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE FifMaj is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE FifMaj is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.maj_5 += result[i].FifMaj
+                    }
+                    data.maj_5 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE SixMaj is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE SixMaj is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.maj_6 += result[i].SixMaj
+                    }
+                    data.maj_6 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE SevMaj is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE SevMaj is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.maj_7 += result[i].SevMaj
+                    }
+                    data.maj_7 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE EigMaj is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE EigMaj is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.maj_8 += result[i].EigMaj
+                    }
+                    data.maj_8 /= count[0].count
+                })
+        })
+
+    // sem_1 - sem_8
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_1 is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE Semester_1 is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.sem_1 += result[i].Semester_1
+                    }
+                    data.sem_1 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_2 is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE Semester_2 is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.sem_2 += result[i].Semester_1
+                        data.sem_2 += result[i].Semester_2
+                    }
+                    data.sem_2 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_3 is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE Semester_3 is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.sem_3 += result[i].Semester_1
+                        data.sem_3 += result[i].Semester_2
+                        data.sem_3 += result[i].Semester_3
+                    }
+                    data.sem_3 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_4 is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE Semester_4 is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.sem_4 += result[i].Semester_1
+                        data.sem_4 += result[i].Semester_2
+                        data.sem_4 += result[i].Semester_3
+                        data.sem_4 += result[i].Semester_4
+                    }
+                    data.sem_4 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_5 is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE Semester_5 is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.sem_5 += result[i].Semester_1
+                        data.sem_5 += result[i].Semester_2
+                        data.sem_5 += result[i].Semester_3
+                        data.sem_5 += result[i].Semester_4
+                        data.sem_5 += result[i].Semester_5
+                    }
+                    data.sem_5 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_6 is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE Semester_6 is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.sem_6 += result[i].Semester_1
+                        data.sem_6 += result[i].Semester_2
+                        data.sem_6 += result[i].Semester_3
+                        data.sem_6 += result[i].Semester_4
+                        data.sem_6 += result[i].Semester_5
+                        data.sem_6 += result[i].Semester_6
+                    }
+                    data.sem_6 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_7 is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE Semester_7 is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.sem_7 += result[i].Semester_1
+                        data.sem_7 += result[i].Semester_2
+                        data.sem_7 += result[i].Semester_3
+                        data.sem_7 += result[i].Semester_4
+                        data.sem_7 += result[i].Semester_5
+                        data.sem_7 += result[i].Semester_6
+                        data.sem_7 += result[i].Semester_7
+                    }
+                    data.sem_7 /= count[0].count
+                })
+        })
+    sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_8 is NOT NULL'
+    connection.query(sql,
+        function (err, count) {
+            sql = 'SELECT * FROM ScoreStat WHERE Semester_8 is NOT NULL'
+            connection.query(sql,
+                function (err, result) {
+                    for (var i = 0; i < count[0].count; i++) {
+                        data.sem_8 += result[i].Semester_1
+                        data.sem_8 += result[i].Semester_2
+                        data.sem_8 += result[i].Semester_3
+                        data.sem_8 += result[i].Semester_4
+                        data.sem_8 += result[i].Semester_5
+                        data.sem_8 += result[i].Semester_6
+                        data.sem_8 += result[i].Semester_7
+                        data.sem_8 += result[i].Semester_8
+                    }
+                    data.sem_8 /= count[0].count
+                    res.json(data)
+                })
         })
 })
 
