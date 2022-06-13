@@ -941,56 +941,39 @@ app.post('/updatestat', (req, res) => {
 
 app.post('/getstats', (req, res) => {
     const email = req.body.email
-    var data = {
-        user_ent_1: 0,
-        user_ent_2: 0,
-        user_ent_3: 0,
-        user_ent_4: 0,
-        user_ent_5: 0,
-        user_ent_6: 0,
-        user_ent_7: 0,
-        user_ent_8: 0,
-        user_maj_1: 0,
-        user_maj_2: 0,
-        user_maj_3: 0,
-        user_maj_4: 0,
-        user_maj_5: 0,
-        user_maj_6: 0,
-        user_maj_7: 0,
-        user_maj_8: 0,
-        user_sem_1: 0,
-        user_sem_2: 0,
-        user_sem_3: 0,
-        user_sem_4: 0,
-        user_sem_5: 0,
-        user_sem_6: 0,
-        user_sem_7: 0,
-        user_sem_8: 0,
-        ent_1: 0,
-        ent_2: 0,
-        ent_3: 0,
-        ent_4: 0,
-        ent_5: 0,
-        ent_6: 0,
-        ent_7: 0,
-        ent_8: 0,
-        maj_1: 0,
-        maj_2: 0,
-        maj_3: 0,
-        maj_4: 0,
-        maj_5: 0,
-        maj_6: 0,
-        maj_7: 0,
-        maj_8: 0,
-        sem_1: 0,
-        sem_2: 0,
-        sem_3: 0,
-        sem_4: 0,
-        sem_5: 0,
-        sem_6: 0,
-        sem_7: 0,
-        sem_8: 0
-    }
+    var data = [
+        [                                   // user_ent         ent
+            { name: '1', 나: 0, 평균: 0, }, // data[0][0]["나"] data[0][0]["평균"]
+            { name: '2', 나: 0, 평균: 0, }, // data[0][1]["나"]
+            { name: '3', 나: 0, 평균: 0, }, // data[0][2]["나"]
+            { name: '4', 나: 0, 평균: 0, }, // data[0][3]["나"]
+            { name: '5', 나: 0, 평균: 0, }, // data[0][4]["나"]
+            { name: '6', 나: 0, 평균: 0, }, // data[0][5]["나"]
+            { name: '7', 나: 0, 평균: 0, }, // data[0][6]["나"]
+            { name: '8', 나: 0, 평균: 0, }, // data[0][7]["나"]
+        ],
+        [                                   // user_maj          maj
+            { name: '1', 나: 0, 평균: 0, }, // data[1][0]["나"] data[1][0]["평균"]
+            { name: '2', 나: 0, 평균: 0, }, // data[1][1]["나"]
+            { name: '3', 나: 0, 평균: 0, }, // data[1][2]["나"]
+            { name: '4', 나: 0, 평균: 0, }, // data[1][3]["나"]
+            { name: '5', 나: 0, 평균: 0, }, // data[1][4]["나"]
+            { name: '6', 나: 0, 평균: 0, }, // data[1][5]["나"]
+            { name: '7', 나: 0, 평균: 0, }, // data[1][6]["나"]
+            { name: '8', 나: 0, 평균: 0, }, // data[1][7]["나"]
+        ],
+        [                                   // user_sem         sem
+            { name: '1', 나: 0, 평균: 0, }, // data[2][0]["나"] data[2][0]["평균"]
+            { name: '2', 나: 0, 평균: 0, }, // data[2][1]["나"]
+            { name: '3', 나: 0, 평균: 0, }, // data[2][2]["나"]
+            { name: '4', 나: 0, 평균: 0, }, // data[2][3]["나"]
+            { name: '5', 나: 0, 평균: 0, }, // data[2][4]["나"]
+            { name: '6', 나: 0, 평균: 0, }, // data[2][5]["나"]
+            { name: '7', 나: 0, 평균: 0, }, // data[2][6]["나"]
+            { name: '8', 나: 0, 평균: 0, }, // data[2][7]["나"]
+        ]
+    ];
+
     var sql = '';
 
     // user_ent, user_maj, user_sem
@@ -998,30 +981,30 @@ app.post('/getstats', (req, res) => {
     connection.query(sql, [email],
         function (err, result) {
             if (!err) {
-                data.user_ent_1 = result[0].FirEnt
-                data.user_ent_2 = result[0].SecEnt
-                data.user_ent_3 = result[0].TrdEnt
-                data.user_ent_4 = result[0].FthEnt
-                data.user_ent_5 = result[0].FifEnt
-                data.user_ent_6 = result[0].SixEnt
-                data.user_ent_7 = result[0].SevEnt
-                data.user_ent_8 = result[0].EigEnt
-                data.user_maj_1 = result[0].FirMaj
-                data.user_maj_2 = result[0].SecMaj
-                data.user_maj_3 = result[0].TrdMaj
-                data.user_maj_4 = result[0].FthMaj
-                data.user_maj_5 = result[0].FifMaj
-                data.user_maj_6 = result[0].SixMaj
-                data.user_maj_7 = result[0].SevMaj
-                data.user_maj_8 = result[0].EigMaj
-                data.user_sem_1 = result[0].Semester_1
-                data.user_sem_2 = result[0].Semester_2 + data.user_sem_1
-                data.user_sem_3 = result[0].Semester_3 + data.user_sem_2
-                data.user_sem_4 = result[0].Semester_4 + data.user_sem_3
-                data.user_sem_5 = result[0].Semester_5 + data.user_sem_4
-                data.user_sem_6 = result[0].Semester_6 + data.user_sem_5
-                data.user_sem_7 = result[0].Semester_7 + data.user_sem_6
-                data.user_sem_8 = result[0].Semester_8 + data.user_sem_7
+                data[0][0]["나"] = result[0].FirEnt
+                data[0][1]["나"] = result[0].SecEnt
+                data[0][2]["나"] = result[0].TrdEnt
+                data[0][3]["나"] = result[0].FthEnt
+                data[0][4]["나"] = result[0].FifEnt
+                data[0][5]["나"] = result[0].SixEnt
+                data[0][6]["나"] = result[0].SevEnt
+                data[0][7]["나"] = result[0].EigEnt
+                data[1][0]["나"] = result[0].FirMaj
+                data[1][1]["나"] = result[0].SecMaj
+                data[1][2]["나"] = result[0].TrdMaj
+                data[1][3]["나"] = result[0].FthMaj
+                data[1][4]["나"] = result[0].FifMaj
+                data[1][5]["나"] = result[0].SixMaj
+                data[1][6]["나"] = result[0].SevMaj
+                data[1][7]["나"] = result[0].EigMaj
+                data[2][0]["나"] = result[0].Semester_1
+                data[2][1]["나"] = result[0].Semester_2 + data[2][0]["나"]
+                data[2][2]["나"] = result[0].Semester_3 + data[2][1]["나"]
+                data[2][3]["나"] = result[0].Semester_4 + data[2][2]["나"]
+                data[2][4]["나"] = result[0].Semester_5 + data[2][3]["나"]
+                data[2][5]["나"] = result[0].Semester_6 + data[2][4]["나"]
+                data[2][6]["나"] = result[0].Semester_7 + data[2][5]["나"]
+                data[2][7]["나"] = result[0].Semester_8 + data[2][6]["나"]
             }
         })
 
@@ -1033,9 +1016,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.ent_1 += result[i].FirEnt
+                        data[0][0]["평균"] += result[i].FirEnt
                     }
-                    data.ent_1 /= count[0].count
+                    data[0][0]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE SecEnt is NOT NULL'
@@ -1045,9 +1028,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.ent_2 += result[i].SecEnt
+                        data[0][1]["평균"] += result[i].SecEnt
                     }
-                    data.ent_2 /= count[0].count
+                    data[0][1]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE TrdEnt is NOT NULL'
@@ -1057,9 +1040,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.ent_3 += result[i].TrdEnt
+                        data[0][2]["평균"] += result[i].TrdEnt
                     }
-                    data.ent_3 /= count[0].count
+                    data[0][2]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE FthEnt is NOT NULL'
@@ -1069,9 +1052,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.ent_4 += result[i].FthEnt
+                        data[0][3]["평균"] += result[i].FthEnt
                     }
-                    data.ent_4 /= count[0].count
+                    data[0][3]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE FifEnt is NOT NULL'
@@ -1081,9 +1064,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.ent_5 += result[i].FifEnt
+                        data[0][4]["평균"] += result[i].FifEnt
                     }
-                    data.ent_5 /= count[0].count
+                    data[0][4]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE SixEnt is NOT NULL'
@@ -1093,9 +1076,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.ent_6 += result[i].SixEnt
+                        data[0][5]["평균"] += result[i].SixEnt
                     }
-                    data.ent_6 /= count[0].count
+                    data[0][5]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE SevEnt is NOT NULL'
@@ -1105,9 +1088,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.ent_7 += result[i].SevEnt
+                        data[0][6]["평균"] += result[i].SevEnt
                     }
-                    data.ent_7 /= count[0].count
+                    data[0][6]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE EigEnt is NOT NULL'
@@ -1117,9 +1100,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.ent_8 += result[i].EigEnt
+                        data[0][7]["평균"] += result[i].EigEnt
                     }
-                    data.ent_8 /= count[0].count
+                    data[0][7]["평균"] /= count[0].count
                 })
         })
 
@@ -1131,9 +1114,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.maj_1 += result[i].FirMaj
+                        data[1][0]["평균"] += result[i].FirMaj
                     }
-                    data.maj_1 /= count[0].count
+                    data[1][0]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE SecMaj is NOT NULL'
@@ -1143,9 +1126,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.maj_2 += result[i].SecMaj
+                        data[1][1]["평균"] += result[i].SecMaj
                     }
-                    data.maj_2 /= count[0].count
+                    data[1][1]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE TrdMaj is NOT NULL'
@@ -1155,9 +1138,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.maj_3 += result[i].TrdMaj
+                        data[1][2]["평균"] += result[i].TrdMaj
                     }
-                    data.maj_3 /= count[0].count
+                    data[1][2]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE FthMaj is NOT NULL'
@@ -1167,9 +1150,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.maj_4 += result[i].FthMaj
+                        data[1][3]["평균"] += result[i].FthMaj
                     }
-                    data.maj_4 /= count[0].count
+                    data[1][3]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE FifMaj is NOT NULL'
@@ -1179,9 +1162,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.maj_5 += result[i].FifMaj
+                        data[1][4]["평균"] += result[i].FifMaj
                     }
-                    data.maj_5 /= count[0].count
+                    data[1][4]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE SixMaj is NOT NULL'
@@ -1191,9 +1174,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.maj_6 += result[i].SixMaj
+                        data[1][5]["평균"] += result[i].SixMaj
                     }
-                    data.maj_6 /= count[0].count
+                    data[1][5]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE SevMaj is NOT NULL'
@@ -1203,9 +1186,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.maj_7 += result[i].SevMaj
+                        data[1][6]["평균"] += result[i].SevMaj
                     }
-                    data.maj_7 /= count[0].count
+                    data[1][6]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE EigMaj is NOT NULL'
@@ -1215,9 +1198,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.maj_8 += result[i].EigMaj
+                        data[1][7]["평균"] += result[i].EigMaj
                     }
-                    data.maj_8 /= count[0].count
+                    data[1][7]["평균"] /= count[0].count
                 })
         })
 
@@ -1229,9 +1212,9 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.sem_1 += result[i].Semester_1
+                        data[2][0]["평균"] += result[i].Semester_1
                     }
-                    data.sem_1 /= count[0].count
+                    data[2][0]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_2 is NOT NULL'
@@ -1241,10 +1224,10 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.sem_2 += result[i].Semester_1
-                        data.sem_2 += result[i].Semester_2
+                        data[2][1]["평균"] += result[i].Semester_1
+                        data[2][1]["평균"] += result[i].Semester_2
                     }
-                    data.sem_2 /= count[0].count
+                    data[2][1]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_3 is NOT NULL'
@@ -1254,11 +1237,11 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.sem_3 += result[i].Semester_1
-                        data.sem_3 += result[i].Semester_2
-                        data.sem_3 += result[i].Semester_3
+                        data[2][2]["평균"] += result[i].Semester_1
+                        data[2][2]["평균"] += result[i].Semester_2
+                        data[2][2]["평균"] += result[i].Semester_3
                     }
-                    data.sem_3 /= count[0].count
+                    data[2][2]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_4 is NOT NULL'
@@ -1268,12 +1251,12 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.sem_4 += result[i].Semester_1
-                        data.sem_4 += result[i].Semester_2
-                        data.sem_4 += result[i].Semester_3
-                        data.sem_4 += result[i].Semester_4
+                        data[2][3]["평균"] += result[i].Semester_1
+                        data[2][3]["평균"] += result[i].Semester_2
+                        data[2][3]["평균"] += result[i].Semester_3
+                        data[2][3]["평균"] += result[i].Semester_4
                     }
-                    data.sem_4 /= count[0].count
+                    data[2][3]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_5 is NOT NULL'
@@ -1283,13 +1266,13 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.sem_5 += result[i].Semester_1
-                        data.sem_5 += result[i].Semester_2
-                        data.sem_5 += result[i].Semester_3
-                        data.sem_5 += result[i].Semester_4
-                        data.sem_5 += result[i].Semester_5
+                        data[2][4]["평균"] += result[i].Semester_1
+                        data[2][4]["평균"] += result[i].Semester_2
+                        data[2][4]["평균"] += result[i].Semester_3
+                        data[2][4]["평균"] += result[i].Semester_4
+                        data[2][4]["평균"] += result[i].Semester_5
                     }
-                    data.sem_5 /= count[0].count
+                    data[2][4]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_6 is NOT NULL'
@@ -1299,14 +1282,14 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.sem_6 += result[i].Semester_1
-                        data.sem_6 += result[i].Semester_2
-                        data.sem_6 += result[i].Semester_3
-                        data.sem_6 += result[i].Semester_4
-                        data.sem_6 += result[i].Semester_5
-                        data.sem_6 += result[i].Semester_6
+                        data[2][5]["평균"] += result[i].Semester_1
+                        data[2][5]["평균"] += result[i].Semester_2
+                        data[2][5]["평균"] += result[i].Semester_3
+                        data[2][5]["평균"] += result[i].Semester_4
+                        data[2][5]["평균"] += result[i].Semester_5
+                        data[2][5]["평균"] += result[i].Semester_6
                     }
-                    data.sem_6 /= count[0].count
+                    data[2][5]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_7 is NOT NULL'
@@ -1316,15 +1299,15 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.sem_7 += result[i].Semester_1
-                        data.sem_7 += result[i].Semester_2
-                        data.sem_7 += result[i].Semester_3
-                        data.sem_7 += result[i].Semester_4
-                        data.sem_7 += result[i].Semester_5
-                        data.sem_7 += result[i].Semester_6
-                        data.sem_7 += result[i].Semester_7
+                        data[2][6]["평균"] += result[i].Semester_1
+                        data[2][6]["평균"] += result[i].Semester_2
+                        data[2][6]["평균"] += result[i].Semester_3
+                        data[2][6]["평균"] += result[i].Semester_4
+                        data[2][6]["평균"] += result[i].Semester_5
+                        data[2][6]["평균"] += result[i].Semester_6
+                        data[2][6]["평균"] += result[i].Semester_7
                     }
-                    data.sem_7 /= count[0].count
+                    data[2][6]["평균"] /= count[0].count
                 })
         })
     sql = 'SELECT COUNT(*) AS count FROM ScoreStat WHERE Semester_8 is NOT NULL'
@@ -1334,16 +1317,16 @@ app.post('/getstats', (req, res) => {
             connection.query(sql,
                 function (err, result) {
                     for (var i = 0; i < count[0].count; i++) {
-                        data.sem_8 += result[i].Semester_1
-                        data.sem_8 += result[i].Semester_2
-                        data.sem_8 += result[i].Semester_3
-                        data.sem_8 += result[i].Semester_4
-                        data.sem_8 += result[i].Semester_5
-                        data.sem_8 += result[i].Semester_6
-                        data.sem_8 += result[i].Semester_7
-                        data.sem_8 += result[i].Semester_8
+                        data[2][7]["평균"] += result[i].Semester_1
+                        data[2][7]["평균"] += result[i].Semester_2
+                        data[2][7]["평균"] += result[i].Semester_3
+                        data[2][7]["평균"] += result[i].Semester_4
+                        data[2][7]["평균"] += result[i].Semester_5
+                        data[2][7]["평균"] += result[i].Semester_6
+                        data[2][7]["평균"] += result[i].Semester_7
+                        data[2][7]["평균"] += result[i].Semester_8
                     }
-                    data.sem_8 /= count[0].count
+                    data[2][7]["평균"] /= count[0].count
                     res.json(data)
                 })
         })
