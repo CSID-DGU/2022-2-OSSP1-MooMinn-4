@@ -101,13 +101,30 @@ const EssLectures = () => {
             <Box className="final_detail_box">
                 <Accordion className="acc" onChange={handleChange('panel1')}>
                     {isTakingNecessaryClass ?
+                        <>
+                        {(notTakingNC[0] == "NULL" || notTakingBSM_GS[0] == "NULL" || notTakingMJ[0] == "NULL") ?
+                        <div style={{
+                            textAlign: "right",
+                            fontSize: 12,
+                            color: "#007FFF",
+                        }}>⚠️ 값이 바로 뜨지 않을 수 있습니다. 잠시만 기다려주세요!</div> : <></>
+                        }
                         <AccordionSummary aria-controls="panel1d-content">
                             <div>
                                 <img className="check_img0" alt="check_img" src="img/yeah.png"></img>
                                 <span className="detail_title2">필수강의</span>
                             </div>
                             <span className="detail_content2">필수강의를 모두 이수하였습니다.</span>
-                        </AccordionSummary> :
+                        </AccordionSummary>
+                        </> :
+                        <>
+                        {(notTakingNC[0] == "NULL" || notTakingBSM_GS[0] == "NULL" || notTakingMJ[0] == "NULL") ?
+                        <div style={{
+                            textAlign: "right",
+                            fontSize: 12,
+                            color: "#007FFF",
+                        }}>⚠️ 값이 바로 뜨지 않을 수 있습니다. 잠시만 기다려주세요!</div> : <></>
+                        }
                         <AccordionSummary aria-controls="panel1d-content">
                             <div>
                                 <img className="check_img0" alt="check_img" src="img/nope.png"></img>
@@ -115,6 +132,7 @@ const EssLectures = () => {
                             </div>
                             <span className="detail_content2"><b style={{ color: 'crimson' }}>미이수</b>한 필수강의가 있습니다.</span>
                         </AccordionSummary>
+                        </>
                     }
                     <AccordionDetails>
                         <Stack direction="row" spacing={2} alignItems="center">
