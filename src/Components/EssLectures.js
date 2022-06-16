@@ -7,7 +7,7 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import '../pages/css/Result.css';
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from '../Components/LoadingSpinner';
 
 const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />

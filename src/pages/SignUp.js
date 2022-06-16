@@ -8,8 +8,8 @@ import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import CheckIcon from '@mui/icons-material/Check';
 import "./css/UserInfo.css";
-import Header from '../components/Header';
-import ConversionTable from '../components/ConversionTable';
+import Header from '../Components/Header';
+import ConversionTable from '../Components/ConversionTable';
 
 const SignUp = () => {
     const [email, setEmail] = React.useState('')

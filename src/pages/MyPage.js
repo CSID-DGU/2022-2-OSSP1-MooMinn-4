@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import './css/UserInfo.css';
-import Header from '../components/Header';
+import Header from '../Components/Header';
 
 class MyPage extends Component {
     state = {

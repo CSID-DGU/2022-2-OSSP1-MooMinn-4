@@ -6,7 +6,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import "./css/Home.css";
 import { useState, useEffect } from 'react';
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from '../Components/LoadingSpinner';
 
 const Home = () => {
     const [loading, setLoading] = useState(true);

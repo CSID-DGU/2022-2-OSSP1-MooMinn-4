@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import './css/Input.css';
-import Header from '../components/Header';
-import UploadFile from '../components/UploadFile';
-import AlertModal from '../components/AlertModal';
-import LoadingSpinner from '../components/LoadingSpinner';
+import Header from '../Components/Header';
+import UploadFile from '../Components/UploadFile';
+import AlertModal from '../Components/AlertModal';
+import LoadingSpinner from '../Components/LoadingSpinner';
 
 const Input = () => {
     const [hasInput, setHasInput] = useState();

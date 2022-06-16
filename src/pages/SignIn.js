@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box'
 import "./css/UserInfo.css";
-import FindPW from '../components/FindPW';
-import Header from '../components/Header';
+import FindPW from '../Components/FindPW';
+import Header from '../Components/Header';
 
 const SignIn = () => {
     const [id, setId] = React.useState('')
