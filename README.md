@@ -5,16 +5,37 @@
 ![GitHub](https://img.shields.io/github/license/wkkyu088/2022-1-OSSP2-turning-7?label=License)
 
 ### 🎓 Overview
-<img src="https://user-images.githubusercontent.com/82702064/171698532-ddd7dcf8-2bcf-4faf-8c31-e442e06eb28d.png" width="700" />
+![13](https://user-images.githubusercontent.com/82702064/174085540-e0ce02bf-5785-4c6a-9407-08de00f0ee5b.png)
+
+### ⚙️ Setup
+```
+1. node.js 설치
+https://nodejs.org/en/
+
+2. 프로젝트 clone
+$ git clone https://github.com/CSID-DGU/2022-1-OSSP2-turning-7.git
+
+3. 프로젝트 폴더로 이동
+$ cd C:\2022-1-OSSP2-turning-7
+
+4. 패키지 설치
+$ npm install
+
+5. 앱 실행
+$ npm start
+
+6. 서버 실행
+$ node server.js
+```
 
 ### 👥 About us
 ###### 공개SW프로젝트-02 **7조 Turning**
 ||이름|학과|역할|
 |----|----|----|---|
-|팀장|양재서|컴퓨터공학과||
-|팀원|원규진|컴퓨터공학과||
-|팀원|장동겸|컴퓨터공학과||
-|팀원|허상운|컴퓨터공학과||
+|팀장|양재서|컴퓨터공학과|BackEnd|
+|팀원|원규진|컴퓨터공학과|FrontEnd|
+|팀원|장동겸|컴퓨터공학과|BackEnd|
+|팀원|허상운|컴퓨터공학과|FrontEnd|
 
 ### 🛠️ Tools
 <span><img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white"/></span>
