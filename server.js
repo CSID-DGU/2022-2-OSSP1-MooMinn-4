@@ -10,9 +10,9 @@ let nodemailer = require('nodemailer');
 
 
 const connection = mysql.createConnection({
-    host: 'canigraduate.ctkzirrnabqi.us-west-2.rds.amazonaws.com',
+    host: 'dgugraduation.cojh5uzorzha.ap-northeast-1.rds.amazonaws.com',
     user: 'admin',
-    password: 'turning123!',
+    password: 'asdf1234',
     database: 'graduation',
 })
 
@@ -66,10 +66,39 @@ app.post("/signup", (req, res) => {
         })
 })
 
+
 app.post("/input", (req, res) => {
     const UserDatas = req.body
 
+    //Lecture 테이블 자동 추가
     for (var i = 1; i < UserDatas.length; i++) {
+        //TermNumber, ClassNumber, LectureNick, Curriculum, ClassArea, 
+        //ProfessorName, ClassCredit, DesignCredit, EnglishClass
+        const TNumber = UserDatas[i].TNumber
+        const CNumber = UserDatas[i].CNumber
+        const LNick = UserDatas[i].LNick
+        const Cculum = UserDatas[i].Cculum
+        const CArea = UserDatas[i].CArea
+        const PName = UserDatas[i].PName
+        const CCredit = UserDatas[i].CCredit
+        const DCredit = UserDatas[i].DCredit
+        const EClass = UserDatas[i].EClass
+
+        var sql = 'INSERT INTO `Lecture` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        var params = [TNumber, CNumber, LNick, Cculum, CArea, PName, CCredit, DCredit, EClass]
+        console.log(sql + params)
+        connection.query(sql, params,
+            function (err) {
+                if (!err) {
+                    console.log("성공")
+                } else {
+                    console.log("실패", err)
+                }
+            })
+    }
+
+    //UserSelectList 추가
+    for (var i = 1; i < UserDatas.length; i++) { 
         const UserID = UserDatas[0].email
         const TNumber = UserDatas[i].TNumber
         const CNumber = UserDatas[i].CNumber
@@ -85,7 +114,7 @@ app.post("/input", (req, res) => {
                     console.log("실패", err)
                 }
             })
-    }
+    } 
 
     const email = req.body.email
     connection.query("SELECT COUNT(*) AS result FROM UserSelectList WHERE UserID = ?", [email],
