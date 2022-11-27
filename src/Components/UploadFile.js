@@ -21,13 +21,21 @@ const UploadFile = () => {
             const ws = wb.Sheets[wsname]
 
             const data = XLSX.utils.sheet_to_json(ws)                
-            //console.log(data)
+            console.log(data)
             
             const userDatas = [{email: sessionStorage.getItem('userId')}];
+            //TermNumber, ClassNumber, LectureNick, Curriculum, ClassArea, 
+            //ProfessorName, ClassCredit, DesignCredit, EnglishClass
             for (var i=0; i<data.length; i++){
                 const userData = {};
                 userData['CNumber'] = data[i]['학수강좌번호']+'-'+data[i][''];
                 userData['ClassScore'] = data[i]['등급'];
+                userData['LNick'] = data[i]['교과목명'];
+                userData['Cculum'] = data[i]['이수구분'];
+                userData['CArea'] = data[i]['이수구분영역'];
+                userData['PName'] = data[i]['담당교원'];
+                userData['CCredit'] = data[i]['학점'];
+                userData['DCredit'] = data[i]['학점'];
                 if (data[i]['학기'] === "여름학기") {
                     userData['TNumber'] = data[i]['년도']+'_ss';
                 }
@@ -37,8 +45,16 @@ const UploadFile = () => {
                 else {
                     userData['TNumber'] = data[i]['년도']+'_'+data[i]['학기'][0];
                 }
+
+                if (data[i]['이수구분영역'] === "영어") {
+                    userData['EClass'] = 1;
+                }
+                else {
+                    userData['EClass'] = 0;
+                }
                 userDatas.push(userData)
             }
+            console.log(userDatas)
             setUserDatas(userDatas)
         }
     }
@@ -58,8 +74,8 @@ const UploadFile = () => {
                 },
                 body: JSON.stringify(UserDatas),
             })
-            alert("성적이 입력되었습니다!")
-            window.location.replace('/result')
+            alert("성적이 입력되었w42t습니다!")
+            window.location.replace('/')
         }
     }
 
