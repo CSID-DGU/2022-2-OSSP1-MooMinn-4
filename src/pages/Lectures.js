@@ -47,6 +47,8 @@ const Result = () => {
     const [loading, setLoading] = useState(true);
 
     const [takingNC, setTakingNC] = useState(["NULL"]);
+    const [takingBSM, setTakingBSM] = useState(["NULL"]);
+    const [takingMJ, setTakingMJ] = useState(["NULL"]);
 
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
@@ -66,6 +68,8 @@ const Result = () => {
         .then((res) => res.json())
         .then((json) => {
             setTakingNC(json.TakingNC)
+            setTakingBSM(json.TakingBSM)
+            setTakingMJ(json.TakingMJ)
         })
         setTimeout(()=> {
             setLoading(false)
@@ -111,26 +115,26 @@ const Result = () => {
                             }
                         </Stack>
                         <Stack direction="row" spacing={2} alignItems="center">
-                            {!takingNC.length ?
+                            {!takingBSM.length ?
                                 <Stack className="category" direction="row" spacing={1}>
-                                    <span className="category_title">학문기초</span>
+                                    <span className="category_title">BSM</span>
                                     <span className="category_content">해당없음</span>
                                 </Stack> :
                                 <Stack direction={{ xs: 'column', sm: 'row' }}>
                                     <Stack className="category" direction="row" spacing={1}>
-                                        <span className="category_title">학문기초</span>
-                                        <span className="category_content" style={{width:80}}><b style={{ color: 'crimson' }}>{takingNC.length}개</b> 이수가 필요합니다.</span>
+                                        <span className="category_title">BSM</span>
+                                        <span className="category_content" style={{width:80}}><b style={{ color: 'crimson' }}>{takingBSM.length}개</b> 이수가 필요합니다.</span>
                                     </Stack>
                                     <div className="badge_box">
                                         {
-                                            takingNC.map((names, idx) => (<div style={{display:"inline"}} key={idx}><span className="badge2">{names}</span></div>))
+                                            takingBSM.map((names, idx) => (<div style={{display:"inline"}} key={idx}><span className="badge2">{names}</span></div>))
                                         }
                                     </div>                                
                                 </Stack>
                             }
                         </Stack>
                         <Stack direction="row" spacing={2} alignItems="center">
-                            {!takingNC.length ?
+                            {!takingMJ.length ?
                                 <Stack className="category" direction="row" spacing={1}>
                                     <span className="category_title">전공</span>
                                     <span className="category_content">해당없음</span>
@@ -138,11 +142,11 @@ const Result = () => {
                                 <Stack direction={{ xs: 'column', sm: 'row' }}>
                                     <Stack className="category" direction="row" spacing={1}>
                                         <span className="category_title">전공</span>
-                                        <span className="category_content" style={{width:80}}><b style={{ color: 'crimson' }}>{takingNC.length}개</b> 이수가 필요합니다.</span>
+                                        <span className="category_content" style={{width:80}}><b style={{ color: 'crimson' }}>{takingMJ.length}개</b> 이수가 필요합니다.</span>
                                     </Stack>
                                     <div className="badge_box">
                                         {
-                                            takingNC.map((names, idx) => (<div style={{display:"inline"}} key={idx}><span className="badge2">{names}</span></div>))
+                                            takingMJ.map((names, idx) => (<div style={{display:"inline"}} key={idx}><span className="badge2">{names}</span></div>))
                                         }
                                     </div>                                
                                 </Stack>

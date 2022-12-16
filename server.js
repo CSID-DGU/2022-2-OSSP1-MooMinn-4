@@ -256,21 +256,47 @@ app.post('/lecture', (req, res) => {
     const email = req.body.email
     //추후에 email을 통해 쿼리문으로 전공 찾기
     const major = '컴퓨터공학과'
-    const type1 = '학문기초'
+    const type1 = '공통교양'
+    const type2 = 'bsm'
+    const type3 = '전공필수'
 
     var TakingNC = []
+    var TakingBSM = []
+    var TakingMJ = []
 
-    var sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
+    sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
         connection.query(sql, [major, type1],
         function (err, result) {
             if (!err) {
                 for (var i = 0; i < result.length; i++) {
                     TakingNC.push(result[i].ClassName)
                 }
-                var data = {
-                    TakingNC: TakingNC
+            }
+        })
+
+        sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
+        connection.query(sql, [major, type2],
+        function (err, result) {
+            if (!err) {
+                for (var i = 0; i < result.length; i++) {
+                    TakingBSM.push(result[i].ClassName)
                 }
-                console.log(data)
+            }
+        })
+
+    var sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
+        connection.query(sql, [major, type3],
+        function (err, result) {
+            if (!err) {
+                for (var i = 0; i < result.length; i++) {
+                    TakingMJ.push(result[i].ClassName)
+                }
+                var data = {
+                    TakingNC: TakingNC,
+                    TakingBSM: TakingBSM,
+                    TakingMJ: TakingMJ
+                }
+                //console.log(data)
                 res.json(data)
             }
         })
@@ -296,12 +322,12 @@ app.post('/lecture/arr', (req, res) => {
 app.post('/result/essLectures', (req, res) => {
     const email = req.body.email
     const major = '컴퓨터공학과'
-    const type = '학문기초'
+    var type = '공통교양'
 
     var sql = ''
     var index = 0
 
-    //학문기초 과목들을 불러와 저장
+    //공통교양 과목들을 불러와 저장
     var notTakingNC = []
 
     sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
@@ -316,19 +342,47 @@ app.post('/result/essLectures', (req, res) => {
 
     // basic, eas1, eas2, 자명1, 자명2, 불인, 기보작, 커디
     //notTakingNC = ['basicEAS', 'EAS1', 'EAS2', '자아와명상1', '자아와명상2', '불교와인간', '기술보고서작성', '커리어디자인']
+    
     // 리더십 2학점
     var leadershipCredit = 0;
     var leadership = "리더십 과목 중 택 1";
+
+    //bsm과목 불러오기
+    var notTakingBSM = []
+    type = 'bsm'
+    sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
+    connection.query(sql, [major, type],
+    function (err, result) {
+        if (!err) {
+            for (var i = 1; i < result.length; i++) {
+                notTakingBSM.push(result[i].ClassName)
+            }
+        }
+    })
+
     // 미적1, 확통, 공선대
-    var notTakingBSM = ['미적분학및연습1', '확률및통계학', '공학선형대수학']
+    //var notTakingBSM = ['미적분학및연습1', '확률및통계학', '공학선형대수학']
     // 기본 소양 9학점
     var GSCredit = 0;
     var GS = "기본소양 과목 중 택 ";
     // 실험 과목 4학점
     var bsmExperimentCredit = 0;
     var bsmExperiment = "과학실험 과목 중 택 1";
+
+    var notTakingMJ = []
+    type = '전공필수'
+    sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
+    connection.query(sql, [major, type],
+    function (err, result) {
+        if (!err) {
+            for (var i = 1; i < result.length; i++) {
+                notTakingMJ.push(result[i].ClassName)
+            }
+        }
+    })
+
     // 계사, 공소, 어벤디, 자구, 컴구, 이산, 종설1, 종설2, 시소프
-    var notTakingMJ = ['계산적사고법', '공개SW프로젝트', '어드벤처디자인', '자료구조와실습', '컴퓨터구성', '이산구조', '컴퓨터종합설계1', '컴퓨터종합설계2', '시스템소프트웨어와실습']
+    //var notTakingMJ = ['계산적사고법', '공개SW프로젝트', '어드벤처디자인', '자료구조와실습', '컴퓨터구성', '이산구조', '컴퓨터종합설계1', '컴퓨터종합설계2', '시스템소프트웨어와실습']
     var data = {
         notTakingNC: notTakingNC,
         notTakingBSM: notTakingBSM,
