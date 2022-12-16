@@ -61,6 +61,9 @@ const Home = () => {
                                 <Link to='/stats'>
                                     <button className="btn">통계</button>
                                 </Link>
+                                <Link to='/lectures'>
+                                    <button className="btn">필수 과목</button>
+                                </Link>
                             </>
                         }
                     </Stack>

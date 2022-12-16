@@ -74,7 +74,7 @@ const UploadFile = () => {
                 },
                 body: JSON.stringify(UserDatas),
             })
-            alert("성적이 입력되었w42t습니다!")
+            alert("성적이 입력되었습니다!")
             window.location.replace('/')
         }
     }

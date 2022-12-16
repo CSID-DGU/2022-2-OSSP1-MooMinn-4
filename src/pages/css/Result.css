@@ -188,6 +188,16 @@ u {
         border-radius: 5px;
         line-height: 15px;
     }
+    .badge2 {
+        display: inline-block;
+        font-size: 12px;
+        border: 1px solid seagreen;
+        color: seagreen;
+        margin: 0 3px 0 3px;
+        padding: 3px 5px 3px 5px;
+        border-radius: 5px;
+        line-height: 15px;
+    }
 }
 
 @media screen and (min-width: 1500px) {
@@ -386,6 +396,15 @@ u {
         font-size: 12px;
         border: 1px solid crimson;
         color: crimson;
+        margin: 2px 3px 2px 3px;
+        padding: 3px 5px 3px 5px;
+        border-radius: 5px;
+    }
+    .badge2 {
+        display: inline-block;
+        font-size: 12px;
+        border: 1px solid seagreen;
+        color: seagreen;
         margin: 2px 3px 2px 3px;
         padding: 3px 5px 3px 5px;
         border-radius: 5px;

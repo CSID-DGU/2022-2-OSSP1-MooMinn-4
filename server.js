@@ -252,11 +252,70 @@ app.post('/mypage', (req, res) => {
         })
 })
 
+app.post('/lecture', (req, res) => {
+    const email = req.body.email
+    //추후에 email을 통해 쿼리문으로 전공 찾기
+    const major = '컴퓨터공학과'
+    const type1 = '학문기초'
+
+    var TakingNC = []
+
+    var sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
+        connection.query(sql, [major, type1],
+        function (err, result) {
+            if (!err) {
+                for (var i = 0; i < result.length; i++) {
+                    TakingNC.push(result[i].ClassName)
+                }
+                var data = {
+                    TakingNC: TakingNC
+                }
+                console.log(data)
+                res.json(data)
+            }
+        })
+
+
+
+})
+
+app.post('/lecture/arr', (req, res) => {
+
+    var sql = 'SELECT * FROM Lecture'
+    connection.query(sql,
+        function (err, data) {
+            if (!err) {
+                res.json(data)
+            }
+            else {
+                res.json(err)
+            }
+        })
+})
+
 app.post('/result/essLectures', (req, res) => {
     const email = req.body.email
+    const major = '컴퓨터공학과'
+    const type = '학문기초'
+
+    var sql = ''
+    var index = 0
+
+    //학문기초 과목들을 불러와 저장
+    var notTakingNC = []
+
+    sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
+        connection.query(sql, [major, type],
+        function (err, result) {
+            if (!err) {
+                for (var i = 1; i < result.length; i++) {
+                    notTakingNC.push(result[i].ClassName)
+                }
+            }
+        })
 
     // basic, eas1, eas2, 자명1, 자명2, 불인, 기보작, 커디
-    var notTakingNC = ['basicEAS', 'EAS1', 'EAS2', '자아와명상1', '자아와명상2', '불교와인간', '기술보고서작성', '커리어디자인']
+    //notTakingNC = ['basicEAS', 'EAS1', 'EAS2', '자아와명상1', '자아와명상2', '불교와인간', '기술보고서작성', '커리어디자인']
     // 리더십 2학점
     var leadershipCredit = 0;
     var leadership = "리더십 과목 중 택 1";
@@ -278,9 +337,6 @@ app.post('/result/essLectures', (req, res) => {
         GSCredit: GSCredit,
         bsmExperimentCredit: bsmExperimentCredit
     }
-
-    var sql = ''
-    var index = 0
 
     // 영어등급에 따라 EAS 수강 여부 결정
     sql = 'SELECT EnglishGrade FROM UserInfo WHERE ID = ?'
@@ -1382,6 +1438,26 @@ app.post('/updateuserinfo', (req, res) => {
         })
 })
 
+app.post('/updatelecture', (req, res) => {
+    const email = req.body.email
+    const year = req.body.year
+    const register = req.body.register
+    const course = req.body.course
+    const english = req.body.english
+    const score = req.body.score
+
+    var sql = 'UPDATE Lecture SET `StudentNumber` = ?, `Semester` = ?, `Course` = ?, `EnglishGrade` = ?, `Score` = ? WHERE `ID` = ?'
+    var params = [year, register, course, english, score, email]
+    connection.query(sql, params,
+        function (err, data) {
+            if (!err) {
+                res.end()
+            }
+            else {
+                res.json(err)
+            }
+        })
+})
 
 http.listen(port, () => {
     console.log(`Server On : http://localhost:${port}/`);
