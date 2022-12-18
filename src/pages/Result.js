@@ -75,7 +75,12 @@ const Result = () => {
 
     const [major_Credit, setmajor_Credit] = useState();
     const [total_Credit, settotal_Credit] = useState();
-    
+
+    const [major, setMajor] = useState();
+    const [major_Credit_need, setMCN] = useState();
+    const [nc_Credit_need, setNCCN] = useState();
+    const [total_Credit_need, setTCN] = useState();
+
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
@@ -110,56 +115,55 @@ const Result = () => {
             setSpecialMajorCredit(json.SpecialMajorCredit)
             setEngClassCount(json.EngClassCount)
             setTotalScore(json.TotalScore)
+            setMajor(sessionStorage.getItem('Major'))
+            
+            if(major === '컴퓨터공학과'){
+                if(course === '심화'){
+                    setNCCN(21)
+                    setMCN(84)
+                    setTCN(140)
+                }else{
+                    setNCCN(21)
+                    setMCN(72)
+                    setTCN(130)
+                }
+            }else if(major === '정보통신공학과'){
+                setNCCN(30)
+                setMCN(78)
+                setTCN(140)
+            }else{
+                setNCCN(30)
+                setMCN(60)
+                setTCN(130)
+            }
         
             if (register >= 8) setIsRegister(true)
             else setIsRegister(false)
             if (engScore >= 700) setIsEngScore(true)
             else setIsEngScore(false)
-            if (course === '심화'){
-                if (totalCredit >= 140) {
-                    setIsTotalCredit(true)
-                    settotal_Credit(totalCredit)
-                }
-                else{
-                    setIsTotalCredit(false)
-                    settotal_Credit(140 - totalCredit)
-                } 
+
+            if (totalCredit >= total_Credit_need) {
+                setIsTotalCredit(true)
+                settotal_Credit(totalCredit)
             }
-            else {
-                if (totalCredit >= 130) {
-                    setIsTotalCredit(true)
-                    settotal_Credit(totalCredit)
-                }
-                else {
-                    setIsTotalCredit(false)
-                    settotal_Credit(130 - totalCredit)
-                }
+            else{
+                setIsTotalCredit(false)
+                settotal_Credit(total_Credit_need - totalCredit)
             }
 
             if (commonClassCredit >= 14) setIsCommonClassCredit(true)
             else setIsCommonClassCredit(false)
-            if (bsmCredit >= 21) setIsBsmCredit(true)
+            if (bsmCredit >= nc_Credit_need) setIsBsmCredit(true)
             else setIsBsmCredit(false)
-            if (course === '심화'){
-                if (majorCredit >= 84) {
-                    setIsMajorCredit(true)
-                    setmajor_Credit(84)
-                    
-                }
-                else{
-                    setIsMajorCredit(false)
-                    setmajor_Credit(84)
-                } 
+
+            if (majorCredit >= major_Credit_need) {
+                setIsMajorCredit(true)
+                setmajor_Credit(major_Credit_need)
+                
             }
-            else {
-                if (majorCredit >= 72) {
-                    setIsMajorCredit(true)
-                    setmajor_Credit(72)
-                }
-                else {
-                    setIsMajorCredit(false)
-                    setmajor_Credit(72)
-                }
+            else{
+                setIsMajorCredit(false)
+                setmajor_Credit(major_Credit_need)
             }
             if (totalScore >= 2.0) setIsTotalScore(true)
             else setIsTotalScore(false)
@@ -241,7 +245,7 @@ const Result = () => {
                                         <img className="check_img0" alt="check_img" src="img/yeah.png"></img>
                                         <span className="detail_title2">취득학점</span>
                                     </div>
-                                    <span className="detail_content2">총 <u>{totalCredit}학점</u>으로 140학점 이상입니다.</span>
+                                    <span className="detail_content2">총 <u>{totalCredit}학점</u>으로 {total_Credit_need}학점 이상입니다.</span>
                                 </AccordionSummary> :
                                 <AccordionSummary aria-controls="panel1d-content">
                                 <div>
@@ -268,24 +272,24 @@ const Result = () => {
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
                                         <span className="category_title">학문기초</span>
-                                        <span className="category_content">{bsmCredit}학점 / 21학점</span>
+                                        <span className="category_content">{bsmCredit}학점 / {nc_Credit_need}학점</span>
                                     </Stack> :
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">학문기초</span>
-                                        <span className="category_content"><b style={{ color: 'crimson' }}>{bsmCredit ? bsmCredit : 0}학점</b> / 21학점</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{bsmCredit ? bsmCredit : 0}학점</b> / {nc_Credit_need}학점</span>
                                     </Stack>
                                 }
                                 {isMajorCredit ?
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
                                         <span className="category_title">전공</span>
-                                        <span className="category_content">{majorCredit}학점 / 84학점</span>
+                                        <span className="category_content">{majorCredit}학점 / {major_Credit_need}학점</span>
                                     </Stack> :
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">전공</span>
-                                        <span className="category_content"><b style={{ color: 'crimson' }}>{majorCredit ? majorCredit : 0}학점</b> / {major_Credit}학점</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{majorCredit ? majorCredit : 0}학점</b> / {major_Credit_need}학점</span>
                                     </Stack>
                                 }
                             </AccordionDetails>

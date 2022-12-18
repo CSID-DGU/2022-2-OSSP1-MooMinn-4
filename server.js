@@ -315,7 +315,6 @@ app.post('/lecture', (req, res) => {
             
 })
 
-
 app.post('/result/essLectures', (req, res) => {
     const email = req.body.email
     const major = req.body.major
@@ -1532,13 +1531,13 @@ app.post("/result", (req, res) => {
         	Course, StudentNumber, EnglishGrade AS EngLevel, Semester AS Register, Score AS EngScore, SUM(ClassCredit) AS TotalCredit, \
         	(SELECT SUM(ClassCredit) \
         	FROM UserSelectList, Lecture \
-        	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND Curriculum='공통교양') AS CommonClassCredit, \
+        	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND Curriculum='공교') AS CommonClassCredit, \
         	(SELECT SUM(ClassCredit) \
         	FROM UserSelectList, Lecture \
         	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND ClassArea='기본소양') AS GibonSoyangCredit, \
         	(SELECT SUM(ClassCredit) \
         	FROM UserSelectList, Lecture \
-        	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE 'bsm%') AS BSMCredit, \
+        	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE '%자연과학') AS BSMCredit, \
         	(SELECT SUM(ClassCredit) \
         	FROM UserSelectList, Lecture \
         	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE 'bsm_수학%') AS BSMMathCredit, \
