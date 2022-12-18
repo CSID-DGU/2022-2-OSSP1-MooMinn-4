@@ -49,6 +49,8 @@ const SignIn = () => {
                     console.log('로그인 성공')
                     sessionStorage.setItem('userId', id)
                     console.log(sessionStorage.getItem('userId'))
+                    sessionStorage.setItem('Major', json.major)
+                    console.log(sessionStorage.getItem('Major'))
                     // 작업 완료 되면 페이지 이동(새로고침)
                     document.location.href = '/'
                 }

@@ -59,7 +59,8 @@ const EssLectures = () => {
 
     useEffect(() => {
         const data = {
-            email: sessionStorage.getItem('userId')
+            email: sessionStorage.getItem('userId'),
+            major: sessionStorage.getItem('Major')
         }
         fetch("/result/essLectures", {
             method: 'post',

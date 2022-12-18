@@ -28,6 +28,7 @@ const SignUp = () => {
     const [english, setEnglish] = React.useState('')
     const [emptyEnglish, setEmptyEnglish] = React.useState(false)
     const [score, setScore] = React.useState('')
+    const [major, setMajor] = React.useState('')
     const [passwordCheck, setPasswordCheck] = React.useState('')
     const [incorrectPW, setCorrectPW] = React.useState(false)
 
@@ -41,6 +42,7 @@ const SignUp = () => {
     const onChangeCourse = (e) => { setCourse(e.target.value) }
     const onChangeEnglish = (e) => { setEnglish(e.target.value) }
     const onChangeScore = (e) => { setScore(e.target.value) }
+    const onChangeMajor = (e) => { setMajor(e.target.value) }
     const onChangePasswordCheck = (e) => { setPasswordCheck(e.target.value) }
 
     const data = {
@@ -51,6 +53,7 @@ const SignUp = () => {
         course: course,
         english: english,
         score: score,
+        major: major,
     }
 
     const onClickDuplication = (e) => {
@@ -113,6 +116,8 @@ const SignUp = () => {
         else { setEmptyCourse(false) }
         if (english === '') { setEmptyEnglish(true) }
         else { setEmptyEnglish(false) }
+        //if (major === '') { setEmptyMajor(true) }
+        //else { setEmptyMajor(false) }
         if (password === passwordCheck) { setCorrectPW(false) }
         else { setCorrectPW(true) }
 
@@ -139,6 +144,7 @@ const SignUp = () => {
     const COURSE = ["심화", "일반"];
     const ENGLISH = [0, 1, 2, 3, 4];
     const SCORE_TOEIC = [550, 600, 620, 650, 680, 700, 750, 800];
+    const MAJOR = ['컴퓨터공학과', '전기전자공학과', '정보통신공학과'];
 
     return (
         <div className="fade-in">
@@ -300,6 +306,25 @@ const SignUp = () => {
                             }
                         </Select>
                         <span className="helper" style={{ marginTop: '5px' }}>{emptyEnglish && '영어레벨을 선택하세요.'}</span>
+                    </FormControl>
+                </Stack>
+                <Stack direction="row" justifyContent="space-between" mt={2}>
+                    <FormControl fullWidth size="small" sx={{ maxWidth:'40%', minWidth: 80 }}>
+                        <InputLabel id="major">전공</InputLabel>
+                        <Select
+                            className="select"
+                            labelId="major"
+                            value={major}
+                            name="major"
+                            label="전공"
+                            onChange={onChangeMajor}
+                        >
+                            {
+                                MAJOR.map((major, idx) => {
+                                    return <MenuItem key={idx} value={major}>{major}</MenuItem>
+                                })
+                            }
+                        </Select>
                     </FormControl>
                 </Stack>
                 <Stack direction="row" justifyContent="space-between" mt={2}>

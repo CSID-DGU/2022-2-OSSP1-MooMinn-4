@@ -52,9 +52,10 @@ app.post("/signup", (req, res) => {
     const course = req.body.course
     const english = req.body.english
     const score = req.body.score
+    const major = req.body.major
 
-    var sql = 'INSERT INTO UserInfo (`ID`, `Pincode`, `Semester`, `StudentNumber`, `Course`, `Score`, `EnglishGrade`) VALUES (?, ?, ?, ?, ?, ?, ?)'
-    var params = [email, pw, semester, year, course, score, english]
+    var sql = 'INSERT INTO UserInfo (`ID`, `Pincode`, `Semester`, `StudentNumber`, `Course`, `Score`, `EnglishGrade`, `Major`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    var params = [email, pw, semester, year, course, score, english, major]
     console.log(sql + params)
     connection.query(sql, params,
         function (err, rows) {
@@ -163,7 +164,18 @@ app.post("/signin", (req, res) => {
                     const params = [email, pw, email, pw, email, pw, email, pw]
                     connection.query(sql2, params, (err, data) => {
                         if (!err) {
-                            res.json(data[0])
+                            var sql = 'SELECT Major FROM UserInfo WHERE ID = ?'
+                            connection.query(sql, [email],
+                                function (err, result){
+                                    if (!err){
+                                        var sendData = {
+                                            id:data[0].id,
+                                            major:result[0].Major
+                                        }
+                                        console.log(sendData)
+                                        res.json(sendData)
+                                    }
+                                })
                         }
                         else {
                             res.json(err)
@@ -253,9 +265,8 @@ app.post('/mypage', (req, res) => {
 })
 
 app.post('/lecture', (req, res) => {
-    const email = req.body.email
-    //추후에 email을 통해 쿼리문으로 전공 찾기
-    const major = '컴퓨터공학과'
+    const major = req.body.major
+
     const type1 = '공통교양'
     const type2 = 'bsm'
     const type3 = '전공필수'
@@ -264,67 +275,52 @@ app.post('/lecture', (req, res) => {
     var TakingBSM = []
     var TakingMJ = []
 
-    sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
-        connection.query(sql, [major, type1],
-        function (err, result) {
-            if (!err) {
-                for (var i = 0; i < result.length; i++) {
-                    TakingNC.push(result[i].ClassName)
-                }
-            }
-        })
-
-        sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
-        connection.query(sql, [major, type2],
-        function (err, result) {
-            if (!err) {
-                for (var i = 0; i < result.length; i++) {
-                    TakingBSM.push(result[i].ClassName)
-                }
-            }
-        })
-
+    //전공 찾기
     var sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
-        connection.query(sql, [major, type3],
-        function (err, result) {
-            if (!err) {
-                for (var i = 0; i < result.length; i++) {
-                    TakingMJ.push(result[i].ClassName)
+        connection.query(sql, [major, type1],
+            function (err, result) {
+                if (!err) {
+                    for (var i = 0; i < result.length; i++) {
+                        TakingNC.push(result[i].ClassName)
+                    }
                 }
-                var data = {
-                    TakingNC: TakingNC,
-                    TakingBSM: TakingBSM,
-                    TakingMJ: TakingMJ
+            })
+            
+        sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
+            connection.query(sql, [major, type2],
+            function (err, result) {
+                if (!err) {
+                    for (var i = 0; i < result.length; i++) {
+                        TakingBSM.push(result[i].ClassName)
+                    }
                 }
-                //console.log(data)
-                res.json(data)
-            }
-        })
-
-
-
+            })
+    
+        sql = 'SELECT ClassName FROM Requirement WHERE Major = ? AND ClassType = ?'
+            connection.query(sql, [major, type3],
+            function (err, result) {
+                if (!err) {
+                    for (var i = 0; i < result.length; i++) {
+                        TakingMJ.push(result[i].ClassName)
+                    }
+                    var data = {
+                        TakingNC: TakingNC,
+                        TakingBSM: TakingBSM,
+                        TakingMJ: TakingMJ
+                    }
+                    //console.log(data)
+                    res.json(data)
+                }
+            })
+            
 })
 
-app.post('/lecture/arr', (req, res) => {
-
-    var sql = 'SELECT * FROM Lecture'
-    connection.query(sql,
-        function (err, data) {
-            if (!err) {
-                res.json(data)
-            }
-            else {
-                res.json(err)
-            }
-        })
-})
 
 app.post('/result/essLectures', (req, res) => {
     const email = req.body.email
-    const major = '컴퓨터공학과'
+    const major = req.body.major
+    
     var type = '공통교양'
-
-    var sql = ''
     var index = 0
 
     //공통교양 과목들을 불러와 저장

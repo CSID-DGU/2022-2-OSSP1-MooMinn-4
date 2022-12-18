@@ -50,13 +50,15 @@ const Result = () => {
     const [takingBSM, setTakingBSM] = useState(["NULL"]);
     const [takingMJ, setTakingMJ] = useState(["NULL"]);
 
+    const [bsmName, setBsmName] = useState();
+
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
 
     useEffect(() => {
         const data = {
-            email: sessionStorage.getItem('userId')
+            major: sessionStorage.getItem('Major')
         }
         fetch("/lecture", {
             method: 'post',
@@ -70,6 +72,13 @@ const Result = () => {
             setTakingNC(json.TakingNC)
             setTakingBSM(json.TakingBSM)
             setTakingMJ(json.TakingMJ)
+
+            if(sessionStorage.getItem('Major') === '컴퓨터공학과'){
+                setBsmName('BSM')
+            }else {
+                setBsmName('MSC')
+            }
+
         })
         setTimeout(()=> {
             setLoading(false)
@@ -117,12 +126,12 @@ const Result = () => {
                         <Stack direction="row" spacing={2} alignItems="center">
                             {!takingBSM.length ?
                                 <Stack className="category" direction="row" spacing={1}>
-                                    <span className="category_title">BSM</span>
+                                    <span className="category_title">{bsmName}</span>
                                     <span className="category_content">해당없음</span>
                                 </Stack> :
                                 <Stack direction={{ xs: 'column', sm: 'row' }}>
                                     <Stack className="category" direction="row" spacing={1}>
-                                        <span className="category_title">BSM</span>
+                                        <span className="category_title">{bsmName}</span>
                                         <span className="category_content" style={{width:80}}><b style={{ color: 'crimson' }}>{takingBSM.length}개</b> 이수가 필요합니다.</span>
                                     </Stack>
                                     <div className="badge_box">
