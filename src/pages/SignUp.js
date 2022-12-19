@@ -139,7 +139,7 @@ const SignUp = () => {
         }
     }
 
-    const YEAR = [2018, 2019, 2020, 2021, 2022];
+    const YEAR = [2017, 2018, 2019, 2020, 2021, 2022];
     const SEMESTER = [8, 7, 6, 5, 4, 3, 2, 1];
     const COURSE = ["심화", "일반"];
     const ENGLISH = [0, 1, 2, 3, 4];
