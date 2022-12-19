@@ -951,6 +951,16 @@ app.post('/result/essLectures', (req, res) => {
     })
 
     // 공법 PRI4043
+    connection.query(sql, [email, 'PRI4043%'],
+    function (err, result) {
+        if (!err) {
+            if (result[0].count > 0) {
+                GSCredit += 3;
+            }
+        }
+    })
+
+    // 데이터 전송
     var sql = 'SELECT count(ClassArea) AS count from UserSelectList,Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? AND CNumber LIKE ?'
     connection.query(sql, [email, 'PRI4043%'],
         function (err, result) {
@@ -963,6 +973,7 @@ app.post('/result/essLectures', (req, res) => {
                                 if (result[0].ClassArea === '전문교양_기본소양')
                                     GSCredit += 3
                             }
+                            
                             if (major === '정보통신공학과') leadershipCredit += 3
                             if (leadershipCredit < 2) notTakingNC.push(leadership)
                             if (major === '정보통신공학과') GSCredit += 3
@@ -1726,7 +1737,7 @@ app.post("/result", (req, res) => {
         	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE '%과학') AS BSMSciCredit, \
         	(SELECT SUM(ClassCredit) \
         	FROM UserSelectList, Lecture \
-        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND Curriculum='전공') AS MajorCredit, \
+        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND (Curriculum='전공' OR Curriculum='전필')) AS MajorCredit, \
         	(SELECT SUM(ClassCredit) \
         	FROM UserSelectList, Lecture \
         	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND Curriculum='전공' AND ClassArea='전문') AS SpecialMajorCredit, \
