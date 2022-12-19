@@ -963,6 +963,7 @@ app.post('/result/essLectures', (req, res) => {
                                 if (result[0].ClassArea === '전문교양_기본소양')
                                     GSCredit += 3
                             }
+                            if (major === '정보통신공학과') leadershipCredit += 3
                             if (leadershipCredit < 2) notTakingNC.push(leadership)
                             if (major === '정보통신공학과') GSCredit += 3
                             if (GSCredit < 3) notTakingBSM.push(GS+"3")
@@ -980,6 +981,7 @@ app.post('/result/essLectures', (req, res) => {
                         })
                 }
                 else {
+                    if (major === '정보통신공학과') leadershipCredit += 3
                     if (leadershipCredit < 2) notTakingNC.push(leadership)
                     if (major === '정보통신공학과') GSCredit += 3
                     if (GSCredit < 3) notTakingBSM.push(GS+"3")
