@@ -46,7 +46,7 @@ const UploadFile = () => {
                     userData['TNumber'] = data[i]['년도']+'_'+data[i]['학기'][0];
                 }
 
-                if (data[i]['이수구분영역'] === "영어") {
+                if (data[i]['원어강의종류'] === "영어") {
                     userData['EClass'] = 1;
                 }
                 else {
