@@ -7,7 +7,7 @@ const bodyParser = require('body-parser')
 const mysql = require('mysql')
 const http = require('http').createServer(app)
 let nodemailer = require('nodemailer');
-const { ConstructionOutlined } = require('@mui/icons-material');
+const { ConstructionOutlined, CommentsDisabledOutlined } = require('@mui/icons-material');
 
 
 const connection = mysql.createConnection({
@@ -335,9 +335,6 @@ app.post('/result/essLectures', (req, res) => {
                 }
             }
         })
-
-    // basic, eas1, eas2, 자명1, 자명2, 불인, 기보작, 커디
-    //notTakingNC = ['basicEAS', 'EAS1', 'EAS2', '자아와명상1', '자아와명상2', '불교와인간', '기술보고서작성', '커리어디자인']
     
     // 리더십 2학점
     var leadershipCredit = 0;
@@ -356,14 +353,13 @@ app.post('/result/essLectures', (req, res) => {
         }
     })
 
-    // 미적1, 확통, 공선대
-    //var notTakingBSM = ['미적분학및연습1', '확률및통계학', '공학선형대수학']
     // 기본 소양 9학점
     var GSCredit = 0;
     var GS = "기본소양 과목 중 택 ";
     // 실험 과목 4학점
     var bsmExperimentCredit = 0;
     var bsmExperiment = "과학실험 과목 중 택 1";
+    var bsmExperiment_jung = "동일 분야 실험 1, 2과목";
 
     var notTakingMJ = []
     type = '전공필수'
@@ -377,8 +373,6 @@ app.post('/result/essLectures', (req, res) => {
         }
     })
 
-    // 계사, 공소, 어벤디, 자구, 컴구, 이산, 종설1, 종설2, 시소프
-    //var notTakingMJ = ['계산적사고법', '공개SW프로젝트', '어드벤처디자인', '자료구조와실습', '컴퓨터구성', '이산구조', '컴퓨터종합설계1', '컴퓨터종합설계2', '시스템소프트웨어와실습']
     var data = {
         notTakingNC: notTakingNC,
         notTakingBSM: notTakingBSM,
@@ -516,6 +510,39 @@ app.post('/result/essLectures', (req, res) => {
                 }
             }
         })
+    // 미적2 PRI4012
+    connection.query(sql, [email, 'PRI4012%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingBSM.findIndex(function (value) { return value === '미적분학및연습2' })
+                    if (index > -1)
+                        notTakingBSM.splice(index, 1)
+                }
+            }
+        })
+     // 프기실 PRI4035
+     connection.query(sql, [email, 'PRI4035%'],
+     function (err, result) {
+         if (!err) {
+             if (result[0].count > 0) {
+                 index = notTakingBSM.findIndex(function (value) { return value === '프로그래밍기초와실습' })
+                 if (index > -1)
+                     notTakingBSM.splice(index, 1)
+             }
+         }
+     })  
+     // 산수 PRI4051
+     connection.query(sql, [email, 'PRI4051%'],
+     function (err, result) {
+         if (!err) {
+             if (result[0].count > 0) {
+                 index = notTakingBSM.findIndex(function (value) { return value === '산업수학' })
+                 if (index > -1)
+                     notTakingBSM.splice(index, 1)
+             }
+         }
+     })      
     // 확통 PRI4023
     connection.query(sql, [email, 'PRI4023%'],
         function (err, result) {
@@ -582,8 +609,30 @@ app.post('/result/essLectures', (req, res) => {
                 }
             }
         })
+    // 창공 정통 INC2026
+    connection.query(sql, [email, 'INC2026%'],
+    function (err, result) {
+        if (!err) {
+            if (result[0].count > 0) {
+                index = notTakingMJ.findIndex(function (value) { return value === '어드벤처디자인' })
+                if (index > -1)
+                    notTakingMJ.splice(index, 1)
+            }
+        }
+    })
     // 자구 CSE2017
     connection.query(sql, [email, 'CSE2017%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === '자료구조와실습' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 자구 정통 INC2027
+    connection.query(sql, [email, 'INC2027%'],
         function (err, result) {
             if (!err) {
                 if (result[0].count > 0) {
@@ -599,6 +648,83 @@ app.post('/result/essLectures', (req, res) => {
             if (!err) {
                 if (result[0].count > 0) {
                     index = notTakingMJ.findIndex(function (value) { return value === '컴퓨터구성' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 컴구 정통 INC2028
+    connection.query(sql, [email, 'INC2028%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === '컴퓨터구성' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 신호 정통 INC2033
+    connection.query(sql, [email, 'INC2033%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === '신호와시스템' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 확프 정통 INC2021
+    connection.query(sql, [email, 'INC2021%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === '확률및랜덤프로세스' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 데통 정통 INC4058
+    connection.query(sql, [email, 'INC4058%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === '데이터통신' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 통신 정통 INC4056
+    connection.query(sql, [email, 'INC4056%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === '통신이론및실험' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 캡1 정통 INC4084
+    connection.query(sql, [email, 'INC4084%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === '캡스톤디자인' })
+                    if (index > -1)
+                        notTakingMJ.splice(index, 1)
+                }
+            }
+        })
+    // 캡2 정통 INC4085
+    connection.query(sql, [email, 'INC4085%'],
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 0) {
+                    index = notTakingMJ.findIndex(function (value) { return value === '캡스톤디자인' })
                     if (index > -1)
                         notTakingMJ.splice(index, 1)
                 }
@@ -693,7 +819,7 @@ app.post('/result/essLectures', (req, res) => {
                 }
             }
         })
-    // 생실 PRI4004
+    // 생실1 PRI4004
     connection.query(sql, [email, 'PRI4004%'],
         function (err, result) {
             if (!err) {
@@ -720,7 +846,7 @@ app.post('/result/essLectures', (req, res) => {
                 }
             }
         })
-    // 생실1 PRI4015
+    // 생실2 PRI4015
     connection.query(sql, [email, 'PRI4015%'],
         function (err, result) {
             if (!err) {
@@ -729,6 +855,43 @@ app.post('/result/essLectures', (req, res) => {
                 }
             }
         })
+    //정통 동일 실험 1,2 전부 들었는지
+    if(major === '정보통신공학과') {
+        var sql2 = 'SELECT COUNT(*) AS count FROM UserSelectList WHERE UserId = ? and CNumber Like ? or CNumber Like ?'
+        connection.query(sql2, [email, 'PRI4002%', 'PRI4013%'], //물리
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 1) {
+                    console.log('d')
+                    index = notTakingBSM.findIndex(function (value) { return value === '동일 분야 실험 1, 2과목' })
+                    console.log(index)
+                    if (index > -1)
+                        notTakingBSM.splice(index, 1)
+                }
+            }
+        })
+        connection.query(sql2, [email, 'PRI4003%', 'PRI4014%'], //화학
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 1) {
+                    index = notTakingBSM.findIndex(function (value) { return value === '동일 분야 실험 1, 2과목' })
+                    if (index > -1)
+                        notTakingBSM.splice(index, 1)
+                }
+            }
+        })
+        connection.query(sql2, [email, 'PRI4004%', 'PRI4015%'], //생물
+        function (err, result) {
+            if (!err) {
+                if (result[0].count > 1) {
+                    index = notTakingBSM.findIndex(function (value) { return value === '동일 분야 실험 1, 2과목' })
+                    if (index > -1)
+                        notTakingBSM.splice(index, 1)
+                }
+            }
+        })
+    }
+
     // 공경 PRI4041
     connection.query(sql, [email, 'PRI4041%'],
         function (err, result) {
@@ -767,7 +930,7 @@ app.post('/result/essLectures', (req, res) => {
                     connection.query(sql, [email, 'PRI4040%'],
                         function (err, result) {
                             if (!err) {
-                                if (result[0].ClassArea === '기본소양')
+                                if (result[0].ClassArea === '전문교양_기본소양')
                                     GSCredit += 3
                             }
                         })
@@ -785,10 +948,11 @@ app.post('/result/essLectures', (req, res) => {
                     connection.query(sql, [email, 'PRI4043%'],
                         function (err, result) {
                             if (!err) {
-                                if (result[0].ClassArea === '기본소양')
+                                if (result[0].ClassArea === '전문교양_기본소양')
                                     GSCredit += 3
                             }
                             if (leadershipCredit < 2) notTakingNC.push(leadership)
+                            if (major === '정보통신공학과') GSCredit += 3
                             if (GSCredit < 3) notTakingBSM.push(GS+"3")
                             else if (GSCredit < 6) notTakingBSM.push(GS+"2")
                             else if (GSCredit < 9) notTakingBSM.push(GS+"1")
@@ -805,6 +969,7 @@ app.post('/result/essLectures', (req, res) => {
                 }
                 else {
                     if (leadershipCredit < 2) notTakingNC.push(leadership)
+                    if (major === '정보통신공학과') GSCredit += 3
                     if (GSCredit < 3) notTakingBSM.push(GS+"3")
                     else if (GSCredit < 6) notTakingBSM.push(GS+"2")
                     else if (GSCredit < 9) notTakingBSM.push(GS+"1")
@@ -1535,16 +1700,16 @@ app.post("/result", (req, res) => {
         	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND Curriculum='공교') AS CommonClassCredit, \
         	(SELECT SUM(ClassCredit) \
         	FROM UserSelectList, Lecture \
-        	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND ClassArea='기본소양') AS GibonSoyangCredit, \
+        	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE '%기본소양') AS GibonSoyangCredit, \
         	(SELECT SUM(ClassCredit) \
         	FROM UserSelectList, Lecture \
-        	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE '%자연과학') AS BSMCredit, \
+        	WHERE (TNumber=TermNumber) AND (CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE 'MSC%') AS BSMCredit, \
         	(SELECT SUM(ClassCredit) \
         	FROM UserSelectList, Lecture \
-        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE 'bsm_수학%') AS BSMMathCredit, \
+        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE '%수학') AS BSMMathCredit, \
         	(SELECT SUM(ClassCredit) \
         	FROM UserSelectList, Lecture \
-        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE 'bsm_과학%') AS BSMSciCredit, \
+        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND ClassArea LIKE '%과학') AS BSMSciCredit, \
         	(SELECT SUM(ClassCredit) \
         	FROM UserSelectList, Lecture \
         	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND Curriculum='전공') AS MajorCredit, \

@@ -32,7 +32,7 @@ const UploadFile = () => {
                 userData['ClassScore'] = data[i]['등급'];
                 userData['LNick'] = data[i]['교과목명'];
                 userData['Cculum'] = data[i]['이수구분'];
-                userData['CArea'] = data[i]['이수구분영역'];
+                userData['CArea'] = data[i]['공학요소'] + '_' + data[i]['공학세부요소'];
                 userData['PName'] = data[i]['담당교원'];
                 userData['CCredit'] = data[i]['학점'];
                 userData['DCredit'] = data[i]['학점'];
