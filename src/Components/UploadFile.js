@@ -36,6 +36,7 @@ const UploadFile = () => {
                 userData['PName'] = data[i]['담당교원'];
                 userData['CCredit'] = data[i]['학점'];
                 userData['DCredit'] = data[i]['학점'];
+                userData['Major'] = data[i]['이수구분영역'];
                 if (data[i]['학기'] === "여름학기") {
                     userData['TNumber'] = data[i]['년도']+'_ss';
                 }

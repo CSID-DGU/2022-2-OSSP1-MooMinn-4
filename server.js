@@ -75,7 +75,7 @@ app.post("/input", (req, res) => {
     //Lecture 테이블 자동 추가
     for (var i = 1; i < UserDatas.length; i++) {
         //TermNumber, ClassNumber, LectureNick, Curriculum, ClassArea, 
-        //ProfessorName, ClassCredit, DesignCredit, EnglishClass
+        //ProfessorName, ClassCredit, DesignCredit, EnglishClass, Major
         const TNumber = UserDatas[i].TNumber
         const CNumber = UserDatas[i].CNumber
         const LNick = UserDatas[i].LNick
@@ -85,9 +85,10 @@ app.post("/input", (req, res) => {
         const CCredit = UserDatas[i].CCredit
         const DCredit = UserDatas[i].DCredit
         const EClass = UserDatas[i].EClass
+        const Major = UserDatas[i].Major
 
-        var sql = 'INSERT INTO `Lecture` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        var params = [TNumber, CNumber, LNick, Cculum, CArea, PName, CCredit, DCredit, EClass]
+        var sql = 'INSERT INTO `Lecture` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        var params = [TNumber, CNumber, LNick, Cculum, CArea, PName, CCredit, DCredit, EClass, Major]
         console.log(sql + params)
         connection.query(sql, params,
             function (err) {
@@ -1740,7 +1741,7 @@ app.post("/result", (req, res) => {
         	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND (Curriculum='전공' OR Curriculum='전필')) AS MajorCredit, \
         	(SELECT SUM(ClassCredit) \
         	FROM UserSelectList, Lecture \
-        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND Curriculum='전공' AND ClassArea='전문') AS SpecialMajorCredit, \
+        	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND Curriculum='전공' AND Major='전문') AS SpecialMajorCredit, \
         	(SELECT COUNT(*) \
         	FROM UserSelectList, Lecture \
         	WHERE (TNumber=TermNumber AND CNumber=ClassNumber) AND UserID=? AND EnglishClass=1) AS EngClassCount, \

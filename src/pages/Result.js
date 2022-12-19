@@ -73,7 +73,8 @@ const Result = () => {
     const [isEngClassCount, setIsEngClassCount] = useState();
     const [isTotalScore, setIsTotalScore] = useState();
 
-    const [major_Credit, setmajor_Credit] = useState();
+    const [SmajorCredit, setSmajorCredit] = useState();
+    const [isSmajorCredit, setIsSmajorCredit] = useState();
     const [total_Credit, settotal_Credit] = useState();
 
     const [major, setMajor] = useState();
@@ -115,6 +116,7 @@ const Result = () => {
             setSpecialMajorCredit(json.SpecialMajorCredit)
             setEngClassCount(json.EngClassCount)
             setTotalScore(json.TotalScore)
+            setSmajorCredit(json.SpecialMajorCredit)
             setMajor(sessionStorage.getItem('Major'))
             
             if(major === '컴퓨터공학과'){
@@ -158,13 +160,13 @@ const Result = () => {
 
             if (majorCredit >= major_Credit_need) {
                 setIsMajorCredit(true)
-                setmajor_Credit(major_Credit_need)
-                
             }
             else{
                 setIsMajorCredit(false)
-                setmajor_Credit(major_Credit_need)
             }
+            if(SmajorCredit >= 30) setIsSmajorCredit(true)
+            else setIsSmajorCredit(false)
+
             if (totalScore >= 2.0) setIsTotalScore(true)
             else setIsTotalScore(false)
             if (engClassCount >= 4) setIsEngClassCount(true)
@@ -278,6 +280,18 @@ const Result = () => {
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">학문기초</span>
                                         <span className="category_content"><b style={{ color: 'crimson' }}>{bsmCredit ? bsmCredit : 0}학점</b> / {nc_Credit_need}학점</span>
+                                    </Stack>
+                                }
+                                {isSmajorCredit ?
+                                    <Stack className="category" direction="row" spacing={1}>
+                                        <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
+                                        <span className="category_title">전문</span>
+                                        <span className="category_content">{SmajorCredit}학점 / 30학점</span>
+                                    </Stack> :
+                                    <Stack className="category" direction="row" spacing={1}>
+                                        <img className="check_img2" alt="check_img" src="img/nope.png"></img>
+                                        <span className="category_title">전문</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{SmajorCredit ? SmajorCredit : 0}학점</b> / 30점</span>
                                     </Stack>
                                 }
                                 {isMajorCredit ?
