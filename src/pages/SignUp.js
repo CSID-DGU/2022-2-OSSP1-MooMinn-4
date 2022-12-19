@@ -144,7 +144,7 @@ const SignUp = () => {
     const COURSE = ["심화", "일반"];
     const ENGLISH = [0, 1, 2, 3, 4];
     const SCORE_TOEIC = [550, 600, 620, 650, 680, 700, 750, 800];
-    const MAJOR = ['컴퓨터공학과', '전기전자공학과', '정보통신공학과'];
+    const MAJOR = ['컴퓨터공학과', '전자전기공학부', '정보통신공학과'];
 
     return (
         <div className="fade-in">
