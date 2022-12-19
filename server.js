@@ -359,7 +359,6 @@ app.post('/result/essLectures', (req, res) => {
     // 실험 과목 4학점
     var bsmExperimentCredit = 0;
     var bsmExperiment = "과학실험 과목 중 택 1";
-    var bsmExperiment_jung = "동일 분야 실험 1, 2과목";
 
     var notTakingMJ = []
     type = '전공필수'
@@ -433,6 +432,17 @@ app.post('/result/essLectures', (req, res) => {
                 }
             }
         })
+    // EAS2 학수번호다름
+    connection.query(sql, [email, 'RGC1081%'],
+    function (err, result) {
+        if (!err) {
+            if (result[0].count > 0) {
+                index = notTakingNC.findIndex(function (value) { return value === 'EAS2' })
+                if (index > -1)
+                    notTakingNC.splice(index, 1)
+            }
+        }
+    })
     // 자명1
     connection.query(sql, [email, 'RGC0017%'],
         function (err, result) {
@@ -921,25 +931,27 @@ app.post('/result/essLectures', (req, res) => {
         })
 
     // 기사 PRI4040
-    sql = 'SELECT count(ClassArea) AS count from UserSelectList,Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? AND CNumber LIKE ?'
     connection.query(sql, [email, 'PRI4040%'],
-        function (err, result) {
-            if (!err) {
-                if (result[0].count > 0) {
-                    sql = 'SELECT ClassArea from UserSelectList, Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? AND CNumber LIKE ?'
-                    connection.query(sql, [email, 'PRI4040%'],
-                        function (err, result) {
-                            if (!err) {
-                                if (result[0].ClassArea === '전문교양_기본소양')
-                                    GSCredit += 3
-                            }
-                        })
-                }
+    function (err, result) {
+        if (!err) {
+            if (result[0].count > 0) {
+                GSCredit += 3;
             }
-        })
+        }
+    })
+
+    // 지발인 PRI4048
+    connection.query(sql, [email, 'PRI4048%'],
+    function (err, result) {
+        if (!err) {
+            if (result[0].count > 0) {
+                GSCredit += 3;
+            }
+        }
+    })
 
     // 공법 PRI4043
-    sql = 'SELECT count(ClassArea) AS count from UserSelectList,Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? AND CNumber LIKE ?'
+    var sql = 'SELECT count(ClassArea) AS count from UserSelectList,Lecture where (TNumber = TermNumber and CNumber = ClassNumber) and UserID = ? AND CNumber LIKE ?'
     connection.query(sql, [email, 'PRI4043%'],
         function (err, result) {
             if (!err) {

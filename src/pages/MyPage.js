@@ -77,7 +77,7 @@ class MyPage extends Component {
     render() {
         const { id, year, register, course, english, score } = this.state;
         const { appChange, appClick } = this;
-        const YEAR = [2018, 2019, 2020, 2021, 2022];
+        const YEAR = [2017, 2018, 2019, 2020, 2021, 2022];
         const REGISTER = [8, 7, 6, 5, 4, 3, 2, 1];
         const COURSE = ["심화", "일반"];
         const ENGLISH = [0, 1, 2, 3, 4];
