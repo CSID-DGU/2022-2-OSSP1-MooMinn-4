@@ -1,27 +1,9 @@
 # 졸업할 수 있을까?
 > 동국대학교 **컴퓨터공학과** 학생들을 위한 졸업 판정기
 
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FCSID-DGU%2F2022-1-OSSP2-turning-7&count_bg=%23007FFF&title_bg=%231A1A1A&icon=github.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
-![GitHub](https://img.shields.io/github/license/wkkyu088/2022-1-OSSP2-turning-7?label=License)
 
 ### 🎓 Overview
 ![13](https://user-images.githubusercontent.com/82702064/174085540-e0ce02bf-5785-4c6a-9407-08de00f0ee5b.png)
-
-### ⚙️ Setup
-```
-1. node.js 설치
-https://nodejs.org/en/
-2. 프로젝트 clone
-$ git clone https://github.com/CSID-DGU/2022-1-OSSP2-turning-7.git
-3. 프로젝트 폴더로 이동
-$ cd C:\2022-1-OSSP2-turning-7
-4. 패키지 설치
-$ npm install
-5. 앱 실행
-$ npm start
-6. 서버 실행
-$ node server.js
-```
 
 ### 🛠️ Tools
 <span><img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white"/></span>
