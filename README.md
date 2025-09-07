@@ -1,5 +1,5 @@
 # 졸업할 수 있을까?
-> 동국대학교 **컴퓨터공학과** 학생들을 위한 졸업 판정기 (22/03/15 ~ 22/06/17)
+> 동국대학교 **컴퓨터공학과** 학생들을 위한 졸업 판정기
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FCSID-DGU%2F2022-1-OSSP2-turning-7&count_bg=%23007FFF&title_bg=%231A1A1A&icon=github.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 ![GitHub](https://img.shields.io/github/license/wkkyu088/2022-1-OSSP2-turning-7?label=License)
@@ -22,15 +22,6 @@ $ npm start
 6. 서버 실행
 $ node server.js
 ```
-
-### 👥 About us
-###### 공개SW프로젝트-02 **7조 Turning**
-||이름|학과|역할|
-|----|----|----|---|
-|팀장|양재서|컴퓨터공학과|BackEnd|
-|팀원|원규진|컴퓨터공학과|FrontEnd|
-|팀원|장동겸|컴퓨터공학과|BackEnd|
-|팀원|허상운|컴퓨터공학과|FrontEnd|
 
 ### 🛠️ Tools
 <span><img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white"/></span>
